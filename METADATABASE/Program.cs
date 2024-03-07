@@ -4,9 +4,10 @@ using METADATABASE.Areas.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Connection") ?? throw new InvalidOperationException("Connection string 'Connection' not found.");
 
-builder.Services.AddDbContext<>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<METAContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<METAContext>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -27,6 +28,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
