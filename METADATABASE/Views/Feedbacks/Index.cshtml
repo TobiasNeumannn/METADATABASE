@@ -1,0 +1,63 @@
+﻿<style>
+    .feedback {
+        width: auto;
+        margin: 20px 20px;
+        padding: 15px;
+        border-radius: 10px;
+        background: lightgrey;
+    }
+
+    .feedback h1 {
+        font-weight: bold;
+    }
+
+    .feedback h2 {
+        opacity: 50%;
+    }
+
+    .feedback img {
+        float: left;
+    }
+</style>
+
+@model IEnumerable<METADATABASE.Models.Feedback>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="feedback">
+    <img src="@Html.DisplayNameFor(model => model.pfp)" />
+
+    <h1>@Html.DisplayNameFor(model => model.userID)</h1>
+
+    <h2>@Html.DisplayNameFor(model => model.date)</h2>
+
+    <h3>@Html.DisplayNameFor(model => model.desc)</h3>
+
+</div>
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.userID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.desc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
