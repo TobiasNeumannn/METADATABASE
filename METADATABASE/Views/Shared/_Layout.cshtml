@@ -10,7 +10,7 @@
     <style type="text/css">
         a.metahead {
         font-family: "Courier New", monospace;
-        font-size: 70px;
+        font-size: 50px;
         font-weight: 600;
             color: #03fcf0;
         text-shadow: 2px 2px 0px black, 0px 4px 0px #10C5BC, 0px 6px 0px black, 0px 8px 0px #0A817B, 0px 10px 0px black, 0px 12px 0px #085F5B;
@@ -18,8 +18,8 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm bg-dark box-shadow mb-3" style="justify-content: center;">
+    <header style="position: fixed; width: 100%; z-index: 999;">
+        <nav class="navbar navbar-expand-sm box-shadow mb-3" style="justify-content: center; backdrop-filter: blur(5px);">
             <div class="container-fluid" style="display: block; width: auto;">
                 <a class="navbar-brand metahead" asp-area="" asp-controller="Home" asp-action="Index">METADATABASE</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"

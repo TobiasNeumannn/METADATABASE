@@ -45,7 +45,7 @@ namespace METADATABASE.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Feedback");
+                    b.ToTable("Feedback", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -12,6 +12,15 @@
     }
 }
 
+main {
+    margin-top: 140px;
+}
+
+body {
+    background: #121212;
+    color: white;
+}
+
     html {
         font-size: 14px;
     }
@@ -38,7 +47,7 @@ body {
 /* HOME PAGE STYLES */
 
 .container {
-    margin: 0;
+    margin: auto;
     padding: 15px;
 }
 
