@@ -21,4 +21,6 @@ public class  METAContext: IdentityDbContext<IdentityUser>
     }
 
 public DbSet<METADATABASE.Models.Feedback> Feedback { get; set; } = default!;
+
+public DbSet<METADATABASE.Models.Bug> Bug { get; set; } = default!;
 }

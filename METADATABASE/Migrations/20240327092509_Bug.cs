@@ -6,24 +6,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace METADATABASE.Migrations
 {
     /// <inheritdoc />
-    public partial class Feedback : Migration
+    public partial class Bug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Feedback",
+                name: "Bug",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
+                    BugID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    pfp = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     userID = table.Column<int>(type: "int", nullable: false),
-                    desc = table.Column<int>(type: "int", nullable: false),
-                    date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    correct = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedback", x => x.ID);
+                    table.PrimaryKey("PK_Bug", x => x.BugID);
                 });
         }
 
@@ -31,7 +34,7 @@ namespace METADATABASE.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Feedback");
+                name: "Bug");
         }
     }
 }
