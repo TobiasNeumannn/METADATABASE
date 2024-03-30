@@ -1,0 +1,65 @@
+﻿@model IEnumerable<METADATABASE.Models.Comments>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PostsID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Creation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pfp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correct)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostsID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Creation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pfp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correct)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CommentsID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CommentsID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CommentsID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

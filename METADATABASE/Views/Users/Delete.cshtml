@@ -1,4 +1,4 @@
-﻿@model METADATABASE.Models.Bug
+﻿@model METADATABASE.Models.Users
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,49 +8,49 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Bug</h4>
+    <h4>Users</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.pfp)
+            @Html.DisplayNameFor(model => model.UserName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.pfp)
+            @Html.DisplayFor(model => model.UserName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.userID)
+            @Html.DisplayNameFor(model => model.Email)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.userID)
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.description)
+            @Html.DisplayNameFor(model => model.Pfp)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.description)
+            @Html.DisplayFor(model => model.Pfp)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.date)
+            @Html.DisplayNameFor(model => model.ProjName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.date)
+            @Html.DisplayFor(model => model.ProjName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.title)
+            @Html.DisplayNameFor(model => model.ProjThumbnail)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.title)
+            @Html.DisplayFor(model => model.ProjThumbnail)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.correct)
+            @Html.DisplayNameFor(model => model.ProjDescription)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.correct)
+            @Html.DisplayFor(model => model.ProjDescription)
         </dd>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="BugID" />
+        <input type="hidden" asp-for="UsersID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace METADATABASE.Migrations
 {
     [DbContext(typeof(METAContext))]
-    [Migration("20240327064855_NewFeedback")]
-    partial class NewFeedback
+    [Migration("20240330112014_Users")]
+    partial class Users
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,35 +25,160 @@ namespace METADATABASE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("METADATABASE.Models.Feedback", b =>
+            modelBuilder.Entity("METADATABASE.Models.Comments", b =>
                 {
-                    b.Property<int>("FeedbackID")
+                    b.Property<int>("CommentsID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FeedbackID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentsID"));
 
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("description")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("pfp")
+                    b.Property<bool>("Correct")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("Creation")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Pfp")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("userID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
-                    b.HasKey("FeedbackID");
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
 
-                    b.ToTable("Feedback");
+                    b.HasKey("CommentsID");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Likes", b =>
+                {
+                    b.Property<int>("LikesID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikesID"));
+
+                    b.Property<string>("Pfp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostsID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersID")
+                        .HasColumnType("int");
+
+                    b.HasKey("LikesID");
+
+                    b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Posts", b =>
+                {
+                    b.Property<int>("PostsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostsID"));
+
+                    b.Property<DateOnly>("Creation")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Locked")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Pfp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsersID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostsID");
+
+                    b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Reports", b =>
+                {
+                    b.Property<int>("ReportsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportsID"));
+
+                    b.Property<int>("CommentsID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("Creation")
+                        .HasColumnType("date");
+
+                    b.Property<int>("PostsID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReportsID");
+
+                    b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Users", b =>
+                {
+                    b.Property<int>("UsersID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsersID"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pfp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjThumbnail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UsersID");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -1,0 +1,63 @@
+﻿<style>
+    .post {
+        width: auto;
+        margin: 20px auto;
+        padding: 15px;
+        border-radius: 10px;
+        background: #282828;
+    }
+
+    .Title {
+        font-weight: bold;
+        font-size: 150%;
+    }
+
+    .Creation {
+        opacity: 50%;
+    }
+
+    .post img {
+        float: left;
+        width: 20px;
+        margin-top: 10px;
+    }
+
+    .ID {
+        font-size: 150%;
+    }
+</style>
+
+@model IEnumerable<METADATABASE.Models.Posts>
+
+@{
+    ViewData["Title"] = "Posts";
+}
+
+<h1>Posts</h1>
+<p>Request and give feedback for other students' projects, request solutions to a bug you've encountered, and discuss.</p>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@foreach (var item in Model)
+{
+    <div class="post">
+        <img src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+        <span class="ID">@Html.DisplayFor(modelItem => item.UsersID)</span>
+        <br />
+        <span class="Title">@Html.DisplayFor(modelItem => item.Title)</span>
+        <br />
+        <span class="Description">@Html.DisplayFor(modelItem => item.Description)</span>
+        <br />
+        <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
+        <br />
+
+        <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.PostsID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.PostsID">Delete</a>
+
+    </div>
+
+
+}

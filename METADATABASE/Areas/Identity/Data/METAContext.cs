@@ -20,7 +20,14 @@ public class  METAContext: IdentityDbContext<IdentityUser>
         // Add your customizations after calling base.OnModelCreating(builder);
     }
 
-public DbSet<METADATABASE.Models.Feedback> Feedback { get; set; } = default!;
+public DbSet<METADATABASE.Models.Comments> Comments { get; set; } = default!;
 
-public DbSet<METADATABASE.Models.Bug> Bug { get; set; } = default!;
+public DbSet<METADATABASE.Models.Likes> Likes { get; set; } = default!;
+
+public DbSet<METADATABASE.Models.Posts> Posts { get; set; } = default!;
+
+public DbSet<METADATABASE.Models.Reports> Reports { get; set; } = default!;
+
+public DbSet<METADATABASE.Models.Users> Users { get; set; } = default!;
+
 }
