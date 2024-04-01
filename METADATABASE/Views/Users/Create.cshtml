@@ -13,9 +13,9 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+                <label asp-for="Username" class="control-label"></label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -33,14 +33,14 @@
                 <span asp-validation-for="ProjName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProjThumbnail" class="control-label"></label>
-                <input asp-for="ProjThumbnail" class="form-control" />
-                <span asp-validation-for="ProjThumbnail" class="text-danger"></span>
+                <label asp-for="ProjThumbnailImg" class="control-label"></label>
+                <input asp-for="ProjThumbnailImg" class="form-control" />
+                <span asp-validation-for="ProjThumbnailImg" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ProjDescription" class="control-label"></label>
-                <input asp-for="ProjDescription" class="form-control" />
-                <span asp-validation-for="ProjDescription" class="text-danger"></span>
+                <label asp-for="ProjDesc" class="control-label"></label>
+                <input asp-for="ProjDesc" class="form-control" />
+                <span asp-validation-for="ProjDesc" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

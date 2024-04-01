@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.Username)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
@@ -25,10 +25,10 @@
                 @Html.DisplayNameFor(model => model.ProjName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProjThumbnail)
+                @Html.DisplayNameFor(model => model.ProjThumbnailImg)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProjDescription)
+                @Html.DisplayNameFor(model => model.ProjDesc)
             </th>
             <th></th>
         </tr>
@@ -37,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.UserName)
+                @Html.DisplayFor(modelItem => item.Username)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -49,15 +49,15 @@
                 @Html.DisplayFor(modelItem => item.ProjName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProjThumbnail)
+                @Html.DisplayFor(modelItem => item.ProjThumbnailImg)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProjDescription)
+                @Html.DisplayFor(modelItem => item.ProjDesc)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.UsersID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UsersID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UsersID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.UserID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserID">Delete</a>
             </td>
         </tr>
 }

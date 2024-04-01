@@ -22,7 +22,8 @@ namespace METADATABASE.Controllers
         // GET: Likes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Likes.ToListAsync());
+            var mETAContext = _context.Likes.Include(l => l.Comment).Include(l => l.Post).Include(l => l.User);
+            return View(await mETAContext.ToListAsync());
         }
 
         // GET: Likes/Details/5
@@ -34,6 +35,9 @@ namespace METADATABASE.Controllers
             }
 
             var likes = await _context.Likes
+                .Include(l => l.Comment)
+                .Include(l => l.Post)
+                .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.LikesID == id);
             if (likes == null)
             {
@@ -46,6 +50,9 @@ namespace METADATABASE.Controllers
         // GET: Likes/Create
         public IActionResult Create()
         {
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
             return View();
         }
 
@@ -54,7 +61,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LikesID,UsersID,Pfp,PostsID")] Likes likes)
+        public async Task<IActionResult> Create([Bind("LikesID,UserID,Pfp,PostsID,CommentsID")] Likes likes)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +69,9 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", likes.UserID);
             return View(likes);
         }
 
@@ -78,6 +88,9 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", likes.UserID);
             return View(likes);
         }
 
@@ -86,7 +99,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LikesID,UsersID,Pfp,PostsID")] Likes likes)
+        public async Task<IActionResult> Edit(int id, [Bind("LikesID,UserID,Pfp,PostsID,CommentsID")] Likes likes)
         {
             if (id != likes.LikesID)
             {
@@ -113,6 +126,9 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", likes.UserID);
             return View(likes);
         }
 
@@ -125,6 +141,9 @@ namespace METADATABASE.Controllers
             }
 
             var likes = await _context.Likes
+                .Include(l => l.Comment)
+                .Include(l => l.Post)
+                .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.LikesID == id);
             if (likes == null)
             {

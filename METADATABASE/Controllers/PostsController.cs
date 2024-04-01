@@ -22,7 +22,8 @@ namespace METADATABASE.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Posts.ToListAsync());
+            var mETAContext = _context.Posts.Include(p => p.User);
+            return View(await mETAContext.ToListAsync());
         }
 
         // GET: Posts/Details/5
@@ -34,6 +35,7 @@ namespace METADATABASE.Controllers
             }
 
             var posts = await _context.Posts
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PostsID == id);
             if (posts == null)
             {
@@ -46,6 +48,7 @@ namespace METADATABASE.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostsID,UsersID,Description,Creation,Title,Pfp,Locked")] Posts posts)
+        public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Pfp,Locked,UserID")] Posts posts)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", posts.UserID);
             return View(posts);
         }
 
@@ -78,6 +82,7 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", posts.UserID);
             return View(posts);
         }
 
@@ -86,7 +91,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostsID,UsersID,Description,Creation,Title,Pfp,Locked")] Posts posts)
+        public async Task<IActionResult> Edit(int id, [Bind("PostsID,Description,Creation,Title,Pfp,Locked,UserID")] Posts posts)
         {
             if (id != posts.PostsID)
             {
@@ -113,6 +118,7 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", posts.UserID);
             return View(posts);
         }
 
@@ -125,6 +131,7 @@ namespace METADATABASE.Controllers
             }
 
             var posts = await _context.Posts
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(m => m.PostsID == id);
             if (posts == null)
             {

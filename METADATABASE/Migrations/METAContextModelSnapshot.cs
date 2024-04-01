@@ -37,8 +37,8 @@ namespace METADATABASE.Migrations
                     b.Property<bool>("Correct")
                         .HasColumnType("bit");
 
-                    b.Property<DateOnly>("Creation")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Creation")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Pfp")
                         .IsRequired()
@@ -52,6 +52,10 @@ namespace METADATABASE.Migrations
 
                     b.HasKey("CommentsID");
 
+                    b.HasIndex("PostsID");
+
+                    b.HasIndex("UserID");
+
                     b.ToTable("Comments");
                 });
 
@@ -63,17 +67,26 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikesID"));
 
+                    b.Property<int?>("CommentsID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Pfp")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PostsID")
+                    b.Property<int?>("PostsID")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("LikesID");
+
+                    b.HasIndex("CommentsID");
+
+                    b.HasIndex("PostsID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Likes");
                 });
@@ -86,8 +99,8 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostsID"));
 
-                    b.Property<DateOnly>("Creation")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Creation")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -104,10 +117,12 @@ namespace METADATABASE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UsersID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("PostsID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Posts");
                 });
@@ -120,34 +135,40 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportsID"));
 
-                    b.Property<int>("CommentsID")
+                    b.Property<int?>("CommentsID")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("Creation")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Creation")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("PostsID")
+                    b.Property<int?>("PostsID")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersID")
+                    b.Property<int?>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("ReportsID");
+
+                    b.HasIndex("CommentsID");
+
+                    b.HasIndex("PostsID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("METADATABASE.Models.Users", b =>
                 {
-                    b.Property<int>("UsersID")
+                    b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsersID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -157,23 +178,25 @@ namespace METADATABASE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProjDescription")
+                    b.Property<string>("ProjDesc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProjName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("ProjThumbnail")
+                    b.Property<string>("ProjThumbnailImg")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("UsersID");
+                    b.HasKey("UserID");
 
                     b.ToTable("Users");
                 });
@@ -380,6 +403,80 @@ namespace METADATABASE.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("METADATABASE.Models.Comments", b =>
+                {
+                    b.HasOne("METADATABASE.Models.Posts", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("METADATABASE.Models.Users", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Likes", b =>
+                {
+                    b.HasOne("METADATABASE.Models.Comments", "Comment")
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentsID");
+
+                    b.HasOne("METADATABASE.Models.Posts", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostsID");
+
+                    b.HasOne("METADATABASE.Models.Users", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Posts", b =>
+                {
+                    b.HasOne("METADATABASE.Models.Users", "User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Reports", b =>
+                {
+                    b.HasOne("METADATABASE.Models.Comments", "Comment")
+                        .WithMany("Reports")
+                        .HasForeignKey("CommentsID");
+
+                    b.HasOne("METADATABASE.Models.Posts", "Post")
+                        .WithMany("Reports")
+                        .HasForeignKey("PostsID");
+
+                    b.HasOne("METADATABASE.Models.Users", "User")
+                        .WithMany("Reports")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -429,6 +526,33 @@ namespace METADATABASE.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Comments", b =>
+                {
+                    b.Navigation("Likes");
+
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Posts", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
+
+                    b.Navigation("Reports");
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Users", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
+
+                    b.Navigation("Posts");
+
+                    b.Navigation("Reports");
                 });
 #pragma warning restore 612, 618
         }

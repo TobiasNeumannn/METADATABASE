@@ -14,9 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="LikesID" />
             <div class="form-group">
-                <label asp-for="UsersID" class="control-label"></label>
-                <input asp-for="UsersID" class="form-control" />
-                <span asp-validation-for="UsersID" class="text-danger"></span>
+                <label asp-for="UserID" class="control-label"></label>
+                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
+                <span asp-validation-for="UserID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Pfp" class="control-label"></label>
@@ -25,8 +25,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="PostsID" class="control-label"></label>
-                <input asp-for="PostsID" class="form-control" />
+                <select asp-for="PostsID" class="form-control" asp-items="ViewBag.PostsID"></select>
                 <span asp-validation-for="PostsID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CommentsID" class="control-label"></label>
+                <select asp-for="CommentsID" class="form-control" asp-items="ViewBag.CommentsID"></select>
+                <span asp-validation-for="CommentsID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

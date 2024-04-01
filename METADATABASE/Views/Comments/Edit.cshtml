@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="CommentsID" />
             <div class="form-group">
                 <label asp-for="PostsID" class="control-label"></label>
-                <input asp-for="PostsID" class="form-control" />
+                <select asp-for="PostsID" class="form-control" asp-items="ViewBag.PostsID"></select>
                 <span asp-validation-for="PostsID" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="UserID" class="control-label"></label>
-                <input asp-for="UserID" class="form-control" />
+                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
                 <span asp-validation-for="UserID" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -22,7 +22,8 @@ namespace METADATABASE.Controllers
         // GET: Reports
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reports.ToListAsync());
+            var mETAContext = _context.Reports.Include(r => r.Comment).Include(r => r.Post).Include(r => r.User);
+            return View(await mETAContext.ToListAsync());
         }
 
         // GET: Reports/Details/5
@@ -34,6 +35,9 @@ namespace METADATABASE.Controllers
             }
 
             var reports = await _context.Reports
+                .Include(r => r.Comment)
+                .Include(r => r.Post)
+                .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.ReportsID == id);
             if (reports == null)
             {
@@ -46,6 +50,9 @@ namespace METADATABASE.Controllers
         // GET: Reports/Create
         public IActionResult Create()
         {
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
             return View();
         }
 
@@ -54,7 +61,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReportsID,UsersID,PostsID,CommentsID,Content,Creation")] Reports reports)
+        public async Task<IActionResult> Create([Bind("ReportsID,UserID,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +69,9 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", reports.UserID);
             return View(reports);
         }
 
@@ -78,6 +88,9 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", reports.UserID);
             return View(reports);
         }
 
@@ -86,7 +99,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,UsersID,PostsID,CommentsID,Content,Creation")] Reports reports)
+        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,UserID,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
             if (id != reports.ReportsID)
             {
@@ -113,6 +126,9 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", reports.UserID);
             return View(reports);
         }
 
@@ -125,6 +141,9 @@ namespace METADATABASE.Controllers
             }
 
             var reports = await _context.Reports
+                .Include(r => r.Comment)
+                .Include(r => r.Post)
+                .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.ReportsID == id);
             if (reports == null)
             {

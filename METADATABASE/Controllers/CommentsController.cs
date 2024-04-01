@@ -22,7 +22,8 @@ namespace METADATABASE.Controllers
         // GET: Comments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Comments.ToListAsync());
+            var mETAContext = _context.Comments.Include(c => c.Post).Include(c => c.User);
+            return View(await mETAContext.ToListAsync());
         }
 
         // GET: Comments/Details/5
@@ -34,6 +35,8 @@ namespace METADATABASE.Controllers
             }
 
             var comments = await _context.Comments
+                .Include(c => c.Post)
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.CommentsID == id);
             if (comments == null)
             {
@@ -46,6 +49,8 @@ namespace METADATABASE.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
             return View();
         }
 
@@ -62,6 +67,8 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", comments.UserID);
             return View(comments);
         }
 
@@ -78,6 +85,8 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", comments.UserID);
             return View(comments);
         }
 
@@ -113,6 +122,8 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", comments.UserID);
             return View(comments);
         }
 
@@ -125,6 +136,8 @@ namespace METADATABASE.Controllers
             }
 
             var comments = await _context.Comments
+                .Include(c => c.Post)
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.CommentsID == id);
             if (comments == null)
             {

@@ -34,7 +34,7 @@ namespace METADATABASE.Controllers
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.UsersID == id);
+                .FirstOrDefaultAsync(m => m.UserID == id);
             if (users == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UsersID,UserName,Email,Pfp,ProjName,ProjThumbnail,ProjDescription")] Users users)
+        public async Task<IActionResult> Create([Bind("UserID,Username,Email,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UsersID,UserName,Email,Pfp,ProjName,ProjThumbnail,ProjDescription")] Users users)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,Email,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
         {
-            if (id != users.UsersID)
+            if (id != users.UserID)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace METADATABASE.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsersExists(users.UsersID))
+                    if (!UsersExists(users.UserID))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace METADATABASE.Controllers
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.UsersID == id);
+                .FirstOrDefaultAsync(m => m.UserID == id);
             if (users == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace METADATABASE.Controllers
 
         private bool UsersExists(int id)
         {
-            return _context.Users.Any(e => e.UsersID == id);
+            return _context.Users.Any(e => e.UserID == id);
         }
     }
 }
