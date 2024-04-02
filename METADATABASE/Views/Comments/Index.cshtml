@@ -49,11 +49,11 @@
     ViewData["Title"] = "Comments";
 }
 
-<div class="postcontainer">
+<div class="postcontainer"> <!-- The post in question -->
 
 @if (Model.Any())
 {
-    var post = Model.First().Post; // Assuming that each comment has a related post
+    var post = Model.First().Post;
     <div class="post">
         <img src="@post.Pfp" />‎
         <span class="Username">@post.User.Username</span>
@@ -61,7 +61,6 @@
         <span class="Title">@post.Title</span>
         <p>@post.Description</p>
         <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
-        <!-- Add any other post details you want to display -->
 
             <p>
                 <a asp-action="Create">Create New Comment</a>

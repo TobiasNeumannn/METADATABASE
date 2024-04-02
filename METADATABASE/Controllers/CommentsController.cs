@@ -27,12 +27,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            var comments = _context.Comments
-                                    .Include(c => c.User)
-                                    .Include(c => c.Post)  // Include the related Post
-                                    .Where(c => c.PostsID == postId)
-                                    .OrderBy(c => c.Creation);
-
+            var comments = _context.Comments.Where(c => c.PostsID == postId).Include(c => c.Post).Include(c => c.User);
             return View(await comments.ToListAsync());
         }
 

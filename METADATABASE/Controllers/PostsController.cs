@@ -35,9 +35,6 @@ namespace METADATABASE.Controllers
             return View(posts);
         }
 
-
-
-
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
