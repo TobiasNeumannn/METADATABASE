@@ -61,11 +61,11 @@
         <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
         <br />
 
-        <!-- Link to comments -->
+        <!-- Link to Likes -->
         <a class="Likes" href="@Url.Action("Index", "Likes", new { postId = item.PostsID })">@item.LikesCount.ToString() Likes</a>
         <br />
 
-        <!-- Likes -->
+        <!-- Link to Comments -->
         <a class="Comments" href="@Url.Action("Index", "Comments", new { postId = item.PostsID })">@item.CommentsCount.ToString() Comments</a>
         <br />
 
