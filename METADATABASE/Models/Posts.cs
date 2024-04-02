@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace METADATABASE.Models
 {
@@ -29,5 +30,9 @@ namespace METADATABASE.Models
         public ICollection<Likes> Likes { get; set; }
         public ICollection<Reports> Reports { get; set; }
         public ICollection<Comments> Comments { get; set; }
+
+        [NotMapped] // This property is not stored in the database
+        public int CommentsCount { get; set; } // Number of comments for the post
+
     }
 }

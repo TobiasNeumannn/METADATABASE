@@ -20,11 +20,23 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Comments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? postId)
         {
-            var mETAContext = _context.Comments.Include(c => c.Post).Include(c => c.User);
-            return View(await mETAContext.ToListAsync());
+            if (postId == null)
+            {
+                return NotFound();
+            }
+
+            var comments = _context.Comments
+                                    .Include(c => c.User)
+                                    .Include(c => c.Post)  // Include the related Post
+                                    .Where(c => c.PostsID == postId)
+                                    .OrderBy(c => c.Creation);
+
+            return View(await comments.ToListAsync());
         }
+
+
 
         // GET: Comments/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -59,18 +71,19 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,UserID,Pfp,Correct")] Comments comments)
+        public async Task<IActionResult> Create([Bind("CommentsID,UserID,PostsID,Content,Pfp,Creation")] Comments comments)
         {
             if (ModelState.IsValid)
             {
+                comments.Creation = DateTime.Now; // Set the current time
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { postId = comments.PostsID });
             }
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", comments.UserID);
+
             return View(comments);
         }
+
 
         // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -102,7 +115,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {

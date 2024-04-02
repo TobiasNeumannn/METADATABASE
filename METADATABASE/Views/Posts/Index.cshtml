@@ -53,6 +53,10 @@
         <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
         <br />
 
+        <!-- Link to comments -->
+        <a href="@Url.Action("Index", "Comments", new { postId = item.PostsID })">@item.CommentsCount.ToString() Comments</a>
+        <br />
+
         <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |
         <a asp-action="Details" asp-route-id="@item.PostsID">Details</a> |
         <a asp-action="Delete" asp-route-id="@item.PostsID">Delete</a>

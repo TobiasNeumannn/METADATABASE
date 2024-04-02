@@ -1,65 +1,91 @@
-﻿@model IEnumerable<METADATABASE.Models.Comments>
+﻿<style>
+    .postcontainer {
+        background: #403f3f;
+        border-radius: 10px;
+        padding: 15px;
+    }
+
+    .comment {
+        width: auto;
+        margin: 20px auto;
+        padding: 15px;
+        border-radius: 10px;
+        background: #282828;
+    }
+
+    .Title {
+        font-weight: bold;
+        font-size: 150%;
+    }
+
+    .Creation {
+        opacity: 50%;
+    }
+
+    div img {
+        float: left;
+        width: 20px;
+        margin-top: 10px;
+    }
+
+    .Username {
+        font-size: 150%;
+    }
+
+    .post {
+        width: auto;
+        margin: 20px auto;
+        padding: 15px;
+        border-radius: 10px;
+        background: #282828;
+        margin: -15px;
+        margin-bottom: 10px;
+    }
+</style>
+
+@model IEnumerable<METADATABASE.Models.Comments>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Comments";
 }
 
-<h1>Index</h1>
+<div class="postcontainer">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Creation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pfp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correct)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Post)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Creation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pfp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correct)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Post.PostsID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CommentsID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CommentsID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CommentsID">Delete</a>
-            </td>
-        </tr>
+@if (Model.Any())
+{
+    var post = Model.First().Post; // Assuming that each comment has a related post
+    <div class="post">
+        <img src="@post.Pfp" />‎
+        <span class="Username">@post.User.Username</span>
+        <br />
+        <span class="Title">@post.Title</span>
+        <p>@post.Description</p>
+        <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
+        <!-- Add any other post details you want to display -->
+
+            <p>
+                <a asp-action="Create">Create New Comment</a>
+            </p>
+    </div>
 }
-    </tbody>
-</table>
+
+@foreach (var item in Model)
+{
+    <div class="comment">
+        <img src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+        <span class="Username">@Html.DisplayFor(modelItem => item.User.Username)</span>
+        <br />
+        <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
+        <br />
+        <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
+        <br />
+        <span class="Correct">@Html.DisplayFor(modelItem => item.Correct)</span>
+        <br />
+
+        <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.PostsID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.PostsID">Delete</a>
+
+    </div>
+}
+</div>

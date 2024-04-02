@@ -22,9 +22,21 @@ namespace METADATABASE.Controllers
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            var mETAContext = _context.Posts.Include(p => p.User);
-            return View(await mETAContext.ToListAsync());
+            var posts = await _context.Posts
+                                     .Include(p => p.User)
+                                     .Include(p => p.Comments)  // Include the Comments navigation property
+                                     .ToListAsync();
+
+            foreach (var post in posts)
+            {
+                post.CommentsCount = post.Comments.Count;  // Set the CommentsCount property
+            }
+
+            return View(posts);
         }
+
+
+
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -59,7 +71,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Pfp,Locked,UserID")] Posts posts)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(posts);
                 await _context.SaveChangesAsync();
@@ -98,7 +110,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -159,6 +171,17 @@ namespace METADATABASE.Controllers
         private bool PostsExists(int id)
         {
             return _context.Posts.Any(e => e.PostsID == id);
+        }
+
+        public async Task<IActionResult> Comments(int postId)
+        {
+            var post = await _context.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.PostsID == postId);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View(post.Comments);
         }
     }
 }

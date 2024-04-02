@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="~/METADATABASE.styles.css" asp-append-version="true" />
     <style type="text/css">
         a.metahead {
-        font-family: "Courier New", monospace;
-        font-size: 50px;
-        font-weight: 600;
+            font-family: "Courier New", monospace;
+            font-size: 50px;
+            font-weight: 600;
             color: #03fcf0;
-        text-shadow: 2px 2px 0px black, 0px 4px 0px #10C5BC, 0px 6px 0px black, 0px 8px 0px #0A817B, 0px 10px 0px black, 0px 12px 0px #085F5B;
+            text-shadow: 2px 2px 0px black, 0px 4px 0px #10C5BC, 0px 6px 0px black, 0px 8px 0px #0A817B, 0px 10px 0px black, 0px 12px 0px #085F5B;
         }
     </style>
 </head>
@@ -27,7 +27,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1" style="justify-content: center;">
+                    <ul id="dynamicnav" class="navbar-nav flex-grow-1" style="justify-content: center; transition: color 0.3s ease; text-shadow: 0 0 5px #121212;">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>

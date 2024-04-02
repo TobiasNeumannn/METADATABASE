@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="PostsID" class="control-label"></label>
-                <select asp-for="PostsID" class ="form-control" asp-items="ViewBag.PostsID"></select>
+                <select asp-for="PostsID" class="form-control" asp-items="ViewBag.PostsID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
@@ -23,12 +23,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Creation" class="control-label"></label>
-                <input asp-for="Creation" class="form-control" />
+                <input asp-for="Creation" class="form-control" readonly />
                 <span asp-validation-for="Creation" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
+                <select asp-for="UserID" class="form-control" asp-items="ViewBag.UserID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Pfp" class="control-label"></label>
@@ -52,5 +52,10 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('#PostsID').value = @ViewData["postId"];
+            document.querySelector('#Creation').value = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        });
+    </script>
 }

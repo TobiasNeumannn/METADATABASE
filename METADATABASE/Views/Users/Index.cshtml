@@ -1,65 +1,78 @@
-﻿@model IEnumerable<METADATABASE.Models.Users>
+﻿<style>
+    .user {
+        width: 30%;
+        margin: 20px auto;
+        padding: 15px;
+        border-radius: 10px;
+        background: #282828;
+    }
+
+    .flex {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .Title {
+        font-weight: bold;
+        font-size: 150%;
+    }
+
+    .Creation {
+        opacity: 50%;
+    }
+
+    .pfp {
+        float: left;
+        width: 20px;
+        margin-top: 10px;
+    }
+
+    .thumb {
+        width: 100%;
+    }
+
+    .ID {
+        font-size: 150%;
+    }
+
+
+</style>
+
+@model IEnumerable<METADATABASE.Models.Users>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Users";
 }
 
-<h1>Index</h1>
+<h1>Users</h1>
+<p>The users of METADATABASE and their projects.</p>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pfp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjThumbnailImg)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProjDesc)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pfp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjThumbnailImg)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjDesc)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserID">Delete</a>
-            </td>
-        </tr>
+
+<div class="flex">
+    @foreach (var item in Model)
+    {
+        <div class="user">
+            <img class="thumb" src="@Html.DisplayFor(modelItem => item.ProjThumbnailImg)" />
+            <br />
+            <img class="pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+            <span class="Title">@Html.DisplayFor(modelItem => item.Username)</span>
+            <br />
+            <span class="Email">@Html.DisplayFor(modelItem => item.Email)</span>
+            <br />
+            <span class="Description">@Html.DisplayFor(modelItem => item.ProjName)</span>
+            <br />
+            <span class="Creation">@Html.DisplayFor(modelItem => item.ProjDesc)</span>
+            <br />
+
+            <a asp-action="Edit" asp-route-id="@item.UserID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.UserID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.UserID">Delete</a>
+
+        </div>
+
 }
-    </tbody>
-</table>
+</div>

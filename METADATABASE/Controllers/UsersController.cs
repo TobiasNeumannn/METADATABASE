@@ -56,7 +56,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserID,Username,Email,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(users);
                 await _context.SaveChangesAsync();
@@ -93,7 +93,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {

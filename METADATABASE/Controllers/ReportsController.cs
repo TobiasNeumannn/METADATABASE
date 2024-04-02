@@ -63,7 +63,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReportsID,UserID,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(reports);
                 await _context.SaveChangesAsync();
@@ -106,7 +106,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
