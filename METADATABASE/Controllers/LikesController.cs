@@ -20,10 +20,15 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Likes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? postId)
         {
-            var mETAContext = _context.Likes.Include(l => l.Comment).Include(l => l.Post).Include(l => l.User);
-            return View(await mETAContext.ToListAsync());
+            if (postId == null)
+            {
+                return NotFound();
+            }
+
+            var likes = _context.Likes.Where(c => c.PostsID == postId).Include(c => c.Post).Include(c => c.User);
+            return View(await likes.ToListAsync());
         }
 
         // GET: Likes/Details/5

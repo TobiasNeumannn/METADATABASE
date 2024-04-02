@@ -25,6 +25,14 @@
     .ID {
         font-size: 150%;
     }
+
+    .Likes {
+        float: right;
+    }
+
+    .Comments {
+        float: right;
+    }
 </style>
 
 @model IEnumerable<METADATABASE.Models.Posts>
@@ -43,7 +51,7 @@
 @foreach (var item in Model)
 {
     <div class="post">
-        <img src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+        <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
         <span class="ID">@Html.DisplayFor(modelItem => item.User.Username)</span>
         <br />
         <span class="Title">@Html.DisplayFor(modelItem => item.Title)</span>
@@ -54,7 +62,11 @@
         <br />
 
         <!-- Link to comments -->
-        <a href="@Url.Action("Index", "Comments", new { postId = item.PostsID })">@item.CommentsCount.ToString() Comments</a>
+        <a class="Likes" href="@Url.Action("Index", "Likes", new { postId = item.PostsID })">@item.LikesCount.ToString() Likes</a>
+        <br />
+
+        <!-- Likes -->
+        <a class="Comments" href="@Url.Action("Index", "Comments", new { postId = item.PostsID })">@item.CommentsCount.ToString() Comments</a>
         <br />
 
         <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |

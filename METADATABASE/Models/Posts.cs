@@ -33,6 +33,8 @@ namespace METADATABASE.Models
 
         [NotMapped] // This property is not stored in the database
         public int CommentsCount { get; set; } // Number of comments for the post
+        [NotMapped]
+        public int LikesCount { get; set; } // Number of Likes for the post
 
     }
 }

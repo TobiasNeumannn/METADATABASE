@@ -25,11 +25,13 @@ namespace METADATABASE.Controllers
             var posts = await _context.Posts
                                      .Include(p => p.User)
                                      .Include(p => p.Comments)  // Include the Comments navigation property
+                                     .Include(p => p.Likes)  // Include the Likes navigation property
                                      .ToListAsync();
 
             foreach (var post in posts)
             {
                 post.CommentsCount = post.Comments.Count;  // Set the CommentsCount property
+                post.LikesCount = post.Likes.Count;
             }
 
             return View(posts);

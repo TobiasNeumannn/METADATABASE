@@ -108,3 +108,48 @@ label {
 a {color: #03fcf0;}
     a:hover {color: #10C5BC}
         a:visited {color: #10C5BC}
+
+        /* TABLE PAGES */
+
+.postcontainer {
+    background: #403f3f;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.comment {
+    width: auto;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    background: #282828;
+}
+
+.Title {
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.Creation {
+    opacity: 50%;
+}
+
+.Pfp {
+    float: left;
+    width: 20px;
+    margin-top: 10px;
+}
+
+.Username {
+    font-size: 150%;
+}
+
+.post {
+    width: auto;
+    margin: 20px auto;
+    padding: 15px;
+    border-radius: 10px;
+    background: #282828;
+    margin: -15px;
+    margin-bottom: 10px;
+}

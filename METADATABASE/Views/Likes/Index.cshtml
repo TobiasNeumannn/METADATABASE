@@ -4,50 +4,38 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Likes</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Pfp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Post)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pfp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Post.PostsID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment.CommentsID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LikesID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LikesID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LikesID">Delete</a>
-            </td>
-        </tr>
+<div class="postcontainer"> <!-- The post in question -->
+
+@if (Model.Any())
+{
+    var post = Model.First().Post;
+    <div class="post">
+            <img class="Pfp" src="@post.Pfp" />‎
+        <span class="Username">@post.User.Username</span>
+        <br />
+        <span class="Title">@post.Title</span>
+        <p>@post.Description</p>
+        <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
+
+            <p>
+                <a asp-action="Create">Like this post</a>
+            </p>
+    </div>
 }
-    </tbody>
-</table>
+
+@foreach (var item in Model) {
+    <div class="comment">
+            <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+            <span class="Username">@Html.DisplayFor(modelItem => item.User.Username)</span>
+
+        <div style="float: right;">
+        <a asp-action="Edit" asp-route-id="@item.LikesID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.LikesID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.LikesID">Delete</a>
+        </div>
+    </div>
+}
+
+</div>
