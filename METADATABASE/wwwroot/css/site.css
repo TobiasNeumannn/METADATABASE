@@ -1,3 +1,7 @@
+body {
+    animation: none;
+}
+
 * {
     animation: fadein 0.5s;
 }
@@ -9,6 +13,17 @@
 
     to {
         opacity: 1;
+    }
+}
+
+.navbar-nav {
+    flex-direction: row;
+    gap: 10px;
+}
+
+@media (min-width: 576px) {
+    .d-sm-inline-flex {
+        display: block !important;
     }
 }
 
