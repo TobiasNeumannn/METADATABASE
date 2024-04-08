@@ -3,7 +3,24 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav" style="position: absolute; right: 0; top: 0;">
+    <style>
+        #logbox {
+        width: 9em;
+        position: absolute;
+        right: 0;
+        top: 0;
+        background-color: rgba(40, 40, 40, 0.8);
+        margin: 10px;
+        border-radius: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+        }
+    </style>
+
+<ul class="navbar-nav" id="logbox">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" style="margin-top: 5px; width: 50%;" />
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">

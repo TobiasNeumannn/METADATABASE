@@ -1,8 +1,41 @@
-body {
-    animation: none;
+@media (max-width: 630px) { /* login box */
+    #logbox {
+        display: none !important;
+    }
 }
 
-* {
+body {
+    animation: none;
+    background: #121212;
+    color: white;
+    margin-bottom: 60px;
+}
+
+/*----------------------- SCROLL BAR -----------------------*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(40, 40, 40);
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #03fcf0;
+    }
+
+/*----------------------- END OF SCROLL BAR -----------------------*/
+
+html *:not(body) {
     animation: fadein 0.5s;
 }
 
@@ -16,11 +49,10 @@ body {
     }
 }
 
-/* NAVBAR */
+/*----------------------- NAVBAR -----------------------*/
 
 .navbar-nav {
     flex-direction: row;
-    gap: 10px;
 }
 
 @media (min-width: 576px) {
@@ -41,11 +73,16 @@ a {
     color: #03fcf0;
 }
 
-    /* a:hover {
-        color: #10C5BC
-    } */
+header li {
+    padding: 3px;
+}
 
-    a:visited {
+/* An attempt at styling the navbar links with a background hover animation: */
+/* a:hover {
+        color: #10C5BC
+} 
+
+   a:visited {
         color: #10C5BC
     }
 
@@ -57,22 +94,19 @@ header li:hover {
 
 header a:hover {
     color: white;
-}
+} */
 
-/* NAVBAR OVER */
+/*----------------------- NAVBAR OVER -----------------------*/
 
 main {
     margin-top: 140px;
 }
 
-body {
-    background: #121212;
-    color: white;
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
-
-    html {
-        font-size: 14px;
-    }
 
     @media (min-width: 768px) {
         html {
@@ -84,16 +118,7 @@ body {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
-/* HOME PAGE STYLES */
+/*----------------------- HOME PAGE STYLES -----------------------*/
 
 .container {
     margin: auto;
@@ -102,14 +127,14 @@ body {
 
 .paralax {
     height: 20vh;
-    width: 100vw;
+    width: 100%;
     background-image: 0;
     background-size: cover;
     padding: 45vh 0;
 }
 
 .break {
-    width: 100vw;
+    width: 100%;
     height: 80vh;
     padding: 25vh;
 }
@@ -136,7 +161,7 @@ body {
 
 }
 
-/* END OF HOME PAGE STYLES*/
+/*----------------------- END OF HOME PAGE STYLES -----------------------*/
 
 .mb-3 {
     margin-bottom: 0 !important;
@@ -150,7 +175,7 @@ label {
     margin-bottom: 10px !important;
 }
 
-        /* TABLE PAGES */
+/*----------------------- TABLE PAGES -----------------------*/
 
 .postcontainer {
     background: #403f3f;
@@ -194,3 +219,5 @@ label {
     margin: -15px;
     margin-bottom: 10px;
 }
+
+/*----------------------- END OF TABLE PAGES -----------------------*/
