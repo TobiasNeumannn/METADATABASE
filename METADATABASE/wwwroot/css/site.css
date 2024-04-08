@@ -16,6 +16,8 @@ body {
     }
 }
 
+/* NAVBAR */
+
 .navbar-nav {
     flex-direction: row;
     gap: 10px;
@@ -26,6 +28,38 @@ body {
         display: block !important;
     }
 }
+
+header button {
+    display: none;
+}
+
+.nav-link {
+    color: #03fcf0;
+}
+
+a {
+    color: #03fcf0;
+}
+
+    /* a:hover {
+        color: #10C5BC
+    } */
+
+    a:visited {
+        color: #10C5BC
+    }
+
+header li:hover {
+    background: #03fcf0;
+    transition: 0.3s ease-in-out;
+    text-shadow: none;
+}
+
+header a:hover {
+    color: white;
+}
+
+/* NAVBAR OVER */
 
 main {
     margin-top: 140px;
@@ -115,14 +149,6 @@ label {
 .form-control {
     margin-bottom: 10px !important;
 }
-
-.nav-link {
-    color: #03fcf0;
-}
-
-a {color: #03fcf0;}
-    a:hover {color: #10C5BC}
-        a:visited {color: #10C5BC}
 
         /* TABLE PAGES */
 

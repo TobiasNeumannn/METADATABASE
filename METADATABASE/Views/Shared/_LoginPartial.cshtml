@@ -3,7 +3,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav" style="position: absolute; right: 0;">
+<ul class="navbar-nav" style="position: absolute; right: 0; top: 0;">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
