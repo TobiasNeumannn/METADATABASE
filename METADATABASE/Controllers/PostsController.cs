@@ -59,7 +59,7 @@ namespace METADATABASE.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username");
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", posts.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", posts.UserID);
             return View(posts);
         }
 
@@ -93,7 +93,7 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", posts.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", posts.UserID);
             return View(posts);
         }
 
@@ -129,7 +129,7 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", posts.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", posts.UserID);
             return View(posts);
         }
 

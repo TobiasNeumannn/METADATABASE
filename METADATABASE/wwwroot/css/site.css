@@ -51,6 +51,10 @@ html *:not(body) {
 
 /*----------------------- NAVBAR -----------------------*/
 
+.navbar-brand {
+    margin-right: 0;
+}
+
 .navbar-nav {
     flex-direction: row;
 }
@@ -67,7 +71,14 @@ header button {
 
 .nav-link {
     color: #03fcf0;
+    border-bottom: 2px solid transparent;
 }
+
+    .nav-link:hover {
+        color: #10C5BC;
+        border-bottom: 2px solid #10C5BC;
+        transition: 0.3s ease-in-out;
+    }
 
 a {
     color: #03fcf0;
@@ -77,24 +88,9 @@ header li {
     padding: 3px;
 }
 
-/* An attempt at styling the navbar links with a background hover animation: */
-/* a:hover {
-        color: #10C5BC
-} 
-
-   a:visited {
-        color: #10C5BC
-    }
-
-header li:hover {
-    background: #03fcf0;
-    transition: 0.3s ease-in-out;
-    text-shadow: none;
+a:hover {
+    color: #10C5BC;
 }
-
-header a:hover {
-    color: white;
-} */
 
 /*----------------------- NAVBAR OVER -----------------------*/
 

@@ -18,12 +18,12 @@
         <span class="Title">@post.Title</span>
         <p>@post.Description</p>
         <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
-
-            <p>
-                <a asp-action="Create">Like this post</a>
-            </p>
     </div>
 }
+
+    <p>
+        <a asp-action="Create">Like this post</a>
+    </p>
 
 @foreach (var item in Model) {
     <div class="comment">

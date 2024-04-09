@@ -57,7 +57,7 @@ namespace METADATABASE.Controllers
         {
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username");
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", likes.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", likes.UserID);
             return View(likes);
         }
 
@@ -95,7 +95,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", likes.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", likes.UserID);
             return View(likes);
         }
 
@@ -133,7 +133,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", likes.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", likes.UserID);
             return View(likes);
         }
 
