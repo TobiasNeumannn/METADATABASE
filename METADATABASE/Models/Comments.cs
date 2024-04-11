@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace METADATABASE.Models
 {
@@ -29,5 +30,8 @@ namespace METADATABASE.Models
         public Users User { get; set; }
         public ICollection<Likes> Likes { get; set; }
         public ICollection<Reports> Reports { get; set; }
+
+        [NotMapped]
+        public int LikesCount { get; set; } // Number of Likes for the post
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
+using Microsoft.Extensions.Hosting;
 
 namespace METADATABASE.Controllers
 {
@@ -27,7 +28,17 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            var comments = _context.Comments.Where(c => c.PostsID == postId).Include(c => c.Post).Include(c => c.User);
+            var comments = _context.Comments
+                .Where(c => c.PostsID == postId)
+                .Include(c => c.Post)
+            .Include(c => c.User)
+        .Include(p => p.Likes);  // Include the Likes navigation 
+
+            foreach (var comment in comments)
+            {
+                comment.LikesCount = comment.Likes.Count;
+            }
+
             return View(await comments.ToListAsync());
         }
 
