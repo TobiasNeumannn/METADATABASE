@@ -11,6 +11,11 @@ body {
     margin-bottom: 60px;
 }
 
+.fcontainer {
+    margin: auto;
+    padding: 15px;
+}
+
 /*----------------------- SCROLL BAR -----------------------*/
 
 /* width */
