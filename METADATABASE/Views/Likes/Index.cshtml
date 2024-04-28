@@ -4,38 +4,60 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    .Likes {
+        float: right;
+    }
+</style>
+
 <h1>Likes</h1>
 
-<div class="postcontainer"> <!-- The post in question -->
+<div class="postcontainer"> <!-- the container, containing both likes and post/comment-->
+    @if (Model.Any()) 
+    {
+        @if (ViewBag.PostID != null)
+        {
+            var post = Model.First().Post;
+            <div class="post">
+                <img class="Pfp" src="@post.Pfp" />‎
+                <span class="Username">@post.User.Username</span>
+                <br />
+                <span class="Title">@post.Title</span>
+                <p>@post.Description</p>
+                <a href="@Url.Action("Create", "Likes", new { postId = post.PostsID })" class="Likes">Like this post</a>
+                <br />
+                <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
+            </div>
+        }
+        else
+        {
+            var comment = Model.First().Comment;
+            <div class="post">
+                <img class="Pfp" src="@comment.Pfp" />‎
+                <span class="Username">@comment.User.Username</span>
+                <br />
+                <p>@comment.Content</p>
+                <span class="Correct">@Html.DisplayFor(modelItem => comment.Correct)</span>
+                <br />
+                <a href="@Url.Action("Create", "Likes", new { commentId = comment.CommentsID })" class="Likes">Like this comment</a>
+                <br />
+                <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
+            </div>
+        }
+    }
 
-@if (Model.Any())
-{
-    var post = Model.First().Post;
-    <div class="post">
-            <img class="Pfp" src="@post.Pfp" />‎
-        <span class="Username">@post.User.Username</span>
-        <br />
-        <span class="Title">@post.Title</span>
-        <p>@post.Description</p>
-        <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
-    </div>
-}
-
-    <p>
-        <a asp-action="Create">Like this post</a>
-    </p>
-
-@foreach (var item in Model) {
-    <div class="comment">
+    @foreach (var item in Model)
+    {
+        <div class="comment">
             <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
             <span class="Username">@Html.DisplayFor(modelItem => item.User.Username)</span>
 
-        <div style="float: right;">
-        <a asp-action="Edit" asp-route-id="@item.LikesID">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.LikesID">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.LikesID">Delete</a>
+            <div style="float: right;">
+                <a asp-action="Edit" asp-route-id="@item.LikesID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LikesID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LikesID">Delete</a>
+            </div>
         </div>
-    </div>
-}
+    }
 
 </div>

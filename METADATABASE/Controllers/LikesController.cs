@@ -20,16 +20,25 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Likes
-        public async Task<IActionResult> Index(int? postId)
+        public async Task<IActionResult> Index(int? postId, int? commentId)
         {
-            if (postId == null)
+            if (postId != null)
+            {
+                var postLikes = _context.Likes.Where(l => l.PostsID == postId).Include(l => l.Post).Include(l => l.User);
+                ViewBag.PostId = postId;
+                return View(await postLikes.ToListAsync());
+            }
+            else if (commentId != null)
+            {
+                var commentLikes = _context.Likes.Where(l => l.CommentsID == commentId).Include(l => l.Comment).Include(l => l.User);
+                return View(await commentLikes.ToListAsync());
+            }
+            else
             {
                 return NotFound();
             }
-
-            var likes = _context.Likes.Where(c => c.PostsID == postId).Include(c => c.Post).Include(c => c.User);
-            return View(await likes.ToListAsync());
         }
+
 
         // GET: Likes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -53,11 +62,20 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Likes/Create
-        public IActionResult Create()
+        public IActionResult Create(int? postId, int? commentId)
         {
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username");
+            // Set default values
+            var defaultUserId = 1; // Hardcoded for now
+            var defaultPfp = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png"; // Path to default profile picture
+
+            // Pass postId or commentId to the view
+            ViewBag.PostId = postId;
+            ViewBag.CommentId = commentId;
+
+            // Pass default values for UserId and Pfp
+            ViewBag.UserId = defaultUserId;
+            ViewBag.Pfp = defaultPfp;
+
             return View();
         }
 
@@ -72,7 +90,16 @@ namespace METADATABASE.Controllers
             {
                 _context.Add(likes);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { postId = likes.PostsID });
+                if (likes.PostsID != null)
+                {
+                    return RedirectToAction("Index", new { postId = likes.PostsID });
+
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { commentId = likes.CommentsID });
+
+                }
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
