@@ -20,7 +20,7 @@ namespace METADATABASE.Models
 
         public int UserID { get; set; }
 
-        public string Pfp { get; set; }
+        public string Pfp { get; set; } // Remove
 
         [Required]
         public bool Correct { get; set; }

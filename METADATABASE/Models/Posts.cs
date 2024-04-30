@@ -17,7 +17,7 @@ namespace METADATABASE.Models
 
         public string Title { get; set; }
 
-        public string Pfp { get; set; }
+        public string Pfp { get; set; } // Remove
 
         [Required]
         public bool Locked { get; set; }

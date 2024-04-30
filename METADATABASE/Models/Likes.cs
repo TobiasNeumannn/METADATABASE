@@ -8,7 +8,7 @@ namespace METADATABASE.Models
         public int LikesID { get; set; }
 
         public int UserID { get; set; }
-        public string Pfp { get; set; }
+        public string Pfp { get; set; } // Remove
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
 

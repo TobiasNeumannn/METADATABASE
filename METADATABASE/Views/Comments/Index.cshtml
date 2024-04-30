@@ -32,7 +32,7 @@
 @foreach (var item in Model)
 {
     <div class="comment">
-        <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+        <img class="Pfp" src="@Html.DisplayFor(modelItem => item.User.Pfp)" />‎
         <span class="Username">@Html.DisplayFor(modelItem => item.User.Username)</span>
         <br />
         <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
