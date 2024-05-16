@@ -59,7 +59,7 @@ namespace METADATABASE.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username");
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
 
@@ -68,7 +68,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Pfp,Locked,UserID")] Posts posts)
+        public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Locked,Id")] Posts posts)
         {
             if (!ModelState.IsValid)
             {
@@ -76,7 +76,7 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", posts.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", posts.Id);
             return View(posts);
         }
 
@@ -93,7 +93,7 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", posts.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", posts.Id);
             return View(posts);
         }
 
@@ -102,7 +102,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostsID,Description,Creation,Title,Pfp,Locked,UserID")] Posts posts)
+        public async Task<IActionResult> Edit(int id, [Bind("PostsID,Description,Creation,Title,Locked,Id")] Posts posts)
         {
             if (id != posts.PostsID)
             {
@@ -129,7 +129,7 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", posts.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", posts.Id);
             return View(posts);
         }
 

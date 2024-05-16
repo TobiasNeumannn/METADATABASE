@@ -16,8 +16,8 @@
 {
     var post = Model.First().Post;
     <div class="post">
-        <img class="Pfp" src="@post.Pfp" />‎
-        <span class="Username">@post.User.Username</span>
+        <img class="Pfp" src="@post.User.Pfp" />‎
+        <span class="UserName">@post.User.UserName</span>
         <br />
         <span class="Title">@post.Title</span>
         <p>@post.Description</p>
@@ -33,7 +33,7 @@
 {
     <div class="comment">
         <img class="Pfp" src="@Html.DisplayFor(modelItem => item.User.Pfp)" />‎
-        <span class="Username">@Html.DisplayFor(modelItem => item.User.Username)</span>
+        <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
         <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
         <br />

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace METADATABASE.Models
 {
@@ -7,8 +8,7 @@ namespace METADATABASE.Models
         [Key]
         public int LikesID { get; set; }
 
-        public int UserID { get; set; }
-        public string Pfp { get; set; } // Remove
+        public int Id { get; set; } //user.Id
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
 

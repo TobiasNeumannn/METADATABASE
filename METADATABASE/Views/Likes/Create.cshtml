@@ -18,8 +18,9 @@
             <input type="hidden" asp-for="CommentsID" value="@ViewBag.CommentId" />
 
             <!-- Default values -->
-            <input type="hidden" asp-for="UserID" value="@ViewBag.UserId" />
-            <input type="hidden" asp-for="Pfp" value="@ViewBag.Pfp" />
+            <input type="hidden" asp-for="Id" value="@ViewBag.Id" />
+            <input type="hidden" asp-for="User.Pfp" value="@ViewBag.User.Pfp" /> 
+            @* hide pfp *@
 
             <input type="submit" value="Like this post" class="btn btn-primary" />
         </form>

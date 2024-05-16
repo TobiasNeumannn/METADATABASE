@@ -19,8 +19,8 @@
         {
             var post = Model.First().Post;
             <div class="post">
-                <img class="Pfp" src="@post.Pfp" />‎
-                <span class="Username">@post.User.Username</span>
+                <img class="Pfp" src="@post.User.Pfp" />‎
+                <span class="UserName">@post.User.UserName</span>
                 <br />
                 <span class="Title">@post.Title</span>
                 <p>@post.Description</p>
@@ -33,8 +33,8 @@
         {
             var comment = Model.First().Comment;
             <div class="post">
-                <img class="Pfp" src="@comment.Pfp" />‎
-                <span class="Username">@comment.User.Username</span>
+                <img class="Pfp" src="@comment.User.Pfp" />‎
+                <span class="UserName">@comment.User.UserName</span>
                 <br />
                 <p>@comment.Content</p>
                 <span class="Correct">@Html.DisplayFor(modelItem => comment.Correct)</span>
@@ -50,7 +50,7 @@
     {
         <div class="comment">
             <img class="Pfp" src="@Html.DisplayFor(modelItem => item.User.Pfp)" />‎
-            <span class="Username">@Html.DisplayFor(modelItem => item.User.Username)</span>
+            <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
 
             <div style="float: right;">
                 <a asp-action="Edit" asp-route-id="@item.LikesID">Edit</a> |

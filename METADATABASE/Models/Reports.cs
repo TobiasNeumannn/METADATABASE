@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace METADATABASE.Models
@@ -8,7 +9,7 @@ namespace METADATABASE.Models
         [Key]
         public int ReportsID { get; set; }
 
-        public int? UserID { get; set; }
+        public int? Id { get; set; } //user.Id
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
 

@@ -52,7 +52,7 @@ namespace METADATABASE.Controllers
         {
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email");
             return View();
         }
 
@@ -61,7 +61,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReportsID,UserID,PostsID,CommentsID,Content,Creation")] Reports reports)
+        public async Task<IActionResult> Create([Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
             if (!ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", reports.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.Id);
             return View(reports);
         }
 
@@ -90,7 +90,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", reports.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.Id);
             return View(reports);
         }
 
@@ -99,7 +99,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,UserID,PostsID,CommentsID,Content,Creation")] Reports reports)
+        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
             if (id != reports.ReportsID)
             {
@@ -128,7 +128,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", reports.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.Id);
             return View(reports);
         }
 

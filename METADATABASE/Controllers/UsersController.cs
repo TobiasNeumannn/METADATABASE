@@ -26,7 +26,7 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Users/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace METADATABASE.Controllers
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,Username,Email,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
+        public async Task<IActionResult> Create([Bind("Id,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
         {
             if (!ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,Username,Email,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,Pfp,ProjName,ProjThumbnailImg,ProjDesc")] Users users)
         {
-            if (id != users.UserID)
+            if (id != users.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace METADATABASE.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsersExists(users.UserID))
+                    if (!UsersExists(users.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +117,7 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Users/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(string? id)
         {
             if (id == null)
             {
@@ -125,7 +125,7 @@ namespace METADATABASE.Controllers
             }
 
             var users = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (users == null)
             {
                 return NotFound();
@@ -149,9 +149,9 @@ namespace METADATABASE.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsersExists(int id)
+        private bool UsersExists(string id)
         {
-            return _context.Users.Any(e => e.UserID == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

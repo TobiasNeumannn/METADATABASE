@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,13 +18,11 @@ namespace METADATABASE.Models
 
         public string Title { get; set; }
 
-        public string Pfp { get; set; } // Remove
-
         [Required]
         public bool Locked { get; set; }
 
         [Required]
-        public int UserID { get; set; }
+        public int Id { get; set; } //user.Id
 
         // Navigation properties
         public Users User { get; set; }

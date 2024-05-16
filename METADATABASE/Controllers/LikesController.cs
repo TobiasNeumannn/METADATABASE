@@ -65,15 +65,15 @@ namespace METADATABASE.Controllers
         public IActionResult Create(int? postId, int? commentId)
         {
             // Set default values
-            var defaultUserId = 1; // Hardcoded for now
+            var defaultId = 1; // Hardcoded for now
             var defaultPfp = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/340px-Default_pfp.svg.png"; // Path to default profile picture
 
             // Pass postId or commentId to the view
             ViewBag.PostId = postId;
             ViewBag.CommentId = commentId;
 
-            // Pass default values for UserId and Pfp
-            ViewBag.UserId = defaultUserId;
+            // Pass default values for Id and Pfp
+            ViewBag.Id = defaultId;
             ViewBag.Pfp = defaultPfp;
 
             return View();
@@ -84,7 +84,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LikesID,UserID,Pfp,PostsID,CommentsID")] Likes likes)
+        public async Task<IActionResult> Create([Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
         {
             if (!ModelState.IsValid)
             {
@@ -103,7 +103,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", likes.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.Id);
             return View(likes);
         }
 
@@ -122,7 +122,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", likes.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.Id);
             return View(likes);
         }
 
@@ -131,7 +131,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LikesID,UserID,Pfp,PostsID,CommentsID")] Likes likes)
+        public async Task<IActionResult> Edit(int id, [Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
         {
             if (id != likes.LikesID)
             {
@@ -160,7 +160,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", likes.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.Id);
             return View(likes);
         }
 

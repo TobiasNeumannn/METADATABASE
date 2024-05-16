@@ -68,7 +68,7 @@ namespace METADATABASE.Controllers
         public IActionResult Create()
         {
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username");
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
 
@@ -77,7 +77,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentsID,UserID,PostsID,Content,Pfp,Creation")] Comments comments)
+        public async Task<IActionResult> Create([Bind("CommentsID,Id,PostsID,Content,Creation")] Comments comments)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", comments.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.Id);
             return View(comments);
         }
 
@@ -114,7 +114,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CommentsID,PostsID,Content,Creation,UserID,Pfp,Correct")] Comments comments)
+        public async Task<IActionResult> Edit(int id, [Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
         {
             if (id != comments.CommentsID)
             {
@@ -142,7 +142,7 @@ namespace METADATABASE.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Username", comments.UserID);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.Id);
             return View(comments);
         }
 

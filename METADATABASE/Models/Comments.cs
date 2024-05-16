@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,9 +19,7 @@ namespace METADATABASE.Models
         [Required]
         public DateTime Creation { get; set; }
 
-        public int UserID { get; set; }
-
-        public string Pfp { get; set; } // Remove
+        public int Id { get; set; } //user.Id
 
         [Required]
         public bool Correct { get; set; }
