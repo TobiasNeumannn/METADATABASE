@@ -17,6 +17,28 @@
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
+
+            <div class="form-floating">
+                <label asp-for="Input.Pfp"></label>
+                <input asp-for="Input.Pfp" class="form-control" />
+                <span asp-validation-for="Input.Pfp" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <label asp-for="Input.ProjName"></label>
+                <input asp-for="Input.ProjName" class="form-control" />
+                <span asp-validation-for="Input.ProjName" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <label asp-for="Input.ProjThumbnailImg"></label>
+                <input asp-for="Input.ProjThumbnailImg" class="form-control" />
+                <span asp-validation-for="Input.ProjThumbnailImg" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <label asp-for="Input.ProjDesc"></label>
+                <input asp-for="Input.ProjDesc" class="form-control" />
+                <span asp-validation-for="Input.ProjDesc" class="text-danger"></span>
+            </div>
+
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Password</label>
