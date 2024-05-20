@@ -19,7 +19,7 @@ namespace METADATABASE.Models
         [Required]
         public DateTime Creation { get; set; }
 
-        public int Id { get; set; } //user.Id
+        public string Id { get; set; } //user.Id
 
         [Required]
         public bool Correct { get; set; }

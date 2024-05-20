@@ -1,0 +1,20 @@
+﻿@model IEnumerable<METADATABASE.Models.Users>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Users</h1>
+
+@foreach (var item in Model)
+{
+    @item.UserName
+    <br />
+    @item.Pfp
+    <br />
+    @item.ProjName
+    <br />
+    @item.ProjThumbnailImg
+    <br />
+    @item.ProjDesc
+}

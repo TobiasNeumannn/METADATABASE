@@ -9,7 +9,7 @@ namespace METADATABASE.Models
         [Key]
         public int ReportsID { get; set; }
 
-        public int? Id { get; set; } //user.Id
+        public string? Id { get; set; } //user.Id
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
 
