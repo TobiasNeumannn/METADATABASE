@@ -5,14 +5,14 @@ using METADATABASE.Models;
 
 namespace METADATABASE.Areas.Identity.Data
 {
-    public class METAContext : IdentityDbContext<Users> // IdentityUser?
+    public class METAContext : IdentityDbContext<Users> // Users?
     {
         public METAContext(DbContextOptions<METAContext> options)
             : base(options)
         {
         }
 
-        public DbSet<IdentityUser> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<Posts> Posts { get; set; }
         public DbSet<Reports> Reports { get; set; }
         public DbSet<Likes> Likes { get; set; }
