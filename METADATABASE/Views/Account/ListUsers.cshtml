@@ -1,0 +1,67 @@
+﻿﻿<style>
+     .user {
+         width: 30%;
+         margin: 20px auto;
+         padding: 15px;
+         border-radius: 10px;
+         background: #282828;
+     }
+
+     .flex {
+         display: flex;
+         gap: 20px;
+         flex-wrap: wrap;
+     }
+
+     .Title {
+         font-weight: bold;
+         font-size: 150%;
+     }
+
+     .Creation {
+         opacity: 50%;
+     }
+
+     .pfp {
+         float: left;
+         width: 20px;
+         margin-top: 10px;
+     }
+
+     .thumb {
+         width: 100%;
+     }
+
+     .ID {
+         font-size: 150%;
+     }
+
+</style>
+
+@model IEnumerable<METADATABASE.Models.Users>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h1>Users</h1>
+<p>The users of METADATABASE and their projects.</p>
+
+<div class="flex">
+    @foreach (var item in Model)
+    {
+        <div class="user">
+            <img class="thumb" src="@Html.DisplayFor(modelItem => item.ProjThumbnailImg)" />
+            <br />
+            <img class="pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+            <span class="Title">@Html.DisplayFor(modelItem => item.UserName)</span>
+            <br />
+            <span class="Description">@Html.DisplayFor(modelItem => item.ProjName)</span>
+            <br />
+            <span class="Creation">@Html.DisplayFor(modelItem => item.ProjDesc)</span>
+            <br />
+
+        </div>
+
+    }
+</div>
