@@ -77,9 +77,9 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentsID,Id,PostsID,Content,Creation")] Comments comments)
+        public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 comments.Creation = DateTime.Now; // Set the current time
                 _context.Add(comments);

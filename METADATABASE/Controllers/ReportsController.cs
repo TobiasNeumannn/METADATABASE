@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
+using System.Xml.Linq;
 
 namespace METADATABASE.Controllers
 {
@@ -65,6 +66,7 @@ namespace METADATABASE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                reports.Creation = DateTime.Now; // Set the current time
                 _context.Add(reports);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
