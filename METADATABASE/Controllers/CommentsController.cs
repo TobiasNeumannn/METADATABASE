@@ -67,7 +67,7 @@ namespace METADATABASE.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title");
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
@@ -82,6 +82,7 @@ namespace METADATABASE.Controllers
             if (!ModelState.IsValid)
             {
                 comments.Creation = DateTime.Now; // Set the current time
+                comments.PostsID = postId; 
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", new { postId = comments.PostsID });

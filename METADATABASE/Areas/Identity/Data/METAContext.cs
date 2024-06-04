@@ -18,15 +18,15 @@ namespace METADATABASE.Areas.Identity.Data
         public DbSet<Likes> Likes { get; set; }
         public DbSet<Comments> Comments { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
 
-            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
-                .SelectMany(e => e.GetForeignKeys()))
-            {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-        }
+        //    foreach (var foreignKey in modelBuilder.Model.GetEntityTypes()
+        //        .SelectMany(e => e.GetForeignKeys()))
+        //    {
+        //        foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+        //    }
+        //}
     }
 }
