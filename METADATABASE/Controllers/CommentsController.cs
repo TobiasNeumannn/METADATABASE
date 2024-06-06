@@ -79,10 +79,11 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
         {
+
             if (!ModelState.IsValid)
             {
                 comments.Creation = DateTime.Now; // Set the current time
-                comments.PostsID = postId; 
+                //comments.PostsID = postId; 
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", new { postId = comments.PostsID });
