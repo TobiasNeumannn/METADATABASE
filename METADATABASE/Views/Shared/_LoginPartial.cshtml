@@ -3,6 +3,8 @@
 @inject SignInManager<Users> SignInManager
 @inject UserManager<Users> UserManager
 
+    @model IEnumerable<METADATABASE.Models.Users>
+
     <style>
         #logbox {
         width: 9em;
@@ -25,6 +27,9 @@
 {
     <li class="nav-item">
         <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+    </li>
+    <li>
+            <img class="pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
