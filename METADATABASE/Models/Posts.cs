@@ -10,7 +10,6 @@ namespace METADATABASE.Models
     {
         [Key]
         public int PostsID { get; set; }
-
         public string Description { get; set; }
 
         [Required]

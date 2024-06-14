@@ -94,6 +94,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
+            [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "The Email field is not a valid e-mail address.\r\n.")]
             public string Email { get; set; }
 
             /// <summary>
