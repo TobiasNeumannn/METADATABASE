@@ -13,29 +13,9 @@
          flex-wrap: wrap;
      }
 
-     .Title {
-         font-weight: bold;
-         font-size: 150%;
-     }
-
-     .Creation {
-         opacity: 50%;
-     }
-
-     .pfp {
-         float: left;
-         width: 20px;
-         margin-top: 10px;
-     }
-
      .thumb {
          width: 100%;
      }
-
-     .ID {
-         font-size: 150%;
-     }
-
 </style>
 
 @model IEnumerable<METADATABASE.Models.Users>
@@ -53,7 +33,7 @@
         <div class="user">
             <img class="thumb" src="@Html.DisplayFor(modelItem => item.ProjThumbnailImg)" />
             <br />
-            <img class="pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+            <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
             <span class="Title">@Html.DisplayFor(modelItem => item.UserName)</span>
             <br />
             <span class="Description">@Html.DisplayFor(modelItem => item.ProjName)</span>

@@ -84,6 +84,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
 
             public string ProjThumbnailImg { get; set; }
             [Required]
+            [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
             [Display(Name = "Project Description")]
 
             public string ProjDesc { get; set; }
