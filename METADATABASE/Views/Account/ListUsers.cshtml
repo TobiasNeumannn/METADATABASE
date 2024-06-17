@@ -16,6 +16,12 @@
      .thumb {
          width: 100%;
      }
+
+     .Description {
+         overflow: scroll;
+         margin: 0;
+         height: 200px;
+     }
 </style>
 
 @model IEnumerable<METADATABASE.Models.Users>
@@ -36,9 +42,8 @@
             <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
             <span class="Title">@Html.DisplayFor(modelItem => item.UserName)</span>
             <br />
-            <span class="Description">@Html.DisplayFor(modelItem => item.ProjName)</span>
-            <br />
-            <span class="Creation">@Html.DisplayFor(modelItem => item.ProjDesc)</span>
+            <span class="Title">@Html.DisplayFor(modelItem => item.ProjName)</span>
+            <p class="Description">@Html.DisplayFor(modelItem => item.ProjDesc)</p>
             <br />
 
         </div>

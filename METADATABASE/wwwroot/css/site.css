@@ -38,6 +38,14 @@ body {
         background: #03fcf0;
     }
 
+.Description::-webkit-scrollbar-track {
+    background: white;
+}
+
+.Description::-webkit-scrollbar-thumb {
+    background: red;
+}
+
 /*----------------------- END OF SCROLL BAR -----------------------*/
 
 html *:not(body) {
