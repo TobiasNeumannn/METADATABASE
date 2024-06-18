@@ -39,12 +39,16 @@ body {
     }
 
 .Description::-webkit-scrollbar-track {
-    background: white;
+    background: transparent;
 }
 
 .Description::-webkit-scrollbar-thumb {
-    background: red;
+    background: white;
 }
+
+    .Description::-webkit-scrollbar-thumb:hover {
+        background: #03fcf0;
+    }
 
 /*----------------------- END OF SCROLL BAR -----------------------*/
 
