@@ -9,7 +9,7 @@ namespace METADATABASE.Models
         [Key]
         public int ImageId { get; set; }
         [Column(TypeName ="nvarchar(50)")]
-        public string ImageTitle { get; set; }
+        public string ImageTitle { get; set; } //dont need!!
         [Column(TypeName = "nvarchar(100)")]
         [DisplayName("Image Name")]
         public string ImageName { get; set; }
