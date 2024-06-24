@@ -37,9 +37,9 @@
     @foreach (var item in Model)
     {
         <div class="user">
-            <img class="thumb" src="@Html.DisplayFor(modelItem => item.ProjThumbnailImg)" />
+            <img class="thumb" src="@Html.DisplayFor(modelItem => item.thumbFile)" />
             <br />
-            <img class="Pfp" src="@Html.DisplayFor(modelItem => item.Pfp)" />‎
+            <img class="pfpFile" src="@Html.DisplayFor(modelItem => item.pfpFile)" />‎
             <span class="Title">@Html.DisplayFor(modelItem => item.UserName)</span>
             <br />
             <span class="Title">@Html.DisplayFor(modelItem => item.ProjName)</span>

@@ -3,7 +3,9 @@
 #nullable disable
 
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using METADATABASE.Models;
@@ -57,20 +59,31 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [Display(Name = "Profile Picture")]
+            [DisplayName("Profile Picture Name")]
+            public string pfpName { get; set; }
 
-            public string Pfp { get; set; } //add validation
+            [Required]
+            [NotMapped]
+            [DisplayName("Upload PFP")]
+            public IFormFile pfpFile { get; set; }
+
             [Required]
             [StringLength(255)]
             [Display(Name = "Project Name")]
             public string ProjName { get; set; }
-            [Required]
-            [Display(Name = "Project Thumbnail")]
 
-            public string ProjThumbnailImg { get; set; }
             [Required]
+            [DisplayName("Project Thumbnail Image Name")]
+            public string thumbName { get; set; }
+
+            [Required]
+            [NotMapped]
+            [DisplayName("Upload Thumbnail Image")]
+            public IFormFile thumbFile { get; set; }
+
+            [Required]
+            [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
             [Display(Name = "Project Description")]
-
             public string ProjDesc { get; set; }
 
         }
@@ -83,9 +96,11 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                Pfp = user.Pfp,
+                pfpName = user.pfpName,
+                pfpFile = user.pfpFile,
                 ProjName = user.ProjName,
-                ProjThumbnailImg = user.ProjThumbnailImg,
+                thumbName = user.thumbName,
+                thumbFile = user.thumbFile,
                 ProjDesc = user.ProjDesc
             };
         }
@@ -116,17 +131,25 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (Input.Pfp != user.Pfp)
+            if (Input.pfpName != user.pfpName)
             {
-                user.Pfp = Input.Pfp;
+                user.pfpName = Input.pfpName;
+            }
+            if (Input.pfpFile != user.pfpFile)
+            {
+                user.pfpFile = Input.pfpFile;
             }
             if (Input.ProjName != user.ProjName)
             {
                 user.ProjName = Input.ProjName;
             }
-            if (Input.ProjThumbnailImg != user.ProjThumbnailImg)
+            if (Input.thumbName != user.thumbName)
             {
-                user.ProjThumbnailImg = Input.ProjThumbnailImg;
+                user.thumbName = Input.thumbName;
+            }
+            if (Input.thumbFile != user.thumbFile)
+            {
+                user.thumbFile = Input.thumbFile;
             }
             if (Input.ProjDesc != user.ProjDesc)
             {

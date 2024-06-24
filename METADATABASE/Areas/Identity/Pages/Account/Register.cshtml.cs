@@ -4,7 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -72,21 +75,29 @@ namespace METADATABASE.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [Display(Name = "Profile Picture")]
+            [DisplayName("Profile Picture Name")]
+            public string pfpName { get; set; }
 
-            public string Pfp { get; set; } //add validation
+            [Required]
+            [NotMapped]
+            public IFormFile pfpFile { get; set; }
+
             [Required]
             [StringLength(255)]
             [Display(Name = "Project Name")]
             public string ProjName { get; set; }
-            [Required]
-            [Display(Name = "Project Thumbnail")]
 
-            public string ProjThumbnailImg { get; set; }
+            [Required]
+            [DisplayName("Project Thumbnail Image Name")]
+            public string thumbName { get; set; }
+
+            [Required]
+            [NotMapped]
+            public IFormFile thumbFile { get; set; }
+
             [Required]
             [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
             [Display(Name = "Project Description")]
-
             public string ProjDesc { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -133,9 +144,11 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                user.Pfp = Input.Pfp;
+                user.pfpName = Input.pfpName;
+                user.pfpFile = Input.pfpFile;
                 user.ProjName = Input.ProjName;
-                user.ProjThumbnailImg = Input.ProjThumbnailImg;
+                user.thumbName = Input.thumbName;
+                user.thumbFile = Input.thumbFile;
                 user.ProjDesc = Input.ProjDesc;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
