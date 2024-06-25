@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace METADATABASE.Areas.Identity.Pages.Account
@@ -33,13 +36,15 @@ namespace METADATABASE.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Users> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly METAContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public RegisterModel(
             UserManager<Users> userManager,
             IUserStore<Users> userStore,
             SignInManager<Users> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, METAContext context, IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -47,6 +52,8 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         /// <summary>
@@ -76,11 +83,11 @@ namespace METADATABASE.Areas.Identity.Pages.Account
         {
             [Required]
             [DisplayName("Profile Picture Name")]
-            public string pfpName { get; set; }
+            public string PfpName { get; set; }
 
             [Required]
             [NotMapped]
-            public IFormFile pfpFile { get; set; }
+            public IFormFile PfpFile { get; set; }
 
             [Required]
             [StringLength(255)]
@@ -89,11 +96,11 @@ namespace METADATABASE.Areas.Identity.Pages.Account
 
             [Required]
             [DisplayName("Project Thumbnail Image Name")]
-            public string thumbName { get; set; }
+            public string ThumbName { get; set; }
 
             [Required]
             [NotMapped]
-            public IFormFile thumbFile { get; set; }
+            public IFormFile ThumbFile { get; set; }
 
             [Required]
             [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
@@ -144,12 +151,23 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                user.pfpName = Input.pfpName;
-                user.pfpFile = Input.pfpFile;
+                user.PfpName = Input.PfpName;
+                user.PfpFile = Input.PfpFile;
                 user.ProjName = Input.ProjName;
-                user.thumbName = Input.thumbName;
-                user.thumbFile = Input.thumbFile;
+                user.ThumbName = Input.ThumbName;
+                user.ThumbFile = Input.ThumbFile;
                 user.ProjDesc = Input.ProjDesc;
+
+                //saving the pfp to the folder wwwroot/Image
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(user.PfpFile.PfpName);
+                string extension = Path.GetExtension(user.PfpFile.PfpName);
+                user.PfpName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await user.PfpFile.CopyToAsync(fileStream);
+                }
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

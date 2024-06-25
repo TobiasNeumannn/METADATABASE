@@ -8,24 +8,18 @@ namespace METADATABASE.Models
 {
     public class Users : IdentityUser
     {
-        [Column(TypeName = "nvarchar(100)")]
-        [DisplayName("Profile Picture Name")]
-        public string pfpName { get; set; }
-
+        public string PfpName { get; set; }
         [NotMapped]
         [DisplayName("Upload PFP")]
-        public IFormFile pfpFile { get; set; }
+        public IFormFile PfpFile { get; set; }
 
         [StringLength(255)]
         public string ProjName { get; set; }
-
-        [Column(TypeName = "nvarchar(100)")]
-        [DisplayName("Project Thumbnail Image Name")]
-        public string thumbName { get; set; }
+        public string ThumbName { get; set; }
 
         [NotMapped]
         [DisplayName("Upload Thumbnail")]
-        public IFormFile thumbFile { get; set; }
+        public IFormFile ThumbFile { get; set; }
 
         public string ProjDesc { get; set; }
 

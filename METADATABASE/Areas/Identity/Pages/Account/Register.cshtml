@@ -12,12 +12,24 @@
     #descbox > .form-control:not(:placeholder-shown) ~ label {
         opacity: 0;
     }
+
+    .upload {
+        background: transparent !important;
+        padding: 10px !important;
+        color: white !important;
+        border: 0;
+    }
+
+    .form-control:focus:has(> .upload) {
+        color: white;
+        background-color: transparent;
+    }
 </style>
 
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-md-4" style="margin: auto">
+    <div class="col-md-5" style="margin: auto">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <h2>Create a new account.</h2>
             <hr />
@@ -28,13 +40,13 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.pfpName" class="form-control" autocomplete="" aria-required="true" placeholder="" />
-                <label asp-for="Input.pfpName">Profile Picture Name</label>
-                <span asp-validation-for="Input.pfpName" class="text-danger"></span>
+                <input asp-for="Input.PfpName" class="form-control" autocomplete="" aria-required="true" placeholder="" />
+                <label asp-for="Input.PfpName">Profile Picture Name</label>
+                <span asp-validation-for="Input.PfpName" class="text-danger"></span>
             </div>
             Upload Profile Picture
             <div class="form-floating mb-3">
-                <input asp-for="Input.pfpFile" class="form-control" autocomplete="" aria-required="true" placeholder="" />
+                <input asp-for="Input.PfpFile" class="form-control upload" autocomplete="" aria-required="true" placeholder="" />
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ProjName" class="form-control" autocomplete="" aria-required="true" placeholder="" />
@@ -42,13 +54,13 @@
                 <span asp-validation-for="Input.ProjName" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.thumbName" class="form-control" autocomplete="" aria-required="true" placeholder="" />
-                <label asp-for="Input.thumbName"></label>
-                <span asp-validation-for="Input.thumbName" class="text-danger"></span>
+                <input asp-for="Input.ThumbName" class="form-control" autocomplete="" aria-required="true" placeholder="" />
+                <label asp-for="Input.ThumbName"></label>
+                <span asp-validation-for="Input.ThumbName" class="text-danger"></span>
             </div>
-            Upload Thumbnail Image Name
+            Upload Thumbnail Image
             <div class="form-floating mb-3">
-                <input asp-for="Input.thumbFile" class="form-control" autocomplete="" aria-required="true" placeholder="" />
+                <input asp-for="Input.ThumbFile" class="form-control upload" autocomplete="" aria-required="true" placeholder="" />
             </div>
                 <div class="form-floating mb-3" id="descbox">
                 <textarea asp-for="Input.ProjDesc" class="form-control" autocomplete="" aria-required="true" placeholder="" rows="6" cols="50"></textarea>
