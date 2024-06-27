@@ -60,12 +60,11 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Required]
             [DisplayName("Profile Picture Name")]
-            public string pfpName { get; set; }
+            public string PfpName { get; set; }
 
             [Required]
             [NotMapped]
-            [DisplayName("Upload PFP")]
-            public IFormFile pfpFile { get; set; }
+            public IFormFile PfpFile { get; set; }
 
             [Required]
             [StringLength(255)]
@@ -74,11 +73,10 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [DisplayName("Project Thumbnail Image Name")]
-            public string thumbName { get; set; }
+            public string ThumbName { get; set; }
 
             [Required]
             [NotMapped]
-            [DisplayName("Upload Thumbnail Image")]
             public IFormFile thumbFile { get; set; }
 
             [Required]
@@ -96,10 +94,10 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                pfpName = user.pfpName,
-                pfpFile = user.pfpFile,
+                PfpName = user.PfpName,
+                PfpFile = user.PfpFile,
                 ProjName = user.ProjName,
-                thumbName = user.thumbName,
+                ThumbName = user.ThumbName,
                 thumbFile = user.thumbFile,
                 ProjDesc = user.ProjDesc
             };
@@ -131,21 +129,21 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (Input.pfpName != user.pfpName)
+            if (Input.PfpName != user.PfpName)
             {
-                user.pfpName = Input.pfpName;
+                user.PfpName = Input.PfpName;
             }
-            if (Input.pfpFile != user.pfpFile)
+            if (Input.PfpFile != user.PfpFile)
             {
-                user.pfpFile = Input.pfpFile;
+                user.PfpFile = Input.PfpFile;
             }
             if (Input.ProjName != user.ProjName)
             {
                 user.ProjName = Input.ProjName;
             }
-            if (Input.thumbName != user.thumbName)
+            if (Input.ThumbName != user.ThumbName)
             {
-                user.thumbName = Input.thumbName;
+                user.ThumbName = Input.ThumbName;
             }
             if (Input.thumbFile != user.thumbFile)
             {

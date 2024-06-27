@@ -12,7 +12,6 @@ namespace METADATABASE.Areas.Identity.Data
         {
         }
 
-        public DbSet<ImageModel> Images { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Posts> Posts { get; set; }
         public DbSet<Reports> Reports { get; set; }

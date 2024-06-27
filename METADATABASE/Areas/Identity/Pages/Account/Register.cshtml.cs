@@ -100,7 +100,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
 
             [Required]
             [NotMapped]
-            public IFormFile ThumbFile { get; set; }
+            public IFormFile thumbFile { get; set; }
 
             [Required]
             [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
@@ -155,13 +155,13 @@ namespace METADATABASE.Areas.Identity.Pages.Account
                 user.PfpFile = Input.PfpFile;
                 user.ProjName = Input.ProjName;
                 user.ThumbName = Input.ThumbName;
-                user.ThumbFile = Input.ThumbFile;
+                user.thumbFile = Input.thumbFile;
                 user.ProjDesc = Input.ProjDesc;
 
                 //saving the pfp to the folder wwwroot/Image
                 string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(user.PfpFile.PfpName);
-                string extension = Path.GetExtension(user.PfpFile.PfpName);
+                string fileName = Path.GetFileNameWithoutExtension(user.PfpName); // OR its "user.PfpFile.PfpName"
+                string extension = Path.GetExtension(user.PfpName); // same here ^^
                 user.PfpName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
                 string path = Path.Combine(wwwRootPath + "/Image/", fileName);
                 using (var fileStream = new FileStream(path, FileMode.Create))

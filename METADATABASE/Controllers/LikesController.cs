@@ -66,15 +66,15 @@ namespace METADATABASE.Controllers
         {
             // Set default values
             var defaultId = 1; // Hardcoded for now
-            var defaultpfpFile = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfpFile.svg/340px-Default_pfpFile.svg.png"; // Path to default profile picture
+            var defaultPfpFile = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_PfpFile.svg/340px-Default_PfpFile.svg.png"; // Path to default profile picture
 
             // Pass postId or commentId to the view
             ViewBag.PostId = postId;
             ViewBag.CommentId = commentId;
 
-            // Pass default values for Id and pfpFile
+            // Pass default values for Id and PfpFile
             ViewBag.Id = defaultId;
-            ViewBag.pfpFile = defaultpfpFile;
+            ViewBag.PfpFile = defaultPfpFile;
 
             return View();
         }

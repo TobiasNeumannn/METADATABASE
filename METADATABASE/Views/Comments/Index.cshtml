@@ -16,7 +16,7 @@
 {
     var post = Model.First().Post;
     <div class="post">
-        <img class="pfpFile" src="@post.User.pfpFile" />‎
+        <img class="PfpFile" src="@post.User.PfpFile" />‎
         <span class="UserName">@post.User.UserName</span>
         <br />
         <span class="Title">@post.Title</span>
@@ -32,7 +32,7 @@
 @foreach (var item in Model)
 {
     <div class="comment">
-        <img class="pfpFile" src="@Html.DisplayFor(modelItem => item.User.pfpFile)" />‎
+        <img class="PfpFile" src="@Html.DisplayFor(modelItem => item.User.PfpFile)" />‎
         <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
         <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
