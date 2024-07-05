@@ -77,7 +77,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
 
             [Required]
             [NotMapped]
-            public IFormFile thumbFile { get; set; }
+            public IFormFile ThumbFile { get; set; }
 
             [Required]
             [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
@@ -98,7 +98,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
                 PfpFile = user.PfpFile,
                 ProjName = user.ProjName,
                 ThumbName = user.ThumbName,
-                thumbFile = user.thumbFile,
+                ThumbFile = user.ThumbFile,
                 ProjDesc = user.ProjDesc
             };
         }
@@ -145,9 +145,9 @@ namespace METADATABASE.Areas.Identity.Pages.Account.Manage
             {
                 user.ThumbName = Input.ThumbName;
             }
-            if (Input.thumbFile != user.thumbFile)
+            if (Input.ThumbFile != user.ThumbFile)
             {
-                user.thumbFile = Input.thumbFile;
+                user.ThumbFile = Input.ThumbFile;
             }
             if (Input.ProjDesc != user.ProjDesc)
             {

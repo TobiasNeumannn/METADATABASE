@@ -39,7 +39,8 @@
         <div class="user">
             <img class="thumb" src="@Html.DisplayFor(modelItem => item.ThumbFile)" />
             <br />
-            <img class="PfpFile" src="@("~/Images/"+modelItem.PfpName)" asp-append-version="true" />‎
+            
+            <img class="PfpFile" src="~/Image/@(item.PfpName)"/>‎
             <span class="Title">@Html.DisplayFor(modelItem => item.UserName)</span>
             <br />
             <span class="Title">@Html.DisplayFor(modelItem => item.ProjName)</span>

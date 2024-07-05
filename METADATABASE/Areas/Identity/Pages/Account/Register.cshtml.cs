@@ -155,7 +155,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
                 user.PfpFile = Input.PfpFile;
                 user.ProjName = Input.ProjName;
                 user.ThumbName = Input.ThumbName;
-                user.thumbFile = Input.thumbFile;
+                user.ThumbFile = Input.thumbFile;
                 user.ProjDesc = Input.ProjDesc;
 
                 //saving the pfp to the folder wwwroot/Image
