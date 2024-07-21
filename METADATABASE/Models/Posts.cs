@@ -10,14 +10,18 @@ namespace METADATABASE.Models
     {
         [Key]
         public int PostsID { get; set; }
+
+        [Required]
+        [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")] // arbitrary big number to not cross
         public string Description { get; set; }
 
         [Required]
-        public DateTime Creation { get; set; }
-
-        public string Title { get; set; }
+        public DateTime Creation { get; set; } // default and hidden - doesn't need validation
 
         [Required]
+        [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
+        public string Title { get; set; }
+
         public bool Locked { get; set; }
 
         [Required]

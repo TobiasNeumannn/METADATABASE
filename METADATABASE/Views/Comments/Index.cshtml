@@ -16,8 +16,8 @@
 {
     var post = Model.First().Post;
     <div class="post">
-        <img class="PfpFile" src="@post.User.PfpFile" />‎
-        <span class="UserName">@post.User.UserName</span>
+            <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
+            <span class="UserName">@post.User.UserName</span>
         <br />
         <span class="Title">@post.Title</span>
         <p>@post.Description</p>
@@ -32,8 +32,8 @@
 @foreach (var item in Model)
 {
     <div class="comment">
-        <img class="PfpFile" src="@Html.DisplayFor(modelItem => item.User.PfpFile)" />‎
-        <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
+@*             <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
+ *@            <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
         <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
         <br />

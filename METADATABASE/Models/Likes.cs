@@ -5,6 +5,7 @@ namespace METADATABASE.Models
 {
     public class Likes
     {
+        // ! LIKES ARE a simple click-done thing. no inputs, no validations needed
         [Key]
         public int LikesID { get; set; }
 

@@ -19,8 +19,8 @@
         {
             var post = Model.First().Post;
             <div class="post">
-                <img class="PfpFile" src="@post.User.PfpFile" />‎
-                <span class="UserName">@post.User.UserName</span>
+@*                 <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
+ *@                <span class="UserName">@post.User.UserName</span>
                 <br />
                 <span class="Title">@post.Title</span>
                 <p>@post.Description</p>

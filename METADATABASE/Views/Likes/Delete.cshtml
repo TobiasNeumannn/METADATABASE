@@ -1,4 +1,6 @@
 ﻿@model METADATABASE.Models.Likes
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Users> SignInManager
 
 @{
     ViewData["Title"] = "Delete";
@@ -6,6 +8,8 @@
 
 <h1>Delete</h1>
 
+@if (SignInManager.IsSignedIn(User))
+{
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Likes</h4>
@@ -40,6 +44,10 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="LikesID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
     </form>
 </div>
+}
+else
+{
+    <p>Please <a asp-area="Identity" asp-page="/Account/Login">Log In</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a>.</p>
+}

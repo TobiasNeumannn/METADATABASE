@@ -8,6 +8,7 @@ namespace METADATABASE.Models
 {
     public class Users : IdentityUser
     {
+        // ! MOST VALIDATIONS are inside Register.cshtml.cs because that is where the data is actually input.
         public string PfpName { get; set; }
         [NotMapped]
         [DisplayName("Upload PFP")]

@@ -13,6 +13,8 @@ namespace METADATABASE.Models
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
 
+        [Required]
+        [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")] // default and hidden - doesn't need validation
         public string Content { get; set; }
 
         [Required]

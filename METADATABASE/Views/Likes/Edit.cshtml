@@ -1,4 +1,6 @@
 ﻿@model METADATABASE.Models.Likes
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Users> SignInManager
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,6 +8,8 @@
 
 <h1>Edit</h1>
 
+@if (SignInManager.IsSignedIn(User))
+{
 <h4>Likes</h4>
 <hr />
 <div class="row">
@@ -43,4 +47,9 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+}
+else
+{
+    <p>Please <a asp-area="Identity" asp-page="/Account/Login">Log In</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a>.</p>
 }

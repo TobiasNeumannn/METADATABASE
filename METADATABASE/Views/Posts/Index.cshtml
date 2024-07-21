@@ -51,8 +51,8 @@
 @foreach (var item in Model)
 {
     <div class="post">
-        <img class="PfpFile" src="@Html.DisplayFor(modelItem => item.User.PfpFile)" />‎
-        <span class="ID">@Html.DisplayFor(modelItem => item.User.UserName)</span>
+@*         <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
+ *@        <span class="ID">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
         <span class="Title">@Html.DisplayFor(modelItem => item.Title)</span>
         <br />

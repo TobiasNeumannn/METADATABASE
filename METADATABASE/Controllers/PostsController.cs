@@ -8,16 +8,30 @@ using Microsoft.EntityFrameworkCore;
 using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Hosting;
+
 
 namespace METADATABASE.Controllers
 {
     public class PostsController : Controller
     {
         private readonly METAContext _context;
+        private readonly UserManager<Users> _userManager;
+        private readonly SignInManager<Users> _signInManager;
 
-        public PostsController(METAContext context)
+        public PostsController(METAContext context, UserManager<Users> userManager, SignInManager<Users> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        // set userID to current signed-in user
+        private async Task<string> GetCurrentUserIdAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return user?.Id;
         }
 
         // GET: Posts
@@ -73,6 +87,7 @@ namespace METADATABASE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                posts.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 posts.Creation = DateTime.Now; // Set the current time
                 _context.Add(posts);
                 await _context.SaveChangesAsync();

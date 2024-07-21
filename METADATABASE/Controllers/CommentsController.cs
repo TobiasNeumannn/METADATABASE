@@ -8,16 +8,27 @@ using Microsoft.EntityFrameworkCore;
 using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity;
 
 namespace METADATABASE.Controllers
 {
     public class CommentsController : Controller
     {
         private readonly METAContext _context;
+        private readonly UserManager<Users> _userManager;
+        private readonly SignInManager<Users> _signInManager;
 
-        public CommentsController(METAContext context)
+        public CommentsController(METAContext context, UserManager<Users> userManager, SignInManager<Users> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        private async Task<string> GetCurrentUserIdAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return user?.Id;
         }
 
         // GET: Comments
@@ -65,8 +76,10 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Comments/Create
-        public IActionResult Create()
+        public IActionResult Create(int? postId)
         {
+            ViewBag.PostsId = postId;
+
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title");
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
@@ -82,8 +95,9 @@ namespace METADATABASE.Controllers
 
             if (!ModelState.IsValid)
             {
+                comments.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 comments.Creation = DateTime.Now; // Set the current time
-                //comments.PostsID = postId; 
+                comments.PostsID = ViewBag.postId; 
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", new { postId = comments.PostsID });

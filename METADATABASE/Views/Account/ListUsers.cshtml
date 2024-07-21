@@ -15,6 +15,8 @@
 
      .thumb {
          width: 100%;
+         height: 200px;
+         object-fit: cover;
      }
 
      .Description {
@@ -37,10 +39,10 @@
     @foreach (var item in Model)
     {
         <div class="user">
-            <img class="thumb" src="@Html.DisplayFor(modelItem => item.ThumbFile)" />
+            <img class="thumb" src="@("~/Image/"+item.ThumbName)" asp-append-version="true" />
             <br />
             
-            <img class="PfpFile" src="~/Image/@(item.PfpName)"/>‎
+            <img class="PfpFile" src="@("~/Image/"+item.PfpName)" asp-append-version="true" />‎
             <span class="Title">@Html.DisplayFor(modelItem => item.UserName)</span>
             <br />
             <span class="Title">@Html.DisplayFor(modelItem => item.ProjName)</span>

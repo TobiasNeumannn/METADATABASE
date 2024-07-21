@@ -5,7 +5,7 @@
 
     <style>
         #logbox {
-        width: 9em;
+        width: 10em;
         position: absolute;
         right: 0;
         top: 0;
@@ -17,18 +17,37 @@
         justify-content: center;
         backdrop-filter: blur(5px);
         }
+
+        .PfpFile {
+            height: 50px;
+            width: 50px;
+        }
     </style>
 
 <ul class="navbar-nav" id="logbox">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_PfpFile.svg/2048px-Default_PfpFile.svg.png" style="margin-top: 5px; width: 50%;" /> <!-- implement item.User.PfpFile -->
 @if (SignInManager.IsSignedIn(User))
 {
+        @* Display the Profile Picture *@
+        var user = await UserManager.GetUserAsync(User);
+        var pfpName = user?.PfpName;
+        string pfpUrl = string.Empty;
+        if (!string.IsNullOrEmpty(pfpName))
+        {
+            pfpUrl = Url.Content("~/Image/" + pfpName);
+        }
+
+        @if (!string.IsNullOrEmpty(pfpUrl))
+        {
+                <div style="width: 100%;">
+            <img class="PfpFile" src="@pfpUrl" asp-append-version="true" class="PfpFile" />
+            </div>
+        }
+
     <li class="nav-item">
-        <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a>
     </li>
     <li>
-@*         <img class="PfpFile" src="@Html.DisplayFor(@Users.PfpFile)" />
- *@    </li>
+    </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <button id="logout" type="submit" class="nav-link btn btn-link border-0">Logout</button>
@@ -37,6 +56,10 @@
 }
 else
 {
+    <div style="width: 100%;">
+            <img src="~/Image/Default_pfp.png" class="PfpFile" /> <!-- default -->
+    </div>
+
     <li class="nav-item">
         <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>

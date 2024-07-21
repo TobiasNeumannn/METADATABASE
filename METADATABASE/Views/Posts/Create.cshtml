@@ -1,4 +1,6 @@
-﻿@model METADATABASE.Models.Posts
+﻿@using Microsoft.AspNetCore.Identity
+@model METADATABASE.Models.Posts
+@inject SignInManager<Users> SignInManager
 
 @{
     ViewData["Title"] = "Create";
@@ -6,6 +8,8 @@
 
 <h1>Create</h1>
 
+@if (SignInManager.IsSignedIn(User))
+{
 <h4>Posts</h4>
 <hr />
 <div class="row">
@@ -28,15 +32,16 @@
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Id" class="control-label">User</label>
-                <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
+    </div>
+}
+else
+{
+    <p>Please <a asp-area="Identity" asp-page="/Account/Login">Log In</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a>.</p>
+}
 
 <div>
     <a asp-action="Index">Back to List</a>

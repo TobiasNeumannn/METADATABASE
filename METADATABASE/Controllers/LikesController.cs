@@ -7,16 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Xml.Linq;
+
 
 namespace METADATABASE.Controllers
 {
     public class LikesController : Controller
     {
         private readonly METAContext _context;
+        private readonly UserManager<Users> _userManager;
+        private readonly SignInManager<Users> _signInManager;
 
-        public LikesController(METAContext context)
+        public LikesController(METAContext context, UserManager<Users> userManager, SignInManager<Users> signInManager)
         {
             _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+        private async Task<string> GetCurrentUserIdAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return user?.Id;
         }
 
         // GET: Likes
@@ -64,17 +76,10 @@ namespace METADATABASE.Controllers
         // GET: Likes/Create
         public IActionResult Create(int? postId, int? commentId)
         {
-            // Set default values
-            var defaultId = 1; // Hardcoded for now
-            var defaultPfpFile = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_PfpFile.svg/340px-Default_PfpFile.svg.png"; // Path to default profile picture
 
             // Pass postId or commentId to the view
             ViewBag.PostId = postId;
             ViewBag.CommentId = commentId;
-
-            // Pass default values for Id and PfpFile
-            ViewBag.Id = defaultId;
-            ViewBag.PfpFile = defaultPfpFile;
 
             return View();
         }
@@ -88,6 +93,7 @@ namespace METADATABASE.Controllers
         {
             if (!ModelState.IsValid)
             {
+                likes.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 _context.Add(likes);
                 await _context.SaveChangesAsync();
                 if (likes.PostsID != null)

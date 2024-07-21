@@ -1,4 +1,7 @@
-﻿@model METADATABASE.Models.Posts
+﻿@using Microsoft.AspNetCore.Identity
+@model METADATABASE.Models.Posts
+@inject SignInManager<Users> SignInManager
+
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,6 +9,8 @@
 
 <h1>Edit</h1>
 
+@if (SignInManager.IsSignedIn(User))
+{
 <h4>Posts</h4>
 <hr />
 <div class="row">
@@ -34,6 +39,11 @@
         </form>
     </div>
 </div>
+}
+else
+{
+    <p>Please <a asp-area="Identity" asp-page="/Account/Login">Log In</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a>.</p>
+}
 
 <div>
     <a asp-action="Index">Back to List</a>

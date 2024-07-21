@@ -83,6 +83,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
         {
             [Required]
             [DisplayName("Profile Picture Name")]
+            [StringLength(255)] // dont want file name to be too long
             public string PfpName { get; set; }
 
             [Required]
@@ -95,12 +96,13 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             public string ProjName { get; set; }
 
             [Required]
+            [StringLength(255)]
             [DisplayName("Project Thumbnail Image Name")]
             public string ThumbName { get; set; }
 
             [Required]
             [NotMapped]
-            public IFormFile thumbFile { get; set; }
+            public IFormFile ThumbFile { get; set; }
 
             [Required]
             [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
@@ -113,7 +115,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
-            [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "The Email field is not a valid e-mail address.\r\n.")]
+            [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "The Email field is not a valid e-mail address.\r\n.")] // ensure email is valid
             public string Email { get; set; }
 
             /// <summary>
@@ -155,19 +157,38 @@ namespace METADATABASE.Areas.Identity.Pages.Account
                 user.PfpFile = Input.PfpFile;
                 user.ProjName = Input.ProjName;
                 user.ThumbName = Input.ThumbName;
-                user.ThumbFile = Input.thumbFile;
+                user.ThumbFile = Input.ThumbFile;
                 user.ProjDesc = Input.ProjDesc;
 
-                //saving the pfp to the folder wwwroot/Image
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(user.PfpName); // OR its "user.PfpFile.PfpName"
-                string extension = Path.GetExtension(user.PfpName); // same here ^^
-                user.PfpName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+
+                if (Input.PfpFile != null)
                 {
-                    await user.PfpFile.CopyToAsync(fileStream);
+                    //saving the pfp to the folder wwwroot/Image
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(user.PfpFile.FileName);
+                    string extension = Path.GetExtension(user.PfpFile.FileName);
+                    user.PfpName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await user.PfpFile.CopyToAsync(fileStream);
+                    }
                 }
+
+                if (Input.ThumbFile != null)
+                {
+                    //saving the thumbnail to the folder wwwroot/Image
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(user.ThumbFile.FileName);
+                    string extension = Path.GetExtension(user.ThumbFile.FileName);
+                    user.ThumbName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await user.ThumbFile.CopyToAsync(fileStream);
+                    }
+                }
+
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

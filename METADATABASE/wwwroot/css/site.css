@@ -216,6 +216,8 @@ label {
 .PfpFile {
     float: left;
     width: 25px;
+    height: 25px;
+    object-fit: cover;
     margin-top: 10px;
     border-radius: 50%;
 }

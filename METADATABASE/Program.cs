@@ -8,9 +8,8 @@ var connectionString = builder.Configuration.GetConnectionString("Connection") ?
 
 builder.Services.AddDbContext<METAContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<Users>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<METAContext>();
-
-
+builder.Services.AddDefaultIdentity<Users>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<METAContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
