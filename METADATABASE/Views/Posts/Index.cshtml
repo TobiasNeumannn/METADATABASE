@@ -16,12 +16,6 @@
         opacity: 50%;
     }
 
-    .post img {
-        float: left;
-        width: 20px;
-        margin-top: 10px;
-    }
-
     .ID {
         font-size: 150%;
     }
@@ -32,6 +26,11 @@
 
     .Comments {
         float: right;
+    }
+
+    .post img {
+        width: 20px;
+        height: 20px;
     }
 </style>
 
@@ -51,8 +50,8 @@
 @foreach (var item in Model)
 {
     <div class="post">
-@*         <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
- *@        <span class="ID">@Html.DisplayFor(modelItem => item.User.UserName)</span>
+        <img class="PfpFile" src="@* @("~/Image/"+item.User.PfpName) *@" asp-append-version="true" />‎
+        <span class="ID">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
         <span class="Title">@Html.DisplayFor(modelItem => item.Title)</span>
         <br />

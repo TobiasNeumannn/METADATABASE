@@ -4,6 +4,7 @@ using METADATABASE.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace METADATABASE.Migrations
 {
     [DbContext(typeof(METAContext))]
-    partial class METAContextModelSnapshot : ModelSnapshot
+    [Migration("20240722110156_Seeding")]
+    partial class Seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +45,10 @@ namespace METADATABASE.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Id")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PostsID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -389,7 +393,9 @@ namespace METADATABASE.Migrations
                 {
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostsID");
+                        .HasForeignKey("PostsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Comments")

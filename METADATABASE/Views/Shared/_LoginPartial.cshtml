@@ -23,7 +23,7 @@
             width: 50px;
             display: block;
             margin: auto;
-            top: 5px;
+            margin-top: 5px;
         }
     </style>
 
@@ -41,7 +41,7 @@
 
         @if (!string.IsNullOrEmpty(pfpUrl))
         {
-                <div style="width: 100%;">
+                <div style="width: 100%; display: flex;">
             <img class="PfpFile" src="@pfpUrl" asp-append-version="true" class="PfpFile" />
             </div>
         }

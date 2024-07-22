@@ -10,23 +10,15 @@ namespace METADATABASE.Models
     {
         [Key]
         public int CommentsID { get; set; }
-
-        [Required]
-        public int PostsID { get; set; }
-
+        public int? PostsID { get; set; }
         [Required]
         [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")] // arbitrary big number to not cross
         public string Content { get; set; }
-
-        [Required]
         public DateTime Creation { get; set; } // default and hidden - doesn't need validation
-
-        public string Id { get; set; } //user.Id
-
-        [Required]
+        public string? Id { get; set; } //user.Id
         public bool Correct { get; set; }
 
-        // Navigation properties
+        // Navigation properties (all nullable to ensure it passes ModelState.IsValid in the controller > Create)
         public Posts? Post { get; set; }
         public Users? User { get; set; }
         public ICollection<Likes>? Likes { get; set; }

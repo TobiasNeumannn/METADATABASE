@@ -93,6 +93,7 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", posts.Id);
             return View(posts);
         }

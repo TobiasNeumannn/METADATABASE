@@ -10,6 +10,11 @@
     ViewData["Title"] = "Comments";
 }
 
+@if (ViewBag.PostsId != null)
+{
+    <p>Post ID: @ViewBag.PostsId</p>
+}
+
 <div class="postcontainer"> <!-- The post in question -->
 
 @if (Model.Any())
@@ -26,7 +31,8 @@
 }
 
     <p>
-        <a asp-action="Create">Create New Comment</a>
+@*         <a href="@Url.Action("Create", "Comments", new { postId = item.PostsID })">Create Comment</a>
+ *@        <a asp-action="Create">Create New Comment</a>
     </p>
 
 @foreach (var item in Model)

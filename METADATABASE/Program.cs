@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using static METADATABASE.Areas.Identity.Data.METAContext;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Connection") ?? throw new InvalidOperationException("Connection string 'Connection' not found.");
@@ -14,6 +17,23 @@ builder.Services.AddDefaultIdentity<Users>(options => options.SignIn.RequireConf
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// SEEDING DATA
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<Users>>();
+        await SeedData.Initialize(services, userManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred seeding the DB.");
+    }
+}
+// END OF SEEDING DATA BLOCK
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

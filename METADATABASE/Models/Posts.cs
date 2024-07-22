@@ -15,7 +15,6 @@ namespace METADATABASE.Models
         [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")] // arbitrary big number to not cross
         public string Description { get; set; }
 
-        [Required]
         public DateTime Creation { get; set; } // default and hidden - doesn't need validation
 
         [Required]
@@ -24,8 +23,7 @@ namespace METADATABASE.Models
 
         public bool Locked { get; set; }
 
-        [Required]
-        public string Id { get; set; } //user.Id
+        public string? Id { get; set; } //user.Id
 
         // Navigation properties
         public Users? User { get; set; }
@@ -34,9 +32,9 @@ namespace METADATABASE.Models
         public ICollection<Comments>? Comments { get; set; }
 
         [NotMapped] // This property is not stored in the database
-        public int CommentsCount { get; set; } // Number of comments for the post
+        public int? CommentsCount { get; set; } // Number of comments for the post
         [NotMapped]
-        public int LikesCount { get; set; } // Number of Likes for the post
+        public int? LikesCount { get; set; } // Number of Likes for the post
 
     }
 }
