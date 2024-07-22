@@ -76,7 +76,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 reports.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 reports.Creation = DateTime.Now; // Set the current time
@@ -121,7 +121,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

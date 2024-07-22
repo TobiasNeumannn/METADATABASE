@@ -93,7 +93,7 @@ namespace METADATABASE.Controllers
         public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
         {
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 comments.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 comments.Creation = DateTime.Now; // Set the current time
@@ -137,7 +137,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

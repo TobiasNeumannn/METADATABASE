@@ -14,8 +14,8 @@ namespace METADATABASE.Models
         public int? CommentsID { get; set; }
 
         // Navigation properties
-        public Users User { get; set; }
-        public Posts Post { get; set; }
-        public Comments Comment { get; set; }
+        public Users? User { get; set; }
+        public Posts? Post { get; set; }
+        public Comments? Comment { get; set; }
     }
 }

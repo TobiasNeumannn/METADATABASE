@@ -21,8 +21,8 @@ namespace METADATABASE.Models
         public DateTime Creation { get; set; }
 
         // Navigation properties
-        public Users User { get; set; }
-        public Posts Post { get; set; }
-        public Comments Comment { get; set; }
+        public Users? User { get; set; }
+        public Posts? Post { get; set; }
+        public Comments? Comment { get; set; }
     }
 }
