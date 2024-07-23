@@ -39,11 +39,13 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
+            // navigation + assign postsID to postID
             var comments = _context.Comments
                 .Where(c => c.PostsID == postId)
                 .Include(c => c.Post)
             .Include(c => c.User)
-        .Include(p => p.Likes);  // Include the Likes navigation 
+        .Include(p => p.Likes); 
+
 
             foreach (var comment in comments)
             {
@@ -78,8 +80,6 @@ namespace METADATABASE.Controllers
         // GET: Comments/Create
         public IActionResult Create(int? postId)
         {
-            ViewBag.PostsId = postId;
-
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title");
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
@@ -92,9 +92,8 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
         {
-            comments.PostsID = ViewBag.PostsID;
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 comments.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 comments.Creation = DateTime.Now; // Set the current time
