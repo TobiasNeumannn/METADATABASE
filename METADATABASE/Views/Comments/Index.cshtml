@@ -42,8 +42,8 @@ else
 @foreach (var item in Model)
 {
     <div class="comment">
-@*             <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
- *@            <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
+            <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
+           <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
         <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
         <br />

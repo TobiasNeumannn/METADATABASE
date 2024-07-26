@@ -85,7 +85,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Locked,Id")] Posts posts)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 posts.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 posts.Creation = DateTime.Now; // Set the current time

@@ -32,7 +32,7 @@
 {
         @* Display the Profile Picture *@
         var user = await UserManager.GetUserAsync(User);
-        var pfpName = user?.PfpName;
+        var pfpName = user.PfpName;
         string pfpUrl = string.Empty;
         if (!string.IsNullOrEmpty(pfpName))
         {
@@ -42,7 +42,7 @@
         @if (!string.IsNullOrEmpty(pfpUrl))
         {
                 <div style="width: 100%; display: flex;">
-            <img class="PfpFile" src="@pfpUrl" asp-append-version="true" class="PfpFile" />
+            <img class="PfpFile" src="@Url.Content("~/Image/" + pfpName)" asp-append-version="true" class="PfpFile" />
             </div>
         }
 
