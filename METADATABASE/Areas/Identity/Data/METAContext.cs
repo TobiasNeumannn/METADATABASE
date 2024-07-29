@@ -70,32 +70,32 @@ public static class SeedData
                 if (!context.Posts.Any())
                 {
                     context.Posts.AddRange(
-                        new Posts { Title = "Admin's First Post", Description = "Description for Admin's first post", Creation = DateTime.Now, Locked = false, Id = adminUser.Id },
-                    new Posts { Title = "Admin's Second Post", Description = "Description for Admin's second post", Creation = DateTime.Now, Locked = false, Id = adminUser.Id },
-                    new Posts { Title = "User's First Post", Description = "Description for User's first post", Creation = DateTime.Now, Locked = false, Id = normalUser.Id },
-                    new Posts { Title = "User's Second Post", Description = "Description for User's second post", Creation = DateTime.Now, Locked = true, Id = normalUser.Id },
-                    new Posts { Title = "Admin's Third Post", Description = "Description for Admin's third post", Creation = DateTime.Now, Locked = false, Id = adminUser.Id }
+                        new Posts { Title = "Admin's First Post", Description = "Description for Admin's first post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                    new Posts { Title = "Admin's Second Post", Description = "Description for Admin's second post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                    new Posts { Title = "User's First Post", Description = "Description for User's first post", Creation = DateTime.Now, Locked = false, UserId = normalUser.Id },
+                    new Posts { Title = "User's Second Post", Description = "Description for User's second post", Creation = DateTime.Now, Locked = true, UserId = normalUser.Id },
+                    new Posts { Title = "Admin's Third Post", Description = "Description for Admin's third post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id }
 );
                     context.Comments.AddRange(
-new Comments { PostsID = 1, Content = "Great post!", Creation = DateTime.Now, Id = adminUser.Id, Correct = false },
-new Comments { PostsID = 2, Content = "Thanks for sharing!", Creation = DateTime.Now, Id = normalUser.Id, Correct = true },
-new Comments { PostsID = 3, Content = "Very informative.", Creation = DateTime.Now, Id = adminUser.Id, Correct = false },
-new Comments { PostsID = 4, Content = "I learned a lot.", Creation = DateTime.Now, Id = normalUser.Id, Correct = false },
-new Comments { PostsID = 5, Content = "Interesting perspective.", Creation = DateTime.Now, Id = adminUser.Id, Correct = true }
+new Comments { PostsID = 1, Content = "Great post!", Creation = DateTime.Now, UserId = adminUser.Id, Correct = false },
+new Comments { PostsID = 2, Content = "Thanks for sharing!", Creation = DateTime.Now, UserId = normalUser.Id, Correct = true },
+new Comments { PostsID = 3, Content = "Very informative.", Creation = DateTime.Now, UserId = adminUser.Id, Correct = false },
+new Comments { PostsID = 4, Content = "I learned a lot.", Creation = DateTime.Now, UserId = normalUser.Id, Correct = false },
+new Comments { PostsID = 5, Content = "Interesting perspective.", Creation = DateTime.Now, UserId = adminUser.Id, Correct = true }
 );
                     context.Likes.AddRange(
-    new Likes { Id = adminUser.Id, PostsID = 1 },
-    new Likes { Id = normalUser.Id, PostsID = 2 },
-    new Likes { Id = adminUser.Id, PostsID = 3 },
-    new Likes { Id = normalUser.Id, PostsID = 4 },
-    new Likes { Id = adminUser.Id, CommentsID = 5 }
+    new Likes { UserId = adminUser.Id, PostsID = 1 },
+    new Likes { UserId = normalUser.Id, PostsID = 2 },
+    new Likes { UserId = adminUser.Id, PostsID = 3 },
+    new Likes { UserId = normalUser.Id, PostsID = 4 },
+    new Likes { UserId = adminUser.Id, CommentsID = 5 }
 );
                     context.Reports.AddRange(
-    new Reports { Id = normalUser.Id, PostsID = 1, Content = "Inappropriate content", Creation = DateTime.Now },
-    new Reports { Id = adminUser.Id, PostsID = 2, Content = "Spam", Creation = DateTime.Now },
-    new Reports { Id = normalUser.Id, CommentsID = 3, Content = "Offensive language", Creation = DateTime.Now },
-    new Reports { Id = adminUser.Id, CommentsID = 4, Content = "Harassment", Creation = DateTime.Now },
-    new Reports { Id = normalUser.Id, PostsID = 5, Content = "False information", Creation = DateTime.Now }
+    new Reports { UserId = normalUser.Id, PostsID = 1, Content = "Inappropriate content", Creation = DateTime.Now },
+    new Reports { UserId = adminUser.Id, PostsID = 2, Content = "Spam", Creation = DateTime.Now },
+    new Reports { UserId = normalUser.Id, CommentsID = 3, Content = "Offensive language", Creation = DateTime.Now },
+    new Reports { UserId = adminUser.Id, CommentsID = 4, Content = "Harassment", Creation = DateTime.Now },
+    new Reports { UserId = normalUser.Id, PostsID = 5, Content = "False information", Creation = DateTime.Now }
 );
 
                 }

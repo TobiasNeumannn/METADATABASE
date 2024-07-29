@@ -23,7 +23,7 @@ namespace METADATABASE.Models
 
         public bool Locked { get; set; }
 
-        public string Id { get; set; } //user.Id
+        public string UserId { get; set; } //user.UserId
 
         // Navigation properties
         public Users User { get; set; }

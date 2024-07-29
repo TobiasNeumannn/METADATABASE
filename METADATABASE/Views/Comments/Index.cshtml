@@ -10,15 +10,6 @@
     ViewData["Title"] = "Comments";
 }
 
-@if (ViewBag.PostsId != null)
-{
-    <p>Post ID: @ViewBag.PostsId</p>
-}
-else
-{
-    <p>POST ID IS NULL!!!</p>
-}
-
 <div class="postcontainer"> <!-- The post in question -->
 
 @if (Model.Any())

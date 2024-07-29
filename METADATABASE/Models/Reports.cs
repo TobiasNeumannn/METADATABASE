@@ -8,7 +8,7 @@ namespace METADATABASE.Models
     {
         [Key]
         public int ReportsID { get; set; }
-        public string? Id { get; set; } //user.Id
+        public string? UserId { get; set; } //user.UserId
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
 

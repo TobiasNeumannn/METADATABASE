@@ -78,7 +78,7 @@ namespace METADATABASE.Controllers
         {
             if (ModelState.IsValid)
             {
-                reports.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
+                reports.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 reports.Creation = DateTime.Now; // Set the current time
                 _context.Add(reports);
                 await _context.SaveChangesAsync();
@@ -86,7 +86,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
             return View(reports);
         }
 
@@ -105,7 +105,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
             return View(reports);
         }
 
@@ -143,7 +143,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
             return View(reports);
         }
 

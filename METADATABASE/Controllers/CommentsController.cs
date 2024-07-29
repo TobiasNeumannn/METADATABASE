@@ -95,7 +95,7 @@ namespace METADATABASE.Controllers
 
             if (ModelState.IsValid)
             {
-                comments.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
+                comments.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 comments.Creation = DateTime.Now; // Set the current time
                 _context.Add(comments);
                 await _context.SaveChangesAsync();
@@ -120,7 +120,7 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.UserId);
             return View(comments);
         }
 
@@ -157,7 +157,7 @@ namespace METADATABASE.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.UserId);
             return View(comments);
         }
 

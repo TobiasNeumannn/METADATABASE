@@ -93,7 +93,7 @@ namespace METADATABASE.Controllers
         {
             if (!ModelState.IsValid)
             {
-                likes.Id = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
+                likes.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 _context.Add(likes);
                 await _context.SaveChangesAsync();
                 if (likes.PostsID != null)
@@ -109,7 +109,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
             return View(likes);
         }
 
@@ -128,7 +128,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
             return View(likes);
         }
 
@@ -166,7 +166,7 @@ namespace METADATABASE.Controllers
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.Id);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
             return View(likes);
         }
 
