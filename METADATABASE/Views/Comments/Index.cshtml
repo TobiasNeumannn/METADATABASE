@@ -22,8 +22,15 @@
         <span class="Title">@post.Title</span>
         <p>@post.Description</p>
         <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
-    </div>
-}
+        </div>
+    }
+    else
+    {
+        @inject IEnumerable<METADATABASE.Models.Posts> post
+        post.PostId == 
+    }
+    {
+
 
     <p>
 @*         <a href="@Url.Action("Create", "Comments", new { postId = item.PostsID })">Create Comment</a>

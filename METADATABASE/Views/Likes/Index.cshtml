@@ -13,8 +13,7 @@
 <h1>Likes</h1>
 
 <div class="postcontainer"> <!-- the container, containing both likes and post/comment-->
-    @if (Model.Any()) 
-    {
+
         @if (ViewBag.PostID != null)
         {
             var post = Model.First().Post;
@@ -44,7 +43,7 @@
                 <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
             </div>
         }
-    }
+
 
     @foreach (var item in Model)
     {

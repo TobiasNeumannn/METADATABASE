@@ -74,6 +74,7 @@ namespace METADATABASE.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
+
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }
@@ -85,10 +86,11 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Locked,Id")] Posts posts)
         {
-            if (!ModelState.IsValid)
+            posts.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
+            posts.Creation = DateTime.Now; // Set the current time
+
+            if (ModelState.IsValid)
             {
-                posts.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
-                posts.Creation = DateTime.Now; // Set the current time
                 _context.Add(posts);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

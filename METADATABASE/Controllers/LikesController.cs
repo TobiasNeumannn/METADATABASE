@@ -91,7 +91,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 likes.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 _context.Add(likes);
