@@ -84,12 +84,12 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Locked,Id")] Posts posts)
+        public async Task<IActionResult> Create([Bind("PostsID,Description,Creation,Title,Locked,UserId")] Posts posts)
         {
             posts.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
             posts.Creation = DateTime.Now; // Set the current time
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(posts);
                 await _context.SaveChangesAsync();
@@ -122,14 +122,14 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PostsID,Description,Creation,Title,Locked,Id")] Posts posts)
+        public async Task<IActionResult> Edit(int id, [Bind("PostsID,Description,UserId,Title,Locked,")] Posts posts)
         {
             if (id != posts.PostsID)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -149,7 +149,7 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", posts.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserName", posts.UserId);
             return View(posts);
         }
 

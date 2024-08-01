@@ -43,6 +43,7 @@ namespace METADATABASE.Controllers
             var comments = _context.Comments
                 .Where(c => c.PostsID == postId)
                 .Include(c => c.Post)
+                            .ThenInclude(p => p.User) // Load the User related to Post
             .Include(c => c.User)
         .Include(p => p.Likes); 
 
@@ -90,10 +91,9 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
+        public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,UserId,Correct")] Comments comments)
         {
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 comments.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 comments.Creation = DateTime.Now; // Set the current time
@@ -119,7 +119,7 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title", comments.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.UserId);
             return View(comments);
         }
@@ -129,14 +129,14 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CommentsID,PostsID,Content,Creation,Id,Correct")] Comments comments)
+        public async Task<IActionResult> Edit(int id, [Bind("CommentsID,PostsID,Content,Creation,UserId,Correct")] Comments comments)
         {
             if (id != comments.CommentsID)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -156,8 +156,9 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", comments.PostsID);
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title", comments.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.UserId);
+
             return View(comments);
         }
 

@@ -24,17 +24,16 @@
         <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
         </div>
     }
-    else
+@*     else
     {
         @inject IEnumerable<METADATABASE.Models.Posts> post
         post.PostId == 
-    }
-    {
+} *@
+ 
 
 
     <p>
-@*         <a href="@Url.Action("Create", "Comments", new { postId = item.PostsID })">Create Comment</a>
- *@        <a asp-action="Create">Create New Comment</a>
+        <a asp-action="Create">Create New Comment</a>
     </p>
 
 @foreach (var item in Model)
@@ -47,8 +46,8 @@
         <br />
         <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
         <br />
-        <span class="Correct">@Html.DisplayFor(modelItem => item.Correct)</span>
-        <br />
+@*         <span class="Correct">@Html.DisplayFor(modelItem => item.Correct)</span>
+        <br /> *@
 
             <!-- Link to Likes -->
             <a class="Likes" href="@Url.Action("Index", "Likes", new { commentID = item.CommentsID })">@item.LikesCount.ToString() Likes</a>

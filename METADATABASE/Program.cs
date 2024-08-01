@@ -18,6 +18,9 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// logging errors
+builder.Logging.AddConsole();
+
 // SEEDING DATA
 using (var scope = app.Services.CreateScope())
 {
@@ -33,6 +36,7 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred seeding the DB.");
     }
 }
+
 // END OF SEEDING DATA BLOCK
 
 // Configure the HTTP request pipeline.
