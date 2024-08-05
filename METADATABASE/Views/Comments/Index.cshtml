@@ -33,7 +33,9 @@
 
 
     <p>
-        <a asp-action="Create">Create New Comment</a>
+        <a asp-action="Create" asp-route-PId="@ViewBag.PId">Create New Comment</a>
+@*        <a class="Comments" href="@Url.Action("Create", "Comments", new { PId = ViewBag.PId })">Create New Comment</a> *@
+
     </p>
 
 @foreach (var item in Model)
