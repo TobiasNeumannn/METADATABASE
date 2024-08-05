@@ -34,8 +34,6 @@
 
     <p>
         <a asp-action="Create" asp-route-PId="@ViewBag.PId">Create New Comment</a>
-@*        <a class="Comments" href="@Url.Action("Create", "Comments", new { PId = ViewBag.PId })">Create New Comment</a> *@
-
     </p>
 
 @foreach (var item in Model)
@@ -55,9 +53,9 @@
             <a class="Likes" href="@Url.Action("Index", "Likes", new { commentID = item.CommentsID })">@item.LikesCount.ToString() Likes</a>
             <br />
 
-        <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.PostsID">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.PostsID">Delete</a>
+            <a asp-action="Edit" asp-route-id="@item.CommentsID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.CommentsID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.CommentsID">Delete</a>
 
     </div>
 }

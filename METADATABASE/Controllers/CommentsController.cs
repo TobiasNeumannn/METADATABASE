@@ -91,7 +91,6 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,UserId,Correct")] Comments comments)
         {
-            var a = comments.PostsID;
             if (!ModelState.IsValid)
             {
                 comments.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
@@ -178,7 +177,9 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            return View(comments);
+            //return View(comments);
+            return RedirectToAction("Index", new { postId = comments.PostsID });
+
         }
 
         // POST: Comments/Delete/5
