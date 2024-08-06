@@ -177,8 +177,8 @@ namespace METADATABASE.Controllers
                 return NotFound();
             }
 
-            //return View(comments);
-            return RedirectToAction("Index", new { postId = comments.PostsID });
+            return View(comments);
+            //return RedirectToAction("Index", new { postId = comments.PostsID });
 
         }
 
@@ -194,7 +194,7 @@ namespace METADATABASE.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", new { postId = comments.PostsID });
         }
 
         private bool CommentsExists(int id)

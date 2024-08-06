@@ -10,7 +10,7 @@ namespace METADATABASE.Models
     {
         [Key]
         public int CommentsID { get; set; }
-        public int? PostsID { get; set; }
+        public int PostsID { get; set; }
         [Required]
         [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")] // arbitrary big number to not cross
         public string Content { get; set; }
