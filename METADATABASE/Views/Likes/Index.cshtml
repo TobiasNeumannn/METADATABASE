@@ -8,6 +8,10 @@
     .Likes {
         float: right;
     }
+
+    .list {
+        margin-top: -9px;
+    }
 </style>
 
 <h1>Likes</h1>
@@ -18,8 +22,8 @@
         {
             var post = Model.First().Post;
             <div class="post">
-@*                 <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
- *@                <span class="UserName">@post.User.UserName</span>
+                <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
+               <span class="UserName">@post.User.UserName</span>
                 <br />
                 <span class="Title">@post.Title</span>
                 <p>@post.Description</p>
@@ -32,7 +36,7 @@
         {
             var comment = Model.First().Comment;
             <div class="post">
-                <img class="PfpFile" src="@comment.User.PfpFile" />‎
+            <img class="PfpFile" src="@("~/Image/"+comment.User.PfpName)" asp-append-version="true" />‎
                 <span class="UserName">@comment.User.UserName</span>
                 <br />
                 <p>@comment.Content</p>
@@ -48,13 +52,12 @@
     @foreach (var item in Model)
     {
         <div class="comment">
-            <img class="PfpFile" src="@Html.DisplayFor(modelItem => item.User.PfpFile)" />‎
+            <img class="PfpFile list" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
             <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
 
             <div style="float: right;">
-                <a asp-action="Edit" asp-route-id="@item.LikesID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.LikesID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LikesID">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.LikesID">Unlike</a>
             </div>
         </div>
     }
