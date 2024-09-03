@@ -111,7 +111,7 @@ public static class SeedData
                             await context.SaveChangesAsync();
                         }
 
-                        var comment1 = context.Comments.FirstOrDefault(c => c.Content == "Great post!");
+                        var comment1 = context.Comments.FirstOrDefault(c => c.PostsID == post1.PostsID);
 
                         if (comment1 != null) // ensure no commentIDs are null
                         {
