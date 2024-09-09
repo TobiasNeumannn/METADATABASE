@@ -234,6 +234,7 @@ label {
     background: #282828;
     margin: -15px;
     margin-bottom: 10px;
+    word-break: break-all;
 }
 
 /*----------------------- END OF TABLE PAGES -----------------------*/
