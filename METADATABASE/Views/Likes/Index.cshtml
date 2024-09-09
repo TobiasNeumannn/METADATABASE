@@ -18,7 +18,7 @@
 
 <div class="postcontainer"> <!-- the container, containing both likes and post/comment-->
     @if (Model.Any()) {
-        @if (ViewBag.PostID != null)
+        @if (ViewBag.PostId != null)
         {
             var post = Model.First().Post;
             <div class="post">
@@ -27,12 +27,13 @@
                 <br />
                 <span class="Title">@post.Title</span>
                 <p>@post.Description</p>
+                <br />
                 <a href="@Url.Action("Create", "Likes", new { postId = post.PostsID })" class="Likes">Like this post</a>
                 <br />
                 <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
             </div>
         }
-        else
+        else if (ViewBag.CommentId != null)
         {
             var comment = Model.First().Comment;
             <div class="post">
@@ -47,7 +48,27 @@
                 <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
             </div>
         }
+        else
+        {
+            <span>Post/Comment not found.</span>
+
+        }
     }
+
+@*     @if (ViewBag.PostId != null)
+    {
+        <a href="@Url.Action("Create", "Likes", new { postId = post.PostsID })" class="Likes">Like this post</a>
+
+    }
+    else if (ViewBag.CommentId != null)
+    {
+        <a href="@Url.Action("Create", "Likes", new { commentId = comment.CommentsID })" class="Likes">Like this comment</a>
+
+    }
+    else
+    {
+        <span>Post/Comment not found.</span>
+    } *@
 
 
     @foreach (var item in Model)
