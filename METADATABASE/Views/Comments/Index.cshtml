@@ -1,10 +1,4 @@
-﻿<style>
-    .Likes {
-        float: right;
-    }
-</style>
-
-@model IEnumerable<METADATABASE.Models.Comments>
+﻿@model IEnumerable<METADATABASE.Models.Comments>
 
 @{
     ViewData["Title"] = "Comments";
@@ -48,10 +42,6 @@
         <br />
 @*         <span class="Correct">@Html.DisplayFor(modelItem => item.Correct)</span>
         <br /> *@
-
-            <!-- Link to Likes -->
-            <a class="Likes" href="@Url.Action("Index", "Likes", new { commentID = item.CommentsID })">@item.LikesCount.ToString() Likes</a>
-            <br />
 
             <a asp-action="Edit" asp-route-id="@item.CommentsID">Edit</a> |
             <a asp-action="Details" asp-route-id="@item.CommentsID">Details</a> |

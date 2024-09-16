@@ -30,7 +30,7 @@ namespace METADATABASE.Migrations
                 column: "PostsID",
                 principalTable: "Posts",
                 principalColumn: "PostsID",
-                onDelete: ReferentialAction.NoAction);
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />

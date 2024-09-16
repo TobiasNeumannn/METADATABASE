@@ -131,7 +131,7 @@ public static class SeedData
                                 context.Reports.AddRange(
                 new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Inappropriate content", Creation = DateTime.Now },
                 new Reports { UserId = adminUser.Id, PostsID = post2.PostsID, Content = "Spam", Creation = DateTime.Now },
-                new Reports { UserId = normalUser.Id, CommentsID = comment1.CommentsID, Content = "Offensive language", Creation = DateTime.Now }
+                new Reports { UserId = normalUser.Id, PostsID = post3.PostsID, Content = "Offensive language", Creation = DateTime.Now }
             );
                             }
                         }

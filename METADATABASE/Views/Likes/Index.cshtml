@@ -16,7 +16,7 @@
 
 <h1>Likes</h1>
 
-<div class="postcontainer"> <!-- the container, containing both likes and post/comment-->
+<div class="postcontainer"> <!-- the container, containing preview post-->
     @if (Model.Any()) {
         @if (ViewBag.PostId != null)
         {
@@ -33,42 +33,12 @@
                 <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
             </div>
         }
-        else if (ViewBag.CommentId != null)
-        {
-            var comment = Model.First().Comment;
-            <div class="post">
-            <img class="PfpFile" src="@("~/Image/"+comment.User.PfpName)" asp-append-version="true" />‎
-                <span class="UserName">@comment.User.UserName</span>
-                <br />
-                <p>@comment.Content</p>
-                <span class="Correct">@Html.DisplayFor(modelItem => comment.Correct)</span>
-                <br />
-                <a href="@Url.Action("Create", "Likes", new { commentId = comment.CommentsID })" class="Likes">Like this comment</a>
-                <br />
-                <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
-            </div>
-        }
         else
         {
-            <span>Post/Comment not found.</span>
+            <span>Post not found.</span>
 
         }
     }
-
-@*     @if (ViewBag.PostId != null)
-    {
-        <a href="@Url.Action("Create", "Likes", new { postId = post.PostsID })" class="Likes">Like this post</a>
-
-    }
-    else if (ViewBag.CommentId != null)
-    {
-        <a href="@Url.Action("Create", "Likes", new { commentId = comment.CommentsID })" class="Likes">Like this comment</a>
-
-    }
-    else
-    {
-        <span>Post/Comment not found.</span>
-    } *@
 
 
     @foreach (var item in Model)

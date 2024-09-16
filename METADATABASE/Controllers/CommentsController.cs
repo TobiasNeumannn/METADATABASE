@@ -44,14 +44,7 @@ namespace METADATABASE.Controllers
                 .Where(c => c.PostsID == postId)
                 .Include(c => c.Post)
                             .ThenInclude(p => p.User) // Load the User related to Post
-            .Include(c => c.User)
-        .Include(p => p.Likes); 
-
-
-            foreach (var comment in comments)
-            {
-                comment.LikesCount = comment.Likes.Count;
-            }
+            .Include(c => c.User);
 
             return View(await comments.ToListAsync());
         }

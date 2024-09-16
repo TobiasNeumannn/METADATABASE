@@ -40,13 +40,7 @@
         <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
         <span class="Title">@Html.DisplayFor(modelItem => item.User.UserName)</span>
         <br />
-        @if (item.Post != null) {
-            <span class="ID">"@Html.DisplayFor(modelItem => item.Post.Title)"</span>
-        }
-        else
-        {
-            <span class="ID">Comment of "@Html.DisplayFor(modelItem => item.Comment.User.UserName)"</span>
-        }
+        <span class="ID">"@Html.DisplayFor(modelItem => item.Post.Title)"</span>
         <br />
         <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
         <br />

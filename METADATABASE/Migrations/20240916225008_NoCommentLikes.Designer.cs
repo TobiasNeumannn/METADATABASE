@@ -4,6 +4,7 @@ using METADATABASE.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace METADATABASE.Migrations
 {
     [DbContext(typeof(METAContext))]
-    partial class METAContextModelSnapshot : ModelSnapshot
+    [Migration("20240916225008_NoCommentLikes")]
+    partial class NoCommentLikes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,6 +125,9 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportsID"));
 
+                    b.Property<int?>("CommentsID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(10000)
@@ -138,6 +144,8 @@ namespace METADATABASE.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportsID");
+
+                    b.HasIndex("CommentsID");
 
                     b.HasIndex("PostsID");
 
@@ -410,6 +418,10 @@ namespace METADATABASE.Migrations
 
             modelBuilder.Entity("METADATABASE.Models.Reports", b =>
                 {
+                    b.HasOne("METADATABASE.Models.Comments", "Comment")
+                        .WithMany("Reports")
+                        .HasForeignKey("CommentsID");
+
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Reports")
                         .HasForeignKey("PostsID");
@@ -419,6 +431,8 @@ namespace METADATABASE.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Comment");
 
                     b.Navigation("Post");
 
@@ -474,6 +488,11 @@ namespace METADATABASE.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("METADATABASE.Models.Comments", b =>
+                {
+                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("METADATABASE.Models.Posts", b =>

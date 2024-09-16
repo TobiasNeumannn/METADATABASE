@@ -35,7 +35,7 @@ namespace METADATABASE.Controllers
         // GET: Reports
         public async Task<IActionResult> Index()
         {
-            var mETAContext = _context.Reports.Include(r => r.Comment).Include(r => r.Post).Include(r => r.User);
+            var mETAContext = _context.Reports.Include(r => r.Post).Include(r => r.User);
             return View(await mETAContext.ToListAsync());
         }
 
@@ -48,7 +48,6 @@ namespace METADATABASE.Controllers
             }
 
             var reports = await _context.Reports
-                .Include(r => r.Comment)
                 .Include(r => r.Post)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.ReportsID == id);
@@ -63,7 +62,6 @@ namespace METADATABASE.Controllers
         // GET: Reports/Create
         public IActionResult Create()
         {
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Email");
             return View();
@@ -74,7 +72,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
+        public async Task<IActionResult> Create([Bind("ReportsID,Id,PostsID,Content,Creation")] Reports reports)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +82,6 @@ namespace METADATABASE.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
             return View(reports);
@@ -103,7 +100,6 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
             return View(reports);
@@ -114,7 +110,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
+        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,Id,PostsID,Content,Creation")] Reports reports)
         {
             if (id != reports.ReportsID)
             {
@@ -141,7 +137,6 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
             return View(reports);
@@ -156,7 +151,6 @@ namespace METADATABASE.Controllers
             }
 
             var reports = await _context.Reports
-                .Include(r => r.Comment)
                 .Include(r => r.Post)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.ReportsID == id);
