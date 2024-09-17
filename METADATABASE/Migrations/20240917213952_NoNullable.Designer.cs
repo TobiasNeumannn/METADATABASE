@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace METADATABASE.Migrations
 {
     [DbContext(typeof(METAContext))]
-    [Migration("20240806215939_CascadeFix")]
-    partial class CascadeFix
+    [Migration("20240917213952_NoNullable")]
+    partial class NoNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -68,10 +68,7 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikesID"));
 
-                    b.Property<int?>("CommentsID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PostsID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -79,8 +76,6 @@ namespace METADATABASE.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LikesID");
-
-                    b.HasIndex("CommentsID");
 
                     b.HasIndex("PostsID");
 
@@ -132,9 +127,6 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportsID"));
 
-                    b.Property<int?>("CommentsID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(10000)
@@ -143,7 +135,7 @@ namespace METADATABASE.Migrations
                     b.Property<DateTime>("Creation")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PostsID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -151,8 +143,6 @@ namespace METADATABASE.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportsID");
-
-                    b.HasIndex("CommentsID");
 
                     b.HasIndex("PostsID");
 
@@ -401,21 +391,17 @@ namespace METADATABASE.Migrations
 
             modelBuilder.Entity("METADATABASE.Models.Likes", b =>
                 {
-                    b.HasOne("METADATABASE.Models.Comments", "Comment")
-                        .WithMany("Likes")
-                        .HasForeignKey("CommentsID");
-
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Likes")
-                        .HasForeignKey("PostsID");
+                        .HasForeignKey("PostsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Comment");
 
                     b.Navigation("Post");
 
@@ -435,21 +421,17 @@ namespace METADATABASE.Migrations
 
             modelBuilder.Entity("METADATABASE.Models.Reports", b =>
                 {
-                    b.HasOne("METADATABASE.Models.Comments", "Comment")
-                        .WithMany("Reports")
-                        .HasForeignKey("CommentsID");
-
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Reports")
-                        .HasForeignKey("PostsID");
+                        .HasForeignKey("PostsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Reports")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Comment");
 
                     b.Navigation("Post");
 
@@ -505,13 +487,6 @@ namespace METADATABASE.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("METADATABASE.Models.Comments", b =>
-                {
-                    b.Navigation("Likes");
-
-                    b.Navigation("Reports");
                 });
 
             modelBuilder.Entity("METADATABASE.Models.Posts", b =>

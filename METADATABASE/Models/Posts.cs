@@ -23,13 +23,13 @@ namespace METADATABASE.Models
 
         public bool Locked { get; set; }
 
-        public string? UserId { get; set; } //user.UserId
+        public string UserId { get; set; } //user.UserId
 
         // Navigation properties
-        public Users? User { get; set; }
-        public ICollection<Likes>? Likes { get; set; }
-        public ICollection<Reports>? Reports { get; set; }
-        public ICollection<Comments>? Comments { get; set; }
+        public Users User { get; set; }
+        public ICollection<Likes> Likes { get; set; }
+        public ICollection<Reports> Reports { get; set; }
+        public ICollection<Comments> Comments { get; set; }
 
         [NotMapped] // This property is not stored in the database
         public int? CommentsCount { get; set; } // Number of comments for the post

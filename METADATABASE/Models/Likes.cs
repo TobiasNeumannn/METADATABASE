@@ -8,10 +8,10 @@ namespace METADATABASE.Models
         // ! LIKES ARE a simple click-done thing. no inputs, no validations needed
         [Key]
         public int LikesID { get; set; }
-        public string? UserId { get; set; } //user.UserId
-        public int? PostsID { get; set; }
+        public string UserId { get; set; } //user.UserId
+        public int PostsID { get; set; }
         // Navigation properties
-        public Users? User { get; set; }
-        public Posts? Post { get; set; }
+        public Users User { get; set; }
+        public Posts Post { get; set; }
     }
 }

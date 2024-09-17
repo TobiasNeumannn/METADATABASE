@@ -65,10 +65,11 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikesID"));
 
-                    b.Property<int?>("PostsID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LikesID");
@@ -105,6 +106,7 @@ namespace METADATABASE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PostsID");
@@ -130,7 +132,7 @@ namespace METADATABASE.Migrations
                     b.Property<DateTime>("Creation")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PostsID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -388,11 +390,15 @@ namespace METADATABASE.Migrations
                 {
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Likes")
-                        .HasForeignKey("PostsID");
+                        .HasForeignKey("PostsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Likes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Post");
 
@@ -403,7 +409,9 @@ namespace METADATABASE.Migrations
                 {
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -412,7 +420,9 @@ namespace METADATABASE.Migrations
                 {
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Reports")
-                        .HasForeignKey("PostsID");
+                        .HasForeignKey("PostsID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Reports")
