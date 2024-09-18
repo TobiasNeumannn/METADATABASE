@@ -16,9 +16,9 @@
 
 <h1>Likes</h1>
 
-<div class="postcontainer"> <!-- the container, containing preview post-->
+<div class="postcontainer"> <!-- the container, containing both likes and post/comment-->
     @if (Model.Any()) {
-        @if (ViewBag.PostId != null)
+        @if (ViewBag.PostID != null)
         {
             var post = Model.First().Post;
             <div class="post">
@@ -27,7 +27,6 @@
                 <br />
                 <span class="Title">@post.Title</span>
                 <p>@post.Description</p>
-                <br />
                 <a href="@Url.Action("Create", "Likes", new { postId = post.PostsID })" class="Likes">Like this post</a>
                 <br />
                 <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
@@ -35,8 +34,18 @@
         }
         else
         {
-            <span>Post not found.</span>
-
+            var comment = Model.First().Comment;
+            <div class="post">
+            <img class="PfpFile" src="@("~/Image/"+comment.User.PfpName)" asp-append-version="true" />‎
+                <span class="UserName">@comment.User.UserName</span>
+                <br />
+                <p>@comment.Content</p>
+                <span class="Correct">@Html.DisplayFor(modelItem => comment.Correct)</span>
+                <br />
+                <a href="@Url.Action("Create", "Likes", new { commentId = comment.CommentsID })" class="Likes">Like this comment</a>
+                <br />
+                <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
+            </div>
         }
     }
 
