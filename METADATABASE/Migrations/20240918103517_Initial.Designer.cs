@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace METADATABASE.Migrations
 {
     [DbContext(typeof(METAContext))]
-    [Migration("20240521220120_Initial")]
+    [Migration("20240918103517_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace METADATABASE.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -35,6 +35,7 @@ namespace METADATABASE.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Correct")
@@ -43,14 +44,11 @@ namespace METADATABASE.Migrations
                     b.Property<DateTime>("Creation")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Id")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CommentsID");
@@ -72,9 +70,6 @@ namespace METADATABASE.Migrations
 
                     b.Property<int?>("CommentsID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PostsID")
                         .HasColumnType("int");
@@ -106,10 +101,7 @@ namespace METADATABASE.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Id")
-                        .IsRequired()
+                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Locked")
@@ -117,9 +109,11 @@ namespace METADATABASE.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("PostsID");
@@ -142,18 +136,17 @@ namespace METADATABASE.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasMaxLength(10000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Creation")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportsID");
@@ -203,7 +196,7 @@ namespace METADATABASE.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Pfp")
+                    b.Property<string>("PfpName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -222,11 +215,11 @@ namespace METADATABASE.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("ProjThumbnailImg")
-                        .IsRequired()
+                    b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SecurityStamp")
+                    b.Property<string>("ThumbName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -397,7 +390,8 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Post");
 
@@ -433,7 +427,8 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -453,7 +448,8 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Reports")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Comment");
 
@@ -467,7 +463,7 @@ namespace METADATABASE.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -476,7 +472,7 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -485,7 +481,7 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -494,13 +490,13 @@ namespace METADATABASE.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -509,7 +505,7 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Users", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

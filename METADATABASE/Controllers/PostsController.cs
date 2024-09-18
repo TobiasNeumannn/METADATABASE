@@ -41,6 +41,8 @@ namespace METADATABASE.Controllers
                                      .Include(p => p.User)
                                      .Include(p => p.Comments)  // Include the Comments navigation property
                                      .Include(p => p.Likes)  // Include the Likes navigation property
+                                     .Include(p => p.Reports)  // Include the Reports navigation property
+
                                      .ToListAsync();
 
             foreach (var post in posts)
@@ -177,7 +179,27 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var posts = await _context.Posts.FindAsync(id);
+            var posts = await _context.Posts
+                             .Include(p => p.Comments)  // eagerly include children tables, else they'll be null
+                             .Include(p => p.Likes)
+                             .Include(p => p.Reports)
+                             .FirstOrDefaultAsync(p => p.PostsID == id);
+
+            // manual cascade: delete children records
+
+            if (posts.Comments != null) // if post has comments, delete them
+            {
+                _context.Comments.RemoveRange(posts.Comments);
+            }
+            if (posts.Likes != null)
+            {
+                _context.Likes.RemoveRange(posts.Likes);
+            }
+            if (posts.Reports != null)
+            {
+                _context.Reports.RemoveRange(posts.Reports);
+            }
+
             if (posts != null)
             {
                 _context.Posts.Remove(posts);

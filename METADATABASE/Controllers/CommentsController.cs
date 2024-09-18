@@ -180,11 +180,27 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comments = await _context.Comments.FindAsync(id);
+            var comments = await _context.Comments
+                             .Include(c => c.Likes) // eagerly include children tables, else they'll be null
+                             .Include(c => c.Reports)
+                             .FirstOrDefaultAsync(m => m.CommentsID == id);
+
+            // manual cascade: delete children records
+
+            if (comments.Likes != null) // if comment has likes, delete them
+            {
+                _context.Likes.RemoveRange(comments.Likes);
+            }
+            if (comments.Reports != null)
+            {
+                _context.Reports.RemoveRange(comments.Reports);
+            }
+
             if (comments != null)
             {
                 _context.Comments.Remove(comments);
             }
+
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { postId = comments.PostsID });

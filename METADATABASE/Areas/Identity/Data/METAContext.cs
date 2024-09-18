@@ -22,6 +22,12 @@ namespace METADATABASE.Areas.Identity.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) // DATA SEEDING!
         {
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes() // every single relationship is Restrict not Cascade - manual cascade implemented in controllers. this is to avoid annoying multiple cascade paths error
+                .SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
             base.OnModelCreating(modelBuilder);
         }
 
