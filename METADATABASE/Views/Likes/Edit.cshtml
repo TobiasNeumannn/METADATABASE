@@ -33,6 +33,11 @@
                 <select asp-for="PostsID" class="form-control" asp-items="ViewBag.PostsID"></select>
                 <span asp-validation-for="PostsID" class="text-danger"></span>
             </div>
+                <div class="form-group">
+                    <label asp-for="CommentsID" class="control-label"></label>
+                    <select asp-for="CommentsID" class="form-control" asp-items="ViewBag.CommentsID"></select>
+                    <span asp-validation-for="CommentsID" class="text-danger"></span>
+                </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

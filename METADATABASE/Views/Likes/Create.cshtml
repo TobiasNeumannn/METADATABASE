@@ -18,6 +18,9 @@
                 <!-- For post likes -->
                 <input type="hidden" asp-for="PostsID" value="@ViewBag.PostId" />
 
+                <!-- For comment likes -->
+                <input type="hidden" asp-for="CommentsID" value="@ViewBag.CommentId" />
+
                 <!-- Default values -->
                 <input type="hidden" asp-for="UserId" value="@ViewBag.Id" />
 

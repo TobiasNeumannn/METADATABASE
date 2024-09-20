@@ -32,13 +32,18 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Likes
-        public async Task<IActionResult> Index(int? postId)
+        public async Task<IActionResult> Index(int? postId, int? commentId)
         {
             if (postId != null)
             {
                 var postLikes = _context.Likes.Where(l => l.PostsID == postId).Include(l => l.Post).Include(l => l.User);
                 ViewBag.PostId = postId;
                 return View(await postLikes.ToListAsync());
+            }
+            else if (commentId != null)
+            {
+                var commentLikes = _context.Likes.Where(l => l.CommentsID == commentId).Include(l => l.Comment).Include(l => l.User);
+                return View(await commentLikes.ToListAsync());
             }
             else
             {
@@ -56,6 +61,7 @@ namespace METADATABASE.Controllers
             }
 
             var likes = await _context.Likes
+                .Include(l => l.Comment)
                 .Include(l => l.Post)
                 .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.LikesID == id);
@@ -68,11 +74,12 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Likes/Create
-        public IActionResult Create(int? postId)
+        public IActionResult Create(int? postId, int? commentId)
         {
 
-            // Pass postId to the view
+            // Pass postId or commentId to the view
             ViewBag.PostId = postId;
+            ViewBag.CommentId = commentId;
 
             return View();
         }
@@ -82,7 +89,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LikesID,Id,PostsID")] Likes likes)
+        public async Task<IActionResult> Create([Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +101,12 @@ namespace METADATABASE.Controllers
                     return RedirectToAction("Index", new { postId = likes.PostsID });
 
                 }
+                else
+                {
+                    return RedirectToAction("Index", new { commentId = likes.CommentsID });
+                }
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
             return View(likes);
@@ -113,6 +125,7 @@ namespace METADATABASE.Controllers
             {
                 return NotFound();
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
             return View(likes);
@@ -123,7 +136,7 @@ namespace METADATABASE.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LikesID,Id,PostsID")] Likes likes)
+        public async Task<IActionResult> Edit(int id, [Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
         {
             if (id != likes.LikesID)
             {
@@ -150,6 +163,7 @@ namespace METADATABASE.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
             return View(likes);
@@ -164,6 +178,7 @@ namespace METADATABASE.Controllers
             }
 
             var likes = await _context.Likes
+                .Include(l => l.Comment)
                 .Include(l => l.Post)
                 .Include(l => l.User)
                 .FirstOrDefaultAsync(m => m.LikesID == id);

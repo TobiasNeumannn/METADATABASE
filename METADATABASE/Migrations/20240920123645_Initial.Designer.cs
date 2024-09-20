@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace METADATABASE.Migrations
 {
     [DbContext(typeof(METAContext))]
-    [Migration("20240918103517_Initial")]
+    [Migration("20240920123645_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -68,13 +68,14 @@ namespace METADATABASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikesID"));
 
-                    b.Property<int?>("CommentsID")
+                    b.Property<int>("CommentsID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PostsID")
+                    b.Property<int>("PostsID")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LikesID");
@@ -403,17 +404,20 @@ namespace METADATABASE.Migrations
                     b.HasOne("METADATABASE.Models.Comments", "Comment")
                         .WithMany("Likes")
                         .HasForeignKey("CommentsID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Posts", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostsID")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("METADATABASE.Models.Users", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Comment");
 
