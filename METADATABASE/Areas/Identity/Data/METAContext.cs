@@ -119,7 +119,7 @@ public static class SeedData
 
                         var comment1 = context.Comments.FirstOrDefault(c => c.PostsID == post1.PostsID);
 
-                        if (comment1 != null) // ensure no commentIDs are null
+                        if (comment1 != null) // ensure commentIDs isnt null
                         {
 
                             if (!context.Likes.Any())

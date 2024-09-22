@@ -44,8 +44,10 @@ namespace METADATABASE.Controllers
                 .Where(c => c.PostsID == postId)
                 .Include(c => c.Post)
                             .ThenInclude(p => p.User) // Load the User related to Post
-                .Include(c => c.User)
-        .Include(p => p.Likes);
+                .Include(p => p.Likes)
+                .Include(p => p.Reports)
+                .Include(c => c.User);
+        
             foreach (var comment in comments)
             {
                 comment.LikesCount = comment.Likes.Count;
@@ -64,6 +66,8 @@ namespace METADATABASE.Controllers
 
             var comments = await _context.Comments
                 .Include(c => c.Post)
+                .Include(p => p.Likes)
+                .Include(p => p.Reports)
                 .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.CommentsID == id);
             if (comments == null)
@@ -168,6 +172,8 @@ namespace METADATABASE.Controllers
 
             var comments = await _context.Comments
                 .Include(c => c.Post)
+                .Include(p => p.Likes)
+                .Include(p => p.Reports)
                 .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.CommentsID == id);
             if (comments == null)
