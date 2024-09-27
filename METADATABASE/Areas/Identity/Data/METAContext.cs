@@ -81,21 +81,21 @@ public static class SeedData
                 var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
                 var normalUser = await userManager.FindByEmailAsync("user@user.com");
 
-                    // Reset the PK for all tables
-                    await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Posts', RESEED, 1)");
-                    await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Comments', RESEED, 1)");
-                    await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Likes', RESEED, 1)");
-                    await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Reports', RESEED, 1)");
+                // Reset the PK for all tables
+                await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Posts', RESEED, 1)");
+                await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Comments', RESEED, 1)");
+                await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Likes', RESEED, 1)");
+                await context.Database.ExecuteSqlRawAsync("DBCC CHECKIDENT ('Reports', RESEED, 1)");
 
                 if (adminUser != null && normalUser != null) {
                     if (!context.Posts.Any())
                     {
 
                         context.Posts.AddRange(
-                            new Posts { Title = "Admin's First Post", Description = "Description for Admin's first post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Admin's First Post", Description = "Description for Admin's first post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
                         new Posts { Title = "Admin's Second Post", Description = "Description for Admin's second post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
                         new Posts { Title = "User's First Post", Description = "Description for User's first post", Creation = DateTime.Now, Locked = false, UserId = normalUser.Id }
-        );
+                        );
                         await context.SaveChangesAsync();
                     }
 
@@ -110,10 +110,10 @@ public static class SeedData
                         if (!context.Comments.Any())
                         {
                             context.Comments.AddRange(
-        new Comments { PostsID = post1.PostsID, Content = "Great post!", Creation = DateTime.Now, UserId = adminUser.Id, Correct = false },
-        new Comments { PostsID = post2.PostsID, Content = "Thanks for sharing!", Creation = DateTime.Now, UserId = normalUser.Id, Correct = true },
-        new Comments { PostsID = post3.PostsID, Content = "Very informative.", Creation = DateTime.Now, UserId = adminUser.Id, Correct = false }
-        );
+                            new Comments { PostsID = post1.PostsID, Content = "Great post!", Creation = DateTime.Now, UserId = adminUser.Id, Correct = false },
+                            new Comments { PostsID = post2.PostsID, Content = "Thanks for sharing!", Creation = DateTime.Now, UserId = normalUser.Id, Correct = true },
+                            new Comments { PostsID = post3.PostsID, Content = "Very informative.", Creation = DateTime.Now, UserId = adminUser.Id, Correct = false }
+                            );
                             await context.SaveChangesAsync();
                         }
 
@@ -125,20 +125,20 @@ public static class SeedData
                             if (!context.Likes.Any())
                             {
                                 context.Likes.AddRange(
-                    new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
-                    new Likes { UserId = normalUser.Id, PostsID = post2.PostsID },
-                    new Likes { UserId = adminUser.Id, PostsID = comment1.CommentsID }
-                );
+                                new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
+                                new Likes { UserId = normalUser.Id, PostsID = post2.PostsID },
+                                new Likes { UserId = adminUser.Id, PostsID = comment1.CommentsID }
+                                );
                                 await context.SaveChangesAsync();
                             }
 
                             if (!context.Reports.Any())
                             {
                                 context.Reports.AddRange(
-                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Inappropriate content", Creation = DateTime.Now },
-                new Reports { UserId = adminUser.Id, PostsID = post2.PostsID, Content = "Spam", Creation = DateTime.Now },
-                new Reports { UserId = normalUser.Id, PostsID = post3.PostsID, Content = "Offensive language", Creation = DateTime.Now }
-            );
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Inappropriate content", Creation = DateTime.Now },
+                                new Reports { UserId = adminUser.Id, PostsID = post2.PostsID, Content = "Spam", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post3.PostsID, Content = "Offensive language", Creation = DateTime.Now }
+                                );  
                             }
                         }
                     }

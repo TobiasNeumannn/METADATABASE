@@ -21,8 +21,8 @@ namespace METADATABASE.Models
         // Navigation properties (all nullable to ensure it passes ModelState.IsValid in the controller > Create)
         public Posts Post { get; set; }
         public Users User { get; set; }
-        public ICollection<Likes> Likes { get; set; }
-        public ICollection<Reports> Reports { get; set; }
+        public ICollection<Likes>? Likes { get; set; }
+        public ICollection<Reports>? Reports { get; set; }
         [NotMapped]
         public int? LikesCount { get; set; } //number of likes for the comment. same system as in posts
     }
