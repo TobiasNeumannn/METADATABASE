@@ -35,11 +35,11 @@
             @Html.DisplayFor(model => model.Creation)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.User.PfpFile)
+            Profile Picture
         </dt>
         <dd class = "col-sm-10">
-@*             <img class="PfpFile" src="@Html.DisplayFor(modelItem => item.User.PfpFile)"
- *@        </dd>
+            @Html.DisplayFor(model => model.User.PfpName)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Locked)
         </dt>

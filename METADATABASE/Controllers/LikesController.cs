@@ -145,22 +145,8 @@ namespace METADATABASE.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
                     _context.Update(likes);
                     await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LikesExists(likes.LikesID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);

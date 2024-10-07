@@ -23,7 +23,7 @@ namespace METADATABASE.Models
 
         public bool Locked { get; set; }
 
-        public string UserId { get; set; } //user.UserId
+        public string? UserId { get; set; } //user.UserId (nullable to get past a strange ModelState error)
 
         // Navigation properties - nullable because every post doesnt necessarily have a comment/like/report (fixes a modelstate error)
         public Users? User { get; set; }
