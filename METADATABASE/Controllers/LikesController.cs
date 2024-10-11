@@ -9,6 +9,7 @@ using METADATABASE.Areas.Identity.Data;
 using METADATABASE.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Xml.Linq;
+using System.Security.Claims;
 
 
 namespace METADATABASE.Controllers
@@ -34,21 +35,34 @@ namespace METADATABASE.Controllers
         // GET: Likes
         public async Task<IActionResult> Index(int? postId, int? commentId)
         {
+            // code that allows the comment/post preview to appear in the likes index efven when they have no likes
             if (postId != null)
             {
-                var postLikes = _context.Likes.Where(l => l.PostsID == postId).Include(l => l.Post).Include(l => l.User);
-                ViewBag.PostId = postId;
-                return View(await postLikes.ToListAsync());
+                var post = await _context.Posts.Include(p => p.User).FirstOrDefaultAsync(p => p.PostsID == postId);
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                var likes = await _context.Likes.Where(l => l.PostsID == postId).Include(l => l.User).ToListAsync();
+                ViewBag.Post = post;  // Pass the post to the view
+                return View(likes);
             }
             else if (commentId != null)
             {
-                var commentLikes = _context.Likes.Where(l => l.CommentsID == commentId).Include(l => l.Comment).Include(l => l.User);
-                return View(await commentLikes.ToListAsync());
+                var comment = await _context.Comments.Include(c => c.User).FirstOrDefaultAsync(c => c.CommentsID == commentId);
+                if (comment == null)
+                {
+                    return NotFound();
+                }
+
+                var likes = await _context.Likes.Where(l => l.CommentsID == commentId).Include(l => l.User).ToListAsync();
+                ViewBag.Comment = comment;  // Pass the comment to the view
+                return View(likes);
             }
-            else
-            {
-                return NotFound();
-            }
+
+            return NotFound();
+
         }
 
 
@@ -91,6 +105,35 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
         {
+            // Get the currently logged-in user
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the user ID
+
+            // Check if the like is for a post or a comment, and handle the checks accordingly
+            if (likes.PostsID != null)
+            {
+                // If the like is for a post, check if the user already liked this specific post
+                var existingLike = await _context.Likes
+                    .FirstOrDefaultAsync(l => l.PostsID == likes.PostsID && l.UserId == userId);
+
+                if (existingLike != null)
+                {
+                    TempData["ErrorMessage"] = "You have already liked this post.";
+                    return RedirectToAction("Create", new { postId = likes.PostsID });
+                }
+            }
+            else if (likes.CommentsID != null)
+            {
+                // If the like is for a comment, check if the user already liked this specific comment
+                var existingLike = await _context.Likes
+                    .FirstOrDefaultAsync(l => l.CommentsID == likes.CommentsID && l.UserId == userId);
+
+                if (existingLike != null)
+                {
+                    TempData["ErrorMessage"] = "You have already liked this comment.";
+                    return RedirectToAction("Create", new { commentId = likes.CommentsID });
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 likes.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
@@ -112,48 +155,7 @@ namespace METADATABASE.Controllers
             return View(likes);
         }
 
-        // GET: Likes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var likes = await _context.Likes.FindAsync(id);
-            if (likes == null)
-            {
-                return NotFound();
-            }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
-            return View(likes);
-        }
-
-        // POST: Likes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LikesID,Id,PostsID,CommentsID")] Likes likes)
-        {
-            if (id != likes.LikesID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                    _context.Update(likes);
-                    await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", likes.CommentsID);
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", likes.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", likes.UserId);
-            return View(likes);
-        }
+        // cant edit likes
 
         // GET: Likes/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -188,7 +190,15 @@ namespace METADATABASE.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (likes.PostsID != null)
+            {
+                return RedirectToAction("Index", new { postId = likes.PostsID });
+
+            }
+            else
+            {
+                return RedirectToAction("Index", new { commentId = likes.CommentsID });
+            }
         }
 
         private bool LikesExists(int id)

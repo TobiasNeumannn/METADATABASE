@@ -17,10 +17,9 @@
 <h1>Likes</h1>
 
 <div class="postcontainer"> <!-- the container, containing both likes and post/comment-->
-    @if (Model.Any()) {
-        @if (ViewBag.PostID != null)
+        @if (ViewBag.Post != null)
         {
-            var post = Model.First().Post;
+        var post = ViewBag.Post; // grab the post from the controller
             <div class="post">
                 <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
                <span class="UserName">@post.User.UserName</span>
@@ -32,25 +31,30 @@
                 <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
             </div>
         }
-        else
+        else if (ViewBag.Comment != null)
         {
-            var comment = Model.First().Comment;
+        var comment = ViewBag.Comment; //grab the comment from the controller
             <div class="post">
             <img class="PfpFile" src="@("~/Image/"+comment.User.PfpName)" asp-append-version="true" />‎
                 <span class="UserName">@comment.User.UserName</span>
                 <br />
                 <p>@comment.Content</p>
-                <span class="Correct">@Html.DisplayFor(modelItem => comment.Correct)</span>
+            <span class="Correct">
+                @(comment.Correct ? "✅" : "")
+            </span>
                 <br />
                 <a href="@Url.Action("Create", "Likes", new { commentId = comment.CommentsID })" class="Likes">Like this comment</a>
                 <br />
                 <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
             </div>
         }
-    }
+        else
+        {
+            <p>Error: no post or comment was found.</p>
+        }
 
 
-    @foreach (var item in Model)
+    @foreach (var item in Model) // likes show up here
     {
         <div class="comment">
             <img class="PfpFile list" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎

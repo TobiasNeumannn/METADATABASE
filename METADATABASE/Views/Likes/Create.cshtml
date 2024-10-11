@@ -29,6 +29,13 @@
         </div>
     </div>
 
+    @if (TempData["ErrorMessage"] != null)
+{
+    <script type="text/javascript">
+        alert('@TempData["ErrorMessage"]');
+    </script>
+}
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
