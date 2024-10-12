@@ -35,6 +35,8 @@ namespace METADATABASE.Models
         public int? CommentsCount { get; set; } // Number of comments for the post
         [NotMapped]
         public int? LikesCount { get; set; } // Number of Likes for the post
+        [NotMapped]
+        public int? ReportsCount { get; set; } // Number of reports for the post
 
     }
 }

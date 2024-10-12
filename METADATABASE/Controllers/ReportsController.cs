@@ -10,6 +10,7 @@ using METADATABASE.Models;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
 
 
 namespace METADATABASE.Controllers
@@ -33,11 +34,74 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Reports
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? postId, int? commentId, string sortOrder, string searchString)
         {
-            var mETAContext = _context.Reports.Include(r => r.Comment).Include(r => r.Post).Include(r => r.User);
-            return View(await mETAContext.ToListAsync());
+            ViewBag.CurrentSort = sortOrder; // Keep track of the current sort order
+            ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "Date";
+            ViewBag.UserSortParm = sortOrder == "User" ? "user_desc" : "User";
+            ViewBag.StatusSortParm = sortOrder == "Status" ? "status_desc" : "Status";
+
+            IQueryable<Reports> reportsQuery;
+
+            // Code to allow the comment/post preview to appear in the reports index even when they have no reports
+            if (postId != null)
+            {
+                var post = await _context.Posts.Include(p => p.User).FirstOrDefaultAsync(p => p.PostsID == postId);
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                reportsQuery = _context.Reports.Where(l => l.PostsID == postId).Include(l => l.User);
+                ViewBag.Post = post;  // Pass the post to the view
+            }
+            else if (commentId != null)
+            {
+                var comment = await _context.Comments.Include(c => c.User).FirstOrDefaultAsync(c => c.CommentsID == commentId);
+                if (comment == null)
+                {
+                    return NotFound();
+                }
+
+                reportsQuery = _context.Reports.Where(l => l.CommentsID == commentId).Include(l => l.User);
+                ViewBag.Comment = comment;  // Pass the comment to the view
+            }
+            else
+            {
+                // Initialize reportsQuery to include all reports if neither postId nor commentId are provided
+                reportsQuery = _context.Reports.Include(r => r.User);
+            }
+
+            // Filtering logic
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                reportsQuery = reportsQuery.Where(r => r.Content.Contains(searchString) || r.User.UserName.Contains(searchString));
+            }
+
+            // Sorting logic
+            switch (sortOrder)
+            {
+                case "date_desc":
+                    reportsQuery = reportsQuery.OrderByDescending(r => r.Creation);
+                    break;
+                case "Date":
+                    reportsQuery = reportsQuery.OrderBy(r => r.Creation);
+                    break;
+                case "user_desc":
+                    reportsQuery = reportsQuery.OrderByDescending(r => r.User.UserName);
+                    break;
+                case "User":
+                    reportsQuery = reportsQuery.OrderBy(r => r.User.UserName);
+                    break;
+                default:
+                    reportsQuery = reportsQuery.OrderBy(r => r.Creation);
+                    break;
+            }
+
+            var reportsList = await reportsQuery.ToListAsync();
+            return View(reportsList);
         }
+
 
         // GET: Reports/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -61,11 +125,16 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Reports/Create
-        public IActionResult Create()
+        public IActionResult Create(int? postId, int? commentId)
         {
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID");
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID");
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Email");
+
+            // Pass postId or commentId to the view
+            ViewBag.PostId = postId;
+            ViewBag.CommentId = commentId;
+
             return View();
         }
 
@@ -76,76 +145,59 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
         {
+            // Get the currently logged-in user
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the user ID
+
+            // Check if the report is for a post or a comment, and handle the checks accordingly
+            if (reports.PostsID != null)
+            {
+                // If the report is for a post, check if the user already reported this specific post
+                var existingReport = await _context.Reports
+                    .FirstOrDefaultAsync(l => l.PostsID == reports.PostsID && l.UserId == userId);
+
+                if (existingReport != null)
+                {
+                    TempData["ErrorMessage"] = "You have already reported this post.";
+                    return RedirectToAction("Create", new { postId = reports.PostsID });
+                }
+            }
+            else if (reports.CommentsID != null)
+            {
+                // If the report is for a comment, check if the user already reported this specific comment
+                var existingReport = await _context.Reports
+                    .FirstOrDefaultAsync(l => l.CommentsID == reports.CommentsID && l.UserId == userId);
+
+                if (existingReport != null)
+                {
+                    TempData["ErrorMessage"] = "You have already reported this comment.";
+                    return RedirectToAction("Create", new { commentId = reports.CommentsID });
+                }
+            }
+
+            reports.Creation = DateTime.Now; // Set the current time
+
             if (ModelState.IsValid)
             {
                 reports.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
-                reports.Creation = DateTime.Now; // Set the current time
                 _context.Add(reports);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
-            return View(reports);
-        }
-
-        // GET: Reports/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reports = await _context.Reports.FindAsync(id);
-            if (reports == null)
-            {
-                return NotFound();
-            }
-            ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
-            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
-            return View(reports);
-        }
-
-        // POST: Reports/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReportsID,Id,PostsID,CommentsID,Content,Creation")] Reports reports)
-        {
-            if (id != reports.ReportsID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (reports.PostsID != null)
                 {
-                    _context.Update(reports);
-                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", new { postId = reports.PostsID });
+
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!ReportsExists(reports.ReportsID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return RedirectToAction("Index", new { commentId = reports.CommentsID });
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["CommentsID"] = new SelectList(_context.Comments, "CommentsID", "CommentsID", reports.CommentsID);
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "PostsID", reports.PostsID);
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Email", reports.UserId);
+            ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", reports.UserId);
             return View(reports);
         }
+
+        // cant edit REPORTS
 
         // GET: Reports/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -180,7 +232,15 @@ namespace METADATABASE.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (reports.PostsID != null)
+            {
+                return RedirectToAction("Index", new { postId = reports.PostsID });
+
+            }
+            else
+            {
+                return RedirectToAction("Index", new { commentId = reports.CommentsID });
+            }
         }
 
         private bool ReportsExists(int id)

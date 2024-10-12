@@ -44,6 +44,20 @@
 <h1>Posts</h1>
 <p>Request and give feedback for other students' projects, request solutions to a bug you've encountered, and discuss.</p>
 
+<form asp-action="Index" method="get">
+    <p>
+        Search by Title or Username: <input type="text" name="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<p>
+    <a asp-action="Index" asp-route-sortOrder="@ViewBag.TitleSortParm">Sort by Title</a> |
+    <a asp-action="Index" asp-route-sortOrder="@ViewBag.DateSortParm">Sort by Date</a> |
+    <a asp-action="Index" asp-route-sortOrder="@ViewBag.LikesSortParm">Sort by Likes</a>
+</p>
+
+
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -68,6 +82,10 @@
 
         <!-- Link to Comments -->
         <a class="Comments" href="@Url.Action("Index", "Comments", new { postId = item.PostsID })">@item.CommentsCount.ToString() Comments</a>
+        <br />
+
+        <!-- Link to Reports -->
+        <a class="Comments" href="@Url.Action("Index", "Reports", new { postId = item.PostsID })">@item.ReportsCount.ToString() Reports</a>
         <br />
 
         <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |

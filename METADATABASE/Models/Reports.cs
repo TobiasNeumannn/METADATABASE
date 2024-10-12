@@ -8,7 +8,7 @@ namespace METADATABASE.Models
     {
         [Key]
         public int ReportsID { get; set; }
-        public string UserId { get; set; } //user.UserId
+        public string? UserId { get; set; } //user.UserId (nullable to fix a modelstate error)
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
         [Required]
@@ -16,10 +16,10 @@ namespace METADATABASE.Models
         public string Content { get; set; }
         public DateTime Creation { get; set; }
 
-        // Navigation properties
-        public Users User { get; set; }
-        public Posts Post { get; set; }
-        public Comments Comment { get; set; }
+        // Navigation properties (nullable to fix a modelstate error)
+        public Users? User { get; set; }
+        public Posts? Post { get; set; }
+        public Comments? Comment { get; set; }
 
     }
 }

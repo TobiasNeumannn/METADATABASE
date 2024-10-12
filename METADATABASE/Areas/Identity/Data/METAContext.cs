@@ -127,7 +127,7 @@ public static class SeedData
                                 context.Likes.AddRange(
                                 new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
                                 new Likes { UserId = normalUser.Id, PostsID = post2.PostsID },
-                                new Likes { UserId = adminUser.Id, PostsID = comment1.CommentsID }
+                                new Likes { UserId = normalUser.Id, PostsID = comment1.CommentsID }
                                 );
                                 await context.SaveChangesAsync();
                             }

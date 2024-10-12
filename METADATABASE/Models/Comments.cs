@@ -25,5 +25,7 @@ namespace METADATABASE.Models
         public ICollection<Reports>? Reports { get; set; }
         [NotMapped]
         public int? LikesCount { get; set; } //number of likes for the comment. same system as in posts
+        [NotMapped]
+        public int? ReportsCount { get; set; } // Number of reports for the comment
     }
 }

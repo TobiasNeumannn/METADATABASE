@@ -7,7 +7,25 @@
 
 @{
     ViewData["Title"] = "Comments";
+    int? postId = ViewBag.PId;
+    string currentSort = ViewBag.CurrentSort;
+
 }
+
+<form asp-action="Index" method="get">
+    <p>
+        Search by Content or Username: <input type="text" name="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<p>
+    Sort by: 
+    @Html.ActionLink("Content", "Index", new { postId = postId, sortOrder = ViewBag.ContentSortParm }) | 
+    @Html.ActionLink("Creation Date", "Index", new { postId = postId, sortOrder = ViewBag.DateSortParm }) | 
+    @Html.ActionLink("Likes", "Index", new { postId = postId, sortOrder = ViewBag.LikesSortParm })
+
+</p>
 
 <div class="postcontainer"> <!-- The post in question -->
 
@@ -23,13 +41,6 @@
         <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
         </div>
     }
-@*     else
-    {
-        @inject IEnumerable<METADATABASE.Models.Posts> post
-        post.PostId == 
-} *@
- 
-
 
     <p>
         <a asp-action="Create" asp-route-PId="@ViewBag.PId">Create New Comment</a>
@@ -50,6 +61,10 @@
 
             <!-- Link to Likes -->
             <a class="Likes" href="@Url.Action("Index", "Likes", new { commentID = item.CommentsID })">@item.LikesCount.ToString() Likes</a>
+            <br />
+
+            <!-- Link to Reports -->
+            <a class="Likes" href="@Url.Action("Index", "Reports", new { commentID = item.CommentsID })">@item.ReportsCount.ToString() Reports</a>
             <br />
 
             <a asp-action="Edit" asp-route-id="@item.CommentsID">Edit</a> |

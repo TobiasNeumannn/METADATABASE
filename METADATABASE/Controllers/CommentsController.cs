@@ -32,29 +32,69 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Comments
-        public async Task<IActionResult> Index(int? postId)
+        public async Task<IActionResult> Index(int? postId, string sortOrder, string searchString)
         {
             if (postId == null)
             {
                 return NotFound();
             }
+
             ViewBag.PId = postId;
-            // navigation + assign postsID to postID
-            var comments = _context.Comments
+
+            ViewBag.ContentSortParm = String.IsNullOrEmpty(sortOrder) ? "content_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.LikesSortParm = sortOrder == "Likes" ? "likes_desc" : "Likes";
+
+            // Query to get comments, with includes for related entities
+            IQueryable<Comments> comments = _context.Comments
                 .Where(c => c.PostsID == postId)
                 .Include(c => c.Post)
-                            .ThenInclude(p => p.User) // Load the User related to Post
-                .Include(p => p.Likes)
-                .Include(p => p.Reports)
-                .Include(c => c.User);
-        
-            foreach (var comment in comments)
+                .ThenInclude(p => p.User)  // Load the User related to Post
+                .Include(c => c.Likes)
+                .Include(c => c.Reports)
+                .Include(c => c.User)
+                .AsQueryable();  // Make it an explicit IQueryable<Comments>
+
+            // Filtering logic
+            if (!String.IsNullOrEmpty(searchString))
             {
-                comment.LikesCount = comment.Likes.Count;
+                comments = comments.Where(c => c.Content.Contains(searchString) || c.User.UserName.Contains(searchString));
             }
 
-            return View(await comments.ToListAsync());
+            // Sorting logic
+            switch (sortOrder)
+            {
+                case "content_desc":
+                    comments = comments.OrderByDescending(c => c.Content);
+                    break;
+                case "Date":
+                    comments = comments.OrderBy(c => c.Creation);
+                    break;
+                case "date_desc":
+                    comments = comments.OrderByDescending(c => c.Creation);
+                    break;
+                case "Likes":
+                    comments = comments.OrderBy(c => c.Likes.Count);
+                    break;
+                case "likes_desc":
+                    comments = comments.OrderByDescending(c => c.Likes.Count);
+                    break;
+                default:
+                    comments = comments.OrderBy(c => c.Content);
+                    break;
+            }
+            var commentList = await comments.ToListAsync();
+
+            // Set the counts for each comment
+            foreach (var comment in commentList)
+            {
+                comment.LikesCount = comment.Likes.Count;
+                comment.ReportsCount = comment.Reports.Count;
+            }
+
+            return View(commentList);
         }
+
 
         // GET: Comments/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -154,7 +194,7 @@ namespace METADATABASE.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { postId = comments.PostsID });
             }
             ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title", comments.PostsID);
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName", comments.UserId);

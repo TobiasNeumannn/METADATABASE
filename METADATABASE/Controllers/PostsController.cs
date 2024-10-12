@@ -10,6 +10,7 @@ using METADATABASE.Models;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Data.SqlClient;
 
 
 namespace METADATABASE.Controllers
@@ -35,24 +36,62 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var posts = await _context.Posts
-                                     .Include(p => p.User)
-                                     .Include(p => p.Comments)  // Include the Comments navigation property
-                                     .Include(p => p.Likes)  // Include the Likes navigation property
-                                     .Include(p => p.Reports)  // Include the Reports navigation property
+            // ViewBag variables for sorting column links in the view
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.LikesSortParm = sortOrder == "Likes" ? "likes_desc" : "Likes";
 
-                                     .ToListAsync();
+            // Query to get posts, with includes for related entities
+            IQueryable<Posts> posts = _context.Posts
+                                              .Include(p => p.User)
+                                              .Include(p => p.Comments)
+                                              .Include(p => p.Likes)
+                                              .Include(p => p.Reports);
 
-            foreach (var post in posts)
+            // Filtering logic
+            if (!String.IsNullOrEmpty(searchString))
             {
-                post.CommentsCount = post.Comments.Count;  // Set the CommentsCount property
-                post.LikesCount = post.Likes.Count;
+                posts = posts.Where(p => p.Title.Contains(searchString) || p.User.UserName.Contains(searchString));
             }
 
-            return View(posts);
+            // Sorting logic
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    posts = posts.OrderByDescending(p => p.Title);
+                    break;
+                case "Date":
+                    posts = posts.OrderBy(p => p.Creation);
+                    break;
+                case "date_desc":
+                    posts = posts.OrderByDescending(p => p.Creation);
+                    break;
+                case "Likes":
+                    posts = posts.OrderBy(p => p.Likes.Count);
+                    break;
+                case "likes_desc":
+                    posts = posts.OrderByDescending(p => p.Likes.Count);
+                    break;
+                default:
+                    posts = posts.OrderBy(p => p.Title);
+                    break;
+            }
+
+            var postList = await posts.ToListAsync();
+
+            // Set the counts for each post
+            foreach (var post in postList)
+            {
+                post.CommentsCount = post.Comments.Count;
+                post.LikesCount = post.Likes.Count;
+                post.ReportsCount = post.Reports.Count;
+            }
+
+            return View(postList);
         }
+
 
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -76,7 +115,8 @@ namespace METADATABASE.Controllers
         // GET: Posts/Create
         public IActionResult Create()
         {
-
+            //ViewData["CommentsID"] = new SelectList(_context.Posts, "CommentsID", "Title");
+            ViewData["PostsID"] = new SelectList(_context.Posts, "PostsID", "Title");
             ViewData["Id"] = new SelectList(_context.Users, "Id", "UserName");
             return View();
         }

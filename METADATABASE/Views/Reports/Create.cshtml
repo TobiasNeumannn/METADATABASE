@@ -15,27 +15,32 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-            </div>
-            <div class="form-group">
-                <label asp-for="PostsID" class="control-label"></label>
-                <select asp-for="PostsID" class ="form-control" asp-items="ViewBag.PostsID"></select>
-            </div>
+                <!-- For post reports -->
+                <input type="hidden" asp-for="PostsID" value="@ViewBag.PostId" />
+
+                <!-- For comment reports -->
+                <input type="hidden" asp-for="CommentsID" value="@ViewBag.CommentId" />
+
+                <!-- Default values -->
+                <input type="hidden" asp-for="UserId" value="@ViewBag.Id" />
+
                 <div class="form-group">
-                    <label asp-for="CommentsID" class="control-label"></label>
-                    <select asp-for="CommentsID" class="form-control" asp-items="ViewBag.CommentsID"></select>
+                    <label asp-for="Content" class="control-label"></label>
+                    <input asp-for="Content" class="form-control" />
+                    <span asp-validation-for="Content" class="text-danger"></span>
                 </div>
-            <div class="form-group">
-                <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
-                <span asp-validation-for="Content" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+
+                <input type="submit" value="Create Report" class="btn btn-primary" />
         </form>
     </div>
 </div>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script type="text/javascript">
+            alert('@TempData["ErrorMessage"]');
+        </script>
+    }
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -45,7 +50,3 @@ else
 {
     <p>Please <a asp-area="Identity" asp-page="/Account/Login">Log In</a> or <a asp-area="Identity" asp-page="/Account/Register">Register</a>.</p>
 }
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>

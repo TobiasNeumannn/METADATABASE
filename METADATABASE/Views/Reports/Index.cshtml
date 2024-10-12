@@ -1,63 +1,93 @@
-﻿<style>
-    .report {
-        width: auto;
-        margin: 20px auto;
-        padding: 15px;
-        border-radius: 10px;
-        background: #282828;
-    }
-
-    .Creation {
-        opacity: 50%;
-    }
-
-    .ID {
-        font-size: 150%;
-    }
-
-    .Title {
-        font-weight: bold;
-        font-size: 150%;
-    }
-</style>
-
-@model IEnumerable<METADATABASE.Models.Reports>
+﻿@model IEnumerable<METADATABASE.Models.Reports>
 
 @{
     ViewData["Title"] = "Reports";
+    int? postId = ViewBag.Post?.PostsID;
+    int? commentId = ViewBag.Comment?.CommentsID;
+    string currentSort = ViewBag.CurrentSort;
+    var idParam = new { postId = postId, commentId = commentId, sortOrder = ViewBag.DateSortParm };
 }
+
+<style>
+    .Likes {
+        float: right;
+    }
+
+    .list {
+        margin-top: -9px;
+    }
+</style>
 
 <h1>Reports</h1>
-<p>Moderate the content of the community.</p>
+
+<form asp-action="Index" method="get">
+    <p>
+        Search by Title or Username: <input type="text" name="searchString" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
 
 <p>
-    <a asp-action="Create">Create New</a>
+Sort by:
+    @Html.ActionLink("Date", "Index", idParam) | 
+    @Html.ActionLink("User", "Index", new { postId = postId, commentId = commentId, sortOrder = ViewBag.UserSortParm })
 </p>
 
-@foreach (var item in Model)
-{
-    <div class="report">
-        <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
-        <span class="Title">@Html.DisplayFor(modelItem => item.User.UserName)</span>
-        <br />
-        @if (item.Post != null)
-        {
-            <span class="ID">"@Html.DisplayFor(modelItem => item.Post.Title)"</span>
-        }
-        else
-        {
-            <span class="ID">Comment of "@Html.DisplayFor(modelItem => item.Comment.User.UserName)"</span>
-        }
-        <br />
-        <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
-        <br />
-        <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
-        <br />
-        <a asp-action="Edit" asp-route-id="@item.ReportsID">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.ReportsID">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.ReportsID">Delete</a>
+<div class="postcontainer">
+    <!-- the container, containing both reports and post/comment-->
+    @if (ViewBag.Post != null)
+    {
+        var post = ViewBag.Post; // grab the post from the controller
+        <div class="post">
+            <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
+            <span class="UserName">@post.User.UserName</span>
+            <br />
+            <span class="Title">@post.Title</span>
+            <p>@post.Description</p>
+            <a href="@Url.Action("Create", "Reports", new { postId = post.PostsID })" class="Likes">Report this post</a>
+            <br />
+            <span class="Creation">@post.Creation.ToString("dd/MM/yyyy")</span>
+        </div>
+    }
+    else if (ViewBag.Comment != null)
+    {
+        var comment = ViewBag.Comment; //grab the comment from the controller
+        <div class="post">
+            <img class="PfpFile" src="@("~/Image/"+comment.User.PfpName)" asp-append-version="true" />‎
+            <span class="UserName">@comment.User.UserName</span>
+            <br />
+            <p>@comment.Content</p>
+            <span class="Correct">
+                @(comment.Correct ? "✅" : "")
+            </span>
+            <br />
+            <a href="@Url.Action("Create", "Reports", new { commentId = comment.CommentsID })" class="Likes">Report this comment</a>
+            <br />
+            <span class="Creation">@comment.Creation.ToString("dd/MM/yyyy")</span>
+        </div>
+    }
+    else
+    {
+        <p>Error: no post or comment was found.</p>
+    }
 
-    </div>
+
+    @foreach (var item in Model) // reports show up here
+    {
+        <div class="comment">
+            <img class="PfpFile list" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
+            <span class="UserName">@Html.DisplayFor(modelItem => item.User.UserName)</span>
+            <br />
+            <span class="Content">@Html.DisplayFor(modelItem => item.Content)</span>
+            <br />
+            <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
+
+            <div style="float: right;">
+                <a asp-action="Details" asp-route-id="@item.ReportsID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReportsID">Delete</a>
+            </div>
+        </div>
+    }
 
 
-}
+</div>
