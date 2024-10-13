@@ -31,6 +31,7 @@
     <Folder Include="Data\" />
     <Folder Include="Migrations\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="wwwroot\Image\" />
   </ItemGroup>
 
 </Project>
