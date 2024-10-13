@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Data.SqlClient;
+using System.Drawing.Printing;
 
 
 namespace METADATABASE.Controllers
@@ -36,9 +37,10 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Posts
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, int pageNumber = 1, int pageSize = 5)
         {
             // ViewBag variables for sorting column links in the view
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             ViewBag.LikesSortParm = sortOrder == "Likes" ? "likes_desc" : "Likes";
@@ -79,17 +81,39 @@ namespace METADATABASE.Controllers
                     break;
             }
 
-            var postList = await posts.ToListAsync();
+            // Get the total count for pagination
+            var totalPosts = await posts.CountAsync();
+
+            // Pagination logic: Skip and Take
+            var paginatedPosts = await posts
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
 
             // Set the counts for each post
-            foreach (var post in postList)
+            foreach (var post in paginatedPosts)
             {
                 post.CommentsCount = post.Comments.Count;
                 post.LikesCount = post.Likes.Count;
                 post.ReportsCount = post.Reports.Count;
             }
 
-            return View(postList);
+            // Pass paginated data to the view
+            var viewModel = new PostIndexViewModel
+            {
+                Posts = paginatedPosts,
+                PaginationInfo = new PaginationInfo
+                {
+                    CurrentPage = pageNumber,
+                    PageSize = pageSize,
+                    TotalItems = totalPosts
+                },
+                SortOrder = sortOrder,
+                SearchString = searchString
+            };
+
+            return View(viewModel);
         }
 
 

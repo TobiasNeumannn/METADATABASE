@@ -33,7 +33,7 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Likes
-        public async Task<IActionResult> Index(int? postId, int? commentId)
+        public async Task<IActionResult> Index(int? postId, int? commentId, int pageNumber = 1, int pageSize = 5)
         {
             // code that allows the comment/post preview to appear in the likes index efven when they have no likes
             if (postId != null)
@@ -44,9 +44,22 @@ namespace METADATABASE.Controllers
                     return NotFound();
                 }
 
-                var likes = await _context.Likes.Where(l => l.PostsID == postId).Include(l => l.User).ToListAsync();
+                var likesQuery = _context.Likes.Where(l => l.PostsID == postId).Include(l => l.User);
+                var totalLikes = await likesQuery.CountAsync();
+
+                // Get the likes with pagination
+                var likesList = await likesQuery
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
                 ViewBag.Post = post;  // Pass the post to the view
-                return View(likes);
+                ViewBag.TotalLikes = totalLikes; // Total likes for pagination
+                ViewBag.CurrentPage = pageNumber; // Current page number
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalLikes / pageSize); // Total pages
+
+                return View(likesList);
+
             }
             else if (commentId != null)
             {
@@ -56,9 +69,22 @@ namespace METADATABASE.Controllers
                     return NotFound();
                 }
 
-                var likes = await _context.Likes.Where(l => l.CommentsID == commentId).Include(l => l.User).ToListAsync();
+                // Query likes for the comment
+                var likesQuery = _context.Likes.Where(l => l.CommentsID == commentId).Include(l => l.User);
+                var totalLikes = await likesQuery.CountAsync();
+
+                // Get the likes with pagination
+                var likesList = await likesQuery
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
                 ViewBag.Comment = comment;  // Pass the comment to the view
-                return View(likes);
+                ViewBag.TotalLikes = totalLikes; // Total likes for pagination
+                ViewBag.CurrentPage = pageNumber; // Current page number
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalLikes / pageSize); // Total pages
+
+                return View(likesList);
             }
 
             return NotFound();

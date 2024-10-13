@@ -34,7 +34,7 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Reports
-        public async Task<IActionResult> Index(int? postId, int? commentId, string sortOrder, string searchString)
+        public async Task<IActionResult> Index(int? postId, int? commentId, string sortOrder, string searchString, int pageNumber = 1, int pageSize = 5)
         {
             ViewBag.CurrentSort = sortOrder; // Keep track of the current sort order
             ViewBag.DateSortParm = String.IsNullOrEmpty(sortOrder) ? "date_desc" : "Date";
@@ -98,7 +98,16 @@ namespace METADATABASE.Controllers
                     break;
             }
 
-            var reportsList = await reportsQuery.ToListAsync();
+            var totalReports = await reportsQuery.CountAsync();
+            var reportsList = await reportsQuery
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.TotalReports = totalReports; // Total reports for pagination
+            ViewBag.CurrentPage = pageNumber; // Current page number
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalReports / pageSize); // Total pages
+
             return View(reportsList);
         }
 

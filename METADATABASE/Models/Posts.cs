@@ -39,4 +39,20 @@ namespace METADATABASE.Models
         public int? ReportsCount { get; set; } // Number of reports for the post
 
     }
+    public class PostIndexViewModel
+    {
+        public IEnumerable<Posts> Posts { get; set; }
+        public PaginationInfo PaginationInfo { get; set; }
+        public string SortOrder { get; set; }
+        public string SearchString { get; set; }
+    }
+
+    public class PaginationInfo
+    {
+        public int CurrentPage { get; set; }
+        public int PageSize { get; set; }
+        public int TotalItems { get; set; }
+        public int TotalPages => (int)Math.Ceiling((double)TotalItems / PageSize);
+    }
+
 }

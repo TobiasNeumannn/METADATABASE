@@ -67,5 +67,11 @@
         </div>
     }
 
+    <div>
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <a href="@Url.Action("Index", new { postId = ViewBag.Post?.PostsID, commentId = ViewBag.Comment?.CommentsID, pageNumber = i })">@i</a>
+        }
+    </div>
 
 </div>

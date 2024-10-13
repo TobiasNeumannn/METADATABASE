@@ -34,8 +34,8 @@
     }
 </style>
 
-@model IEnumerable<METADATABASE.Models.Posts>
-@* @inject  *@
+@* @model IEnumerable<METADATABASE.Models.Posts>*@
+ @model PostIndexViewModel
 
 @{
     ViewData["Title"] = "Posts";
@@ -62,37 +62,53 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-@foreach (var item in Model)
+@foreach (var post in Model.Posts)
 {
     <div class="post">
-        <img class="PfpFile" src="@("~/Image/"+item.User.PfpName)" asp-append-version="true" />‎
+        <img class="PfpFile" src="@("~/Image/"+post.User.PfpName)" asp-append-version="true" />‎
 
-        <span class="ID">@Html.DisplayFor(modelItem => item.User.UserName)</span>
+        <span class="ID">@Html.DisplayFor(modelItem => post.User.UserName)</span>
         <br />
-        <span class="Title">@Html.DisplayFor(modelItem => item.Title)</span>
+        <span class="Title">@Html.DisplayFor(modelItem => post.Title)</span>
         <br />
-        <span class="Description">@Html.DisplayFor(modelItem => item.Description)</span>
+        <span class="Description">@Html.DisplayFor(modelItem => post.Description)</span>
         <br />
-        <span class="Creation">@Html.DisplayFor(modelItem => item.Creation)</span>
+        <span class="Creation">@Html.DisplayFor(modelItem => post.Creation)</span>
         <br />
 
         <!-- Link to Likes -->
-        <a class="Likes" href="@Url.Action("Index", "Likes", new { postId = item.PostsID })">@item.LikesCount.ToString() Likes</a>
+        <a class="Likes" href="@Url.Action("Index", "Likes", new { postId = post.PostsID })">@post.LikesCount.ToString() Likes</a>
         <br />
 
         <!-- Link to Comments -->
-        <a class="Comments" href="@Url.Action("Index", "Comments", new { postId = item.PostsID })">@item.CommentsCount.ToString() Comments</a>
+        <a class="Comments" href="@Url.Action("Index", "Comments", new { postId = post.PostsID })">@post.CommentsCount.ToString() Comments</a>
         <br />
 
         <!-- Link to Reports -->
-        <a class="Comments" href="@Url.Action("Index", "Reports", new { postId = item.PostsID })">@item.ReportsCount.ToString() Reports</a>
+        <a class="Comments" href="@Url.Action("Index", "Reports", new { postId = post.PostsID })">@post.ReportsCount.ToString() Reports</a>
         <br />
 
-        <a asp-action="Edit" asp-route-id="@item.PostsID">Edit</a> |
-        <a asp-action="Details" asp-route-id="@item.PostsID">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.PostsID">Delete</a>
+        <a asp-action="Edit" asp-route-id="@post.PostsID">Edit</a> |
+        <a asp-action="Details" asp-route-id="@post.PostsID">Details</a> |
+        <a asp-action="Delete" asp-route-id="@post.PostsID">Delete</a>
 
     </div>
-
-
 }
+
+<!-- Pagination Controls -->
+<div>
+    @if (Model.PaginationInfo.CurrentPage > 1)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PaginationInfo.CurrentPage - 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString">Previous</a>
+    }
+
+    @for (int i = 1; i <= Model.PaginationInfo.TotalPages; i++)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@i" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString">@i</a>
+    }
+
+    @if (Model.PaginationInfo.CurrentPage < Model.PaginationInfo.TotalPages)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PaginationInfo.CurrentPage + 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString">Next</a>
+    }
+</div>

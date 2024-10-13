@@ -94,7 +94,15 @@ public static class SeedData
                         context.Posts.AddRange(
                         new Posts { Title = "Admin's First Post", Description = "Description for Admin's first post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
                         new Posts { Title = "Admin's Second Post", Description = "Description for Admin's second post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
-                        new Posts { Title = "User's First Post", Description = "Description for User's first post", Creation = DateTime.Now, Locked = false, UserId = normalUser.Id }
+                        new Posts { Title = "User's First Post", Description = "Description for User's first post", Creation = DateTime.Now, Locked = false, UserId = normalUser.Id },
+                        new Posts { Title = "Pagination Demonstration 1", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 2", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 3", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 4", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 5", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 6", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 7", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id },
+                        new Posts { Title = "Pagination Demonstration 8", Description = "Description for pagination post", Creation = DateTime.Now, Locked = false, UserId = adminUser.Id }
                         );
                         await context.SaveChangesAsync();
                     }
@@ -122,9 +130,14 @@ public static class SeedData
                         if (comment1 != null) // ensure commentIDs isnt null
                         {
 
-                            if (!context.Likes.Any())
+                            if (!context.Likes.Any()) //there are 6 likes on post 1 purely to demonstrate pagination
                             {
                                 context.Likes.AddRange(
+                                new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
+                                new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
+                                new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
+                                new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
+                                new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
                                 new Likes { UserId = adminUser.Id, PostsID = post1.PostsID },
                                 new Likes { UserId = normalUser.Id, PostsID = post2.PostsID },
                                 new Likes { UserId = normalUser.Id, PostsID = comment1.CommentsID }
@@ -135,7 +148,12 @@ public static class SeedData
                             if (!context.Reports.Any())
                             {
                                 context.Reports.AddRange(
-                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Inappropriate content", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Pagination demonstration 1", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Pagination demonstration 2", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Pagination demonstration 3", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Pagination demonstration 4", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Pagination demonstration 5", Creation = DateTime.Now },
+                                new Reports { UserId = normalUser.Id, PostsID = post1.PostsID, Content = "Pagination demonstration 6", Creation = DateTime.Now },
                                 new Reports { UserId = adminUser.Id, PostsID = post2.PostsID, Content = "Spam", Creation = DateTime.Now },
                                 new Reports { UserId = normalUser.Id, PostsID = post3.PostsID, Content = "Offensive language", Creation = DateTime.Now }
                                 );  

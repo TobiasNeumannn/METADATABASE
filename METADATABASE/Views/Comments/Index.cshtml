@@ -74,3 +74,10 @@
     </div>
 }
 </div>
+
+<div>
+    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+    {
+        <a href="@Url.Action("Index", new { postId = ViewBag.PId, sortOrder = ViewBag.CurrentSort, searchString = ViewBag.CurrentSearch, pageNumber = i })">@i</a>
+    }
+</div>

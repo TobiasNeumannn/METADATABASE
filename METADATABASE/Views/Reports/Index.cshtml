@@ -89,5 +89,11 @@ Sort by:
         </div>
     }
 
+    <div>
+        @for (int i = 1; i <= ViewBag.TotalPages; i++) // pagination
+        {
+            <a href="@Url.Action("Index", new { postId = ViewBag.Post?.PostsID, commentId = ViewBag.Comment?.CommentsID, sortOrder = ViewBag.CurrentSort, searchString = ViewBag.CurrentSearchString, pageNumber = i })">@i</a>
+        }
+    </div>
 
 </div>

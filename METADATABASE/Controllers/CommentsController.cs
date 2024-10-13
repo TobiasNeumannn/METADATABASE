@@ -32,7 +32,7 @@ namespace METADATABASE.Controllers
         }
 
         // GET: Comments
-        public async Task<IActionResult> Index(int? postId, string sortOrder, string searchString)
+        public async Task<IActionResult> Index(int? postId, string sortOrder, string searchString, int pageNumber = 1, int pageSize = 5)
         {
             if (postId == null)
             {
@@ -41,6 +41,7 @@ namespace METADATABASE.Controllers
 
             ViewBag.PId = postId;
 
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.ContentSortParm = String.IsNullOrEmpty(sortOrder) ? "content_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             ViewBag.LikesSortParm = sortOrder == "Likes" ? "likes_desc" : "Likes";
@@ -83,7 +84,15 @@ namespace METADATABASE.Controllers
                     comments = comments.OrderBy(c => c.Content);
                     break;
             }
-            var commentList = await comments.ToListAsync();
+
+            // Get total count for pagination
+            var totalComments = await comments.CountAsync();
+
+            // Apply pagination
+            var commentList = await comments
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
             // Set the counts for each comment
             foreach (var comment in commentList)
@@ -91,6 +100,10 @@ namespace METADATABASE.Controllers
                 comment.LikesCount = comment.Likes.Count;
                 comment.ReportsCount = comment.Reports.Count;
             }
+
+            // Pass pagination data to the view
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalComments / pageSize);
+            ViewBag.CurrentPage = pageNumber;
 
             return View(commentList);
         }
