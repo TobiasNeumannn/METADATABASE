@@ -221,14 +221,29 @@ namespace METADATABASE.Controllers
         {
             var posts = await _context.Posts
                              .Include(p => p.Comments)  // eagerly include children tables, else they'll be null
+                                    .ThenInclude(c => c.Likes)   // Include likes of comments
+                             .Include(p => p.Comments)
+                                    .ThenInclude(c => c.Reports) // Include reports of comments
                              .Include(p => p.Likes)
                              .Include(p => p.Reports)
                              .FirstOrDefaultAsync(p => p.PostsID == id);
 
             // manual cascade: delete children records
 
-            if (posts.Comments != null) // if post has comments, delete them
+            if (posts.Comments != null) // if post has comments
             {
+                foreach (var comment in posts.Comments)
+                {
+                    // First delete likes and reports of each comment
+                    if (comment.Likes != null)
+                    {
+                        _context.Likes.RemoveRange(comment.Likes);
+                    }
+                    if (comment.Reports != null)
+                    {
+                        _context.Reports.RemoveRange(comment.Reports);
+                    }
+                }
                 _context.Comments.RemoveRange(posts.Comments);
             }
             if (posts.Likes != null)
@@ -239,6 +254,7 @@ namespace METADATABASE.Controllers
             {
                 _context.Reports.RemoveRange(posts.Reports);
             }
+
 
             if (posts != null)
             {

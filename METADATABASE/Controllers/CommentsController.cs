@@ -133,7 +133,7 @@ namespace METADATABASE.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CommentsID,PostsID,Content,Creation,UserId,Correct")] Comments comments)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 comments.UserId = await GetCurrentUserIdAsync(); // Set the UserId to the currently signed-in user's ID
                 comments.Creation = DateTime.Now; // Set the current time
@@ -251,7 +251,6 @@ namespace METADATABASE.Controllers
             {
                 _context.Comments.Remove(comments);
             }
-
 
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { postId = comments.PostsID });

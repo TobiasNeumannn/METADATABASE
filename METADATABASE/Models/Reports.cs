@@ -12,7 +12,7 @@ namespace METADATABASE.Models
         public int? PostsID { get; set; }
         public int? CommentsID { get; set; }
         [Required]
-        [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
+        [StringLength(2000, ErrorMessage = "Do not enter more than two thousand characters")]
         public string Content { get; set; }
         public DateTime Creation { get; set; }
 

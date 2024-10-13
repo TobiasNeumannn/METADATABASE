@@ -12,13 +12,13 @@ namespace METADATABASE.Models
         public int PostsID { get; set; }
 
         [Required]
-        [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")] // arbitrary big numdber to not cross
+        [StringLength(2000, ErrorMessage = "Do not enter more than two thousand characters")]
         public string Description { get; set; }
 
         public DateTime Creation { get; set; } // default and hidden - doesn't need validation
 
         [Required]
-        [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
+        [StringLength(50, ErrorMessage = "Do not enter more than fifty thousand characters")]
         public string Title { get; set; }
 
         public bool Locked { get; set; }

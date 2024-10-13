@@ -105,7 +105,7 @@ namespace METADATABASE.Areas.Identity.Pages.Account
             public IFormFile ThumbFile { get; set; }
 
             [Required]
-            [StringLength(10000, ErrorMessage = "Do not enter more than ten thousand characters")]
+            [StringLength(2000, ErrorMessage = "Do not enter more than two thousand characters")]
             [Display(Name = "Project Description")]
             public string ProjDesc { get; set; }
             /// <summary>
